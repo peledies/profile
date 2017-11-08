@@ -1,3 +1,4 @@
+#!/bin/bash
 export CLICOLOR=1
 export LSCOLORS=GxFxCxDxBxededabagadad
 # LSCOLORS generator http://geoff.greer.fm/lscolors/
