@@ -13,13 +13,16 @@ function sub {
 }
 export -f sub
 
+unset -f git_repo
 git_repo(){
   git rev-parse --show-toplevel > /dev/null 2>&1
   if [ "$?" = "0" ]; then
     echo " [$(basename `git rev-parse --show-toplevel`)]$(__git_ps1)$(git_dirty_status)"
   fi
 }
+export git_repo
 
+unset -f git_dirty_status
 git_dirty_status(){
   git rev-parse --show-toplevel > /dev/null 2>&1
   if [ "$?" = "0" ];then
@@ -31,6 +34,7 @@ git_dirty_status(){
     fi
   fi
 }
+export git_dirty_status
 
 unset -f mirror
 function mirror(){

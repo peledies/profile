@@ -1,3 +1,4 @@
+#!/bin/bash
 ##### Deacs aliases ###########
 
 alias dc='docker-compose'
