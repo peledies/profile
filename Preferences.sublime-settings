@@ -1,0 +1,32 @@
+{
+  "bold_folder_labels": true,
+  "caret_style": "phase",
+  "color_scheme": "Packages/User/SublimeLinter/Blackboard (SL).tmTheme",
+  "default_line_ending": "unix",
+  "detect_indentation": false,
+  "folder_exclude_patterns":
+    [
+      ".svn",
+      ".git",
+      ".hg",
+      ".vagrant"
+    ],
+  "font_size": 18,
+  "highlight_line": true,
+  "highlight_modified_tabs": true,
+  "ignored_packages":
+    [
+      "SVN",
+      "Vintage"
+    ],
+  "indent_to_bracket": true,
+  "open_files_in_new_window": false,
+  "overlay_scroll_bars": "disabled",
+  "rulers":
+    [
+      80
+    ],
+  "tab_size": 2,
+  "theme": "Default.sublime-theme",
+  "translate_tabs_to_spaces": true
+}
