@@ -9,7 +9,7 @@ default=$(tput sgr0)
 # run a command in every child directory relative to your CWD
 unset -f sub
 function sub {
-  for d in ./*/ ; do (cd "$d" && $1 &); done
+  for d in ./*/ ; do (cd "$d"; echo "${cyan}${PWD##*/}${default}"; $1; sleep 1 &); done
 }
 export -f sub
 
