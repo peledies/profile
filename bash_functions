@@ -188,3 +188,23 @@ function atvencode(){
   fi
 }
 export -f atvencode
+
+unset -f twrite
+function twrite(){
+  t=$(tty)
+  me=$(echo $user)
+
+  echo -e "\nYou are using ${cyan}${t}${default}\n"
+  
+  who
+
+  echo -e "\n"
+  read -p "${default}Which user would you like to message? ${gold}" user
+  read -p "${default}Which tty would you like to message? ${gold}" tt
+
+  echo -e "\nChat established. Write message:${cyan}\n"
+
+  ( echo "type \"write ${me} ${t}\" to join this chat"; cat ) | write $user $tt
+
+}
+export -f twrite
