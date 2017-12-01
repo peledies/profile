@@ -106,7 +106,7 @@ function optimize(){
   #cp -a *.jpg ./${DIRECTORY}
   #cp *.png $DIRECTORY
   #find ./$DIRECTORY -type f -name "*.jpg" -exec jpegoptim -m70 --strip-all {} \;
-  #find /path/to/pngs/ -type f -name "*.png" -exec optipng -o2 {} \
+  #find /path/to/pngs/ -type f -name "*.png" -exec optipng -o7 -strip all {} \
 }
 export -f optimize
 
@@ -208,3 +208,31 @@ function twrite(){
 
 }
 export -f twrite
+
+unset -f rsl
+function rsl(){
+
+  if [[ $* == *-d* ]]
+    then
+    dry="--dry-run "
+  else
+    dry=""
+  fi
+
+  read -p "${cyan}User: ${gold}" user </dev/tty
+  read -p "${cyan}Server: ${gold}" server </dev/tty
+  read -p "${cyan}Local: ${gold}" local </dev/tty
+  read -p "${cyan}Remote: ${gold}" remote </dev/tty
+
+  opts=(-avz -O --exclude .git --exclude .vagrant --exclude node_modules --no-perms --checksum ${local} ${user}@${server}:${remote} ${dry})
+  echo -e "\n/usr/bin/rsync -e 'ssh -p 424' ${opts[@]}\n"
+
+  read -p "${cyan}Execute Command [y/n]: ${gold}" execute </dev/tty
+
+  echo "${default}"
+
+  if [ "$execute" == 'y' ]; then
+    /usr/bin/rsync -e 'ssh -p 424' ${opts[@]}
+  fi
+}
+export -f rsl
