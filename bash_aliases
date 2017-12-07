@@ -16,6 +16,7 @@ alias la="ls -lah"
 alias dnsnuke="dscacheutil -flushcache; sudo killall -HUP mDNSResponder"
 alias say="say -v tessa"
 alias cda="composer dump-autoload"
+alias t="echo -e 'ssh -L 33306:localhost:3306 user@remote.com'     tunnel will close on exit"
 
 #### Vagrant Aliases ###########
 alias vs="vagrant status"
