@@ -22,3 +22,6 @@ alias t="echo -e 'ssh -L 33306:localhost:3306 user@remote.com'     tunnel will c
 alias vs="vagrant status"
 alias vgs="vagrant global-status"
 alias vgsr="vagrant global-status | grep running"
+
+#### SysAdmin Aliases ##########
+alias unban="sudo fail2ban-client set sshd unbanip"
