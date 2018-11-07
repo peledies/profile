@@ -17,6 +17,9 @@ alias dnsnuke="dscacheutil -flushcache; sudo killall -HUP mDNSResponder"
 alias say="say -v tessa"
 alias r="echo rsync -avz -O --no-perms --dry-run --checksum -e \'ssh -p 424\' ./source/ beyondthevineind@four.sfp.net:/dest/"
 alias cda="composer dump-autoload"
+alias t="echo -e 'tunnel will close on exit\n' echo 'ssh -L 33306:localhost:3306 user@remote.com'"
+alias z="echo -e 'Find Files older than 1 day\n' echo 'find . -mtime -1 | xargs tar --no-recursion -czf myfile.tgz'"
+alias kk="cat ~/.ssh/id_rsa.pub | pbcopy"
 
 #### Vagrant Aliases ###########
 alias vs="vagrant status"

@@ -2,7 +2,7 @@
 export CLICOLOR=1
 export LSCOLORS=GxFxCxDxBxededabagadad
 # LSCOLORS generator http://geoff.greer.fm/lscolors/
-export PATH=/usr/local/bin:/usr/local/share/npm/bin:$PATH
+export PATH=/usr/local/bin:/usr/local/share/npm/bin:~/.composer/vendor/bin:$PATH
 
 # set the tab names for osx to the pwd
 PROMPT_COMMAND='echo -ne "\033]0;${PWD##*/}\007"'

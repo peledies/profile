@@ -188,3 +188,12 @@ function atvencode(){
   fi
 }
 export -f atvencode
+
+unset -f vnct
+function vnct(){
+  ssh -f -L 5999 127.0.0.1:5900 deac@deac@sfp.local
+  sleep 60
+
+  #open vnc://localhost:5999
+}
+export -f vnct
