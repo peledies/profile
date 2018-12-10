@@ -16,7 +16,9 @@ alias la="ls -lah"
 alias dnsnuke="dscacheutil -flushcache; sudo killall -HUP mDNSResponder"
 alias say="say -v tessa"
 alias cda="composer dump-autoload"
-alias t="echo -e 'ssh -L 33306:localhost:3306 user@remote.com'     tunnel will close on exit"
+alias t="echo -e 'tunnel will close on exit\n' echo 'ssh -L 33306:localhost:3306 user@remote.com'"
+alias z="echo -e 'Find Files older than 1 day\n' echo 'find . -mtime -1 | xargs tar --no-recursion -czf myfile.tgz'"
+alias kk="cat ~/.ssh/id_rsa.pub | pbcopy"
 
 #### Vagrant Aliases ###########
 alias vs="vagrant status"
