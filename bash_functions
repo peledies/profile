@@ -66,10 +66,14 @@ function webencode(){
   fi
   
   if [ -n "$1" ] && [ -n "$2" ] && [ -n "$3" ];then
-    echo "${cyan}Creating new web versions of ${red}$1${default} video in ${magenta}`pwd`/$1 ${default}"
-    ffmpeg -i $1 -codec:v libtheora -qscale:v 7 -codec:a libvorbis -qscale:a 5 $2.ogv
-    ffmpeg -i $1 -c:v libvpx -qmin 0 -qmax 50 -an -crf 5 -b:v $3 -c:a libvorbis $2.webm
-    ffmpeg -i $1 -c:v libx264 -an -b:v $3 $2.mp4
+    #echo "${cyan}Creating new web versions of ${red}$1${default} video in ${magenta}`pwd`/$2.ogv ${default}"
+    #ffmpeg -i $1 -codec:v libtheora -qscale:v 7 -codec:a libvorbis -qscale:a 5 $2.ogv
+
+    #echo "${cyan}Creating new web versions of ${red}$1${default} video in ${magenta}`pwd`/$2.webm ${default}"
+    #ffmpeg -i $1 -c:v libvpx -qmin 0 -qmax 50 -crf 5 -b:v $3 -c:a libvorbis $2.webm
+
+    echo "${cyan}Creating new web versions of ${red}$1${default} video in ${magenta}`pwd`/$2.mp4 ${default}"
+    ffmpeg -i $1 -ac 1 -c:v libx264 -b:v $3 $2.mp4
   fi
 }
 export -f webencode
