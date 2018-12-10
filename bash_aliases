@@ -24,3 +24,6 @@ alias kk="cat ~/.ssh/id_rsa.pub | pbcopy"
 alias vs="vagrant status"
 alias vgs="vagrant global-status"
 alias vgsr="vagrant global-status | grep running"
+
+#### SysAdmin Aliases ##########
+alias unban="sudo fail2ban-client set sshd unbanip"
