@@ -27,3 +27,7 @@ alias vgsr="vagrant global-status | grep running"
 
 #### SysAdmin Aliases ##########
 alias unban="sudo fail2ban-client set sshd unbanip"
+
+
+#### DTN/Spensa Aliases ##########
+alias spensaup="cd ~/dtn/ap_ops; vagrant ssh -- \"sudo killall python; screen -dm bash -c 'cd /opt/spensa/openscout; ./run_platform_dev_server_letsencrypt.sh'\""{}
