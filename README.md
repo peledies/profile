@@ -18,3 +18,8 @@ if [ -f ~/profile/bash_aliases ]; then
 source ~/profile/bash_aliases
 fi
 ```
+
+Create an alias for the gitconfig
+```
+ln -nfs ~/profile/gitconfig ~/.gitconfig
+``` 
