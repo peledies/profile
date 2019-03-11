@@ -1,0 +1,34 @@
+[color]
+        ui = true
+[merge]
+        ff = false
+[alias]
+        co = checkout
+        ci = commit
+        st = status
+        br = branch
+[color]
+        branch = auto
+        diff = auto
+        status = auto
+[color "branch"]
+        current = magenta
+        local = yellow
+        remote = cyan
+[color "diff"]
+        meta = yellow
+        frag = magenta
+        old = red
+        new = green
+[color "status"]
+        added = yellow
+        changed = green
+        untracked = cyan
+[core]
+        excludesfile = /Users/deac/.gitignore_global
+        ignorecase = false
+[push]
+        default = simple
+[user]
+	name = Deac Karns
+	email = deac.karns@dtn.com
