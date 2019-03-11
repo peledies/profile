@@ -3,7 +3,7 @@ export CLICOLOR=1
 export LSCOLORS=GxFxCxDxBxededabagadad
 export ANSIBLE_NOCOWS=1
 # LSCOLORS generator http://geoff.greer.fm/lscolors/
-export PATH=/usr/local/bin:/usr/local/share/npm/bin:~/.composer/vendor/bin:$PATH
+export PATH=/usr/local/bin:/usr/local/share/npm/bin:~/.composer/vendor/bin:~/Library/Python/2.7/bin/:/usr/local/lib/python3.7/:$PATH
 
 # set the tab names for osx to the pwd
 PROMPT_COMMAND='echo -ne "\033]0;${PWD##*/}\007"'
