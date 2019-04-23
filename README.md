@@ -22,4 +22,9 @@ fi
 Create an alias for the gitconfig
 ```
 ln -nfs ~/profile/gitconfig ~/.gitconfig
-``` 
+```
+
+Create an alias for the vimrc
+```
+ln -nfs ~/profile/vimrc ~/.vimrc
+```
