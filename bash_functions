@@ -5,6 +5,7 @@ magenta=$(tput setaf 5)
 cyan=$(tput setaf 6)
 red=$(tput setaf 1)
 default=$(tput sgr0)
+gray=$(tput setaf 243)
 
 # run a command in every child directory relative to your CWD
 unset -f sub
@@ -17,10 +18,19 @@ unset -f git_repo
 git_repo(){
   git rev-parse --show-toplevel > /dev/null 2>&1
   if [ "$?" = "0" ]; then
-    echo " [$(basename `git rev-parse --show-toplevel`)]$(__git_ps1)$(git_dirty_status)"
+    echo "${magenta}[$(basename `git rev-parse --show-toplevel`)]${default}"
   fi
 }
 export git_repo
+
+unset -f git_branch
+git_branch(){
+  git rev-parse --show-toplevel > /dev/null 2>&1
+  if [ "$?" = "0" ]; then
+    echo "${magenta}$(__git_ps1)${default}"
+  fi
+}
+export git_branch
 
 unset -f git_dirty_status
 git_dirty_status(){
@@ -262,3 +272,19 @@ function img64(){
   fi
 }
 export -f img64
+
+unset -f get_pyenv
+function get_pyenv () {
+  if [[ `pyenv version-name` == "system" ]] ; then
+      echo ""
+  else
+      ve=`echo $VIRTUAL_ENV`
+      if [ -z "$ve" ];then
+        color='gray'
+      else
+        color='cyan'
+      fi
+      echo " ${!color}[pyenv `pyenv version-name`]${default}"
+  fi
+}
+export -f get_pyenv
