@@ -20,16 +20,4 @@ export VISUAL
 
 export PS1='\[\033[01;33m\]\u@\h\[\033[00m\]:\[\033[01;33m\]\W\[\033[35m\]$(get_pyenv)$(git_branch)$(git_dirty_status)\[\033[00m\]\n> '
 
-################## added by gotomark ################
-#                                                   #
-##### loads gotomark preferences if file exists #####
-#                                                   #
-       if [ -f ~/.gotomark/profile.sh ]; then       #
-	       source ~/.gotomark/profile.sh        #
-			 fi                         #
-#                                                   #
-#####################################################
-###### https://github.com/whtevn/gotomark ###########
-#####################################################
-
 eval "$(pyenv init -)"
