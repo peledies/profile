@@ -275,16 +275,30 @@ export -f img64
 
 unset -f get_pyenv
 function get_pyenv () {
-  if [[ `pyenv version-name` == "system" ]] ; then
-      echo ""
-  else
-      ve=`echo $VIRTUAL_ENV`
-      if [ -z "$ve" ];then
-        color='gray'
-      else
-        color='cyan'
-      fi
-      echo " ${!color}[pyenv `pyenv version-name`]${default}"
+  if hash pyenv 2>/dev/null; then
+    if [[ `pyenv version-name` == "system" ]] ; then
+        echo ""
+    else
+        ve=`echo $VIRTUAL_ENV`
+        if [ -z "$ve" ];then
+          color='gray'
+        else
+          color='cyan'
+        fi
+        echo " ${!color}[pyenv `pyenv version-name`]${default}"
+    fi
   fi
 }
 export -f get_pyenv
+
+unset -f ns
+function ns(){
+  if [ -z "$1" ];then
+    echo "${red}You must specify a domain to lookup${default}"
+  fi
+
+  if [ -n "$1" ];then
+    nslookup -q=any $1 8.8.8.8
+  fi
+}
+export -f ns
