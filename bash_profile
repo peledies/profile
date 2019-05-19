@@ -18,16 +18,8 @@ export EDITOR
 VISUAL='vi'
 export VISUAL
 
-export PS1='\[\033[01;33m\]\u@\h\[\033[00m\]:\[\033[01;33m\]\W\[\033[35m\]$(git_repo)\[\033[00m\]\n> '
+export VIRTUAL_ENV_DISABLE_PROMPT=1
 
-################## added by gotomark ################
-#                                                   #
-##### loads gotomark preferences if file exists #####
-#                                                   #
-       if [ -f ~/.gotomark/profile.sh ]; then       #
-	       source ~/.gotomark/profile.sh        #
-			 fi                         #
-#                                                   #
-#####################################################
-###### https://github.com/whtevn/gotomark ###########
-#####################################################
+export PS1='\[\033[01;33m\]\u@\h\[\033[00m\]:\[\033[01;33m\]\W\[\033[35m\]$(get_pyenv)$(git_branch)$(git_dirty_status)\[\033[00m\]\n> '
+
+eval "$(pyenv init -)"

@@ -5,6 +5,7 @@ magenta=$(tput setaf 5)
 cyan=$(tput setaf 6)
 red=$(tput setaf 1)
 default=$(tput sgr0)
+gray=$(tput setaf 243)
 
 # run a command in every child directory relative to your CWD
 unset -f sub
@@ -17,10 +18,19 @@ unset -f git_repo
 git_repo(){
   git rev-parse --show-toplevel > /dev/null 2>&1
   if [ "$?" = "0" ]; then
-    echo " [$(basename `git rev-parse --show-toplevel`)]$(__git_ps1)$(git_dirty_status)"
+    echo "${magenta}[$(basename `git rev-parse --show-toplevel`)]${default}"
   fi
 }
 export git_repo
+
+unset -f git_branch
+git_branch(){
+  git rev-parse --show-toplevel > /dev/null 2>&1
+  if [ "$?" = "0" ]; then
+    echo "${magenta}$(__git_ps1)${default}"
+  fi
+}
+export git_branch
 
 unset -f git_dirty_status
 git_dirty_status(){
@@ -64,7 +74,7 @@ function webencode(){
   if [ -z "$3" ];then
     echo "${red}You must specify an output bitrate ie. [1000k].${default}"
   fi
-  
+
   if [ -n "$1" ] && [ -n "$2" ] && [ -n "$3" ];then
     #echo "${cyan}Creating new web versions of ${red}$1${default} video in ${magenta}`pwd`/$2.ogv ${default}"
     #ffmpeg -i $1 -codec:v libtheora -qscale:v 7 -codec:a libvorbis -qscale:a 5 $2.ogv
@@ -117,12 +127,12 @@ export -f optimize
 unset -f btmax
 function btmax(){
   echo "${cyan}Increasing the bluetooth Bitpool to increase quality and range ${default}"
-  defaults write com.apple.BluetoothAudioAgent "Apple Bitpool Max (editable)" 80 
-  defaults write com.apple.BluetoothAudioAgent "Apple Bitpool Min (editable)" 48 
-  defaults write com.apple.BluetoothAudioAgent "Apple Initial Bitpool (editable)" 40 
-  defaults write com.apple.BluetoothAudioAgent "Apple Initial Bitpool Min (editable)" 40 
-  defaults write com.apple.BluetoothAudioAgent "Negotiated Bitpool" 58 
-  defaults write com.apple.BluetoothAudioAgent "Negotiated Bitpool Max" 58 
+  defaults write com.apple.BluetoothAudioAgent "Apple Bitpool Max (editable)" 80
+  defaults write com.apple.BluetoothAudioAgent "Apple Bitpool Min (editable)" 48
+  defaults write com.apple.BluetoothAudioAgent "Apple Initial Bitpool (editable)" 40
+  defaults write com.apple.BluetoothAudioAgent "Apple Initial Bitpool Min (editable)" 40
+  defaults write com.apple.BluetoothAudioAgent "Negotiated Bitpool" 58
+  defaults write com.apple.BluetoothAudioAgent "Negotiated Bitpool Max" 58
   defaults write com.apple.BluetoothAudioAgent "Negotiated Bitpool Min" 48
 
   sudo killall coreaudiod
@@ -144,7 +154,7 @@ function pdf2html(){
     echo $DIRECTORY"/$file.html"
 
     pdf2htmlEX --process-outline 0 "$file" $DIRECTORY"/$file.html"
-  done  
+  done
 }
 
 export -f pdf2html
@@ -157,13 +167,13 @@ function svg2icon(){
   store=$filename-icons
 
   mkdir $store > /dev/null 2>&1
-  
+
   for RES in  16 32 57 60 72 96 114 120 144 152 180 192
   do
     echo "${RES}x${RES}"
     rsvg-convert -w $RES -h $RES $1 -o "${filename}-icons/icon-${RES}x${RES}.png"
   done
-  
+
 }
 export -f svg2icon
 
@@ -208,7 +218,7 @@ function twrite(){
   me=$(echo $user)
 
   echo -e "\nYou are using ${cyan}${t}${default}\n"
-  
+
   who
 
   echo -e "\n"
@@ -249,3 +259,32 @@ function rsl(){
   fi
 }
 export -f rsl
+
+unset -f img64
+function img64(){
+  if [ -z "$1" ];then
+    echo "${red}You must specify an image to base64 encode.${default}"
+  fi
+
+  if [ -n "$1" ];then
+    echo "${cyan}Base64 encoding has been added to your clipboard${default}"
+    base64 $1 | pbcopy
+  fi
+}
+export -f img64
+
+unset -f get_pyenv
+function get_pyenv () {
+  if [[ `pyenv version-name` == "system" ]] ; then
+      echo ""
+  else
+      ve=`echo $VIRTUAL_ENV`
+      if [ -z "$ve" ];then
+        color='gray'
+      else
+        color='cyan'
+      fi
+      echo " ${!color}[pyenv `pyenv version-name`]${default}"
+  fi
+}
+export -f get_pyenv
