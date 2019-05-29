@@ -8,6 +8,8 @@
         st = status
         br = branch
         tree = log --graph --abbrev-commit --decorate --all
+        today = log --since=midnight
+        yesterday = log --since=yesterday.midnight --before=yesterday.11:59pm
 [color]
         branch = auto
         diff = auto
