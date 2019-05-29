@@ -298,7 +298,11 @@ function ns(){
   fi
 
   if [ -n "$1" ];then
-    nslookup -q=any $1 8.8.8.8
+    echo -e "\n\n${cyan}GOOGLE REPORTS${default}"
+    nslookup -q=any $1 8.8.4.4
+
+    echo -e "\n\n${cyan}VERISIGN REPORTS${default}"
+    nslookup -q=any $1 64.6.64.6
   fi
 }
 export -f ns
