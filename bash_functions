@@ -303,6 +303,9 @@ function ns(){
 
     echo -e "\n\n${cyan}VERISIGN REPORTS${default}"
     nslookup -q=any $1 64.6.64.6
+
+    echo -e "\n\n${cyan}OPENDNS REPORTS${default}"
+    nslookup -q=any $1 208.67.222.222
   fi
 }
 export -f ns
