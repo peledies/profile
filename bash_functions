@@ -309,3 +309,25 @@ function ns(){
   fi
 }
 export -f ns
+
+
+unset -f notify
+function notify(){
+  if [ -z "$1" ];then
+    echo "${red}You must specify a message${default}"
+  else
+    osascript -e "display notification \"$1\" with title \"Notification from Terminal\""
+  fi
+}
+export -f notify
+
+unset -f dcs
+function dcs(){
+  if [ -z "$1" ];then
+    echo "${red}You must specify a container name${default}"
+    docker ps --format "table {{.Names}}\t{{.ID}}\t{{.Created}}\t{{.RunningFor}}"
+  else
+    docker exec -it $1 bash -l
+  fi
+}
+export -f dcs
