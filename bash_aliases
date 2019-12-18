@@ -31,3 +31,6 @@ alias whatsmyip="dig +short myip.opendns.com @resolver1.opendns.com"
 
 #### DTN/Spensa Aliases ##########
 alias deploy-staging="cd ~/dtn/ap_ops && ssh bastion.spensatech.com true && ansible-playbook -i hosts patch.yml -l staging.ap.spensatech.com && cd -"
+
+#### Business Aliases ##########
+alias chlog="sh -c 'git log -$1 --pretty=format:'%h    %ad    %s' --date=short --no-merges >> CHANGELOG.md'"
