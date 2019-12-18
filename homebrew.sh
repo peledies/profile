@@ -43,6 +43,7 @@ PACKAGES=(
     bat
     ansible
     diff-so-fancy
+    htop
 )
 
 for p in ${PACKAGES[@]}; do
