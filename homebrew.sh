@@ -58,6 +58,7 @@ CASKS=(
     VirtualBox
     spotify
     visual-studio-code
+    awscli
 )
 
 for c in ${CASKS[@]}; do
