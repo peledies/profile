@@ -43,6 +43,7 @@ PACKAGES=(
     bat
     ansible
     diff-so-fancy
+    ack
 )
 
 for p in ${PACKAGES[@]}; do
@@ -71,5 +72,5 @@ if vagrant plugin list | grep vbguest > /dev/null; then
     v=$(vagrant plugin list | grep vbguest)
     echo -e "\n${green} ✓ ${cyan}vagrant-vbguest Installed ${default}\n   $v"
 else
-    vagrant plugin install vagrant-vbguest
+    echo -e "\n${default} RUN${cyan} 'vagrant plugin install vagrant-vbguest' to install ${default}\n"
 fi

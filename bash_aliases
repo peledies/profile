@@ -15,6 +15,7 @@ alias t="echo -e 'tunnel will close on exit\n' echo 'ssh -L 33306:localhost:3306
 alias z="echo -e 'Find Files older than 1 day\n' echo 'find . -mtime -1 | xargs tar --no-recursion -czf myfile.tgz'"
 alias kk="cat ~/.ssh/id_rsa.pub | pbcopy"
 alias pip="pip3"
+alias cat="bat"
 
 #### Docker Aliases #####
 alias dc='docker-compose'
