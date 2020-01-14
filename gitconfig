@@ -35,7 +35,7 @@
         default = simple
 [user]
 	name = Deac Karns
-	email = deac@hashsalt.net
+	email = deac.karns@dtn.com
 
 [difftool "smerge"]
         cmd = smerge \"$BASE\" \"$LOCAL\" \"$REMOTE\"
