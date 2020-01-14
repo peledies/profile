@@ -44,6 +44,7 @@ PACKAGES=(
     ansible
     diff-so-fancy
     ack
+    htop
 )
 
 for p in ${PACKAGES[@]}; do
@@ -58,6 +59,7 @@ CASKS=(
     VirtualBox
     spotify
     visual-studio-code
+    awscli
 )
 
 for c in ${CASKS[@]}; do
