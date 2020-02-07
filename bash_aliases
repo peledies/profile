@@ -16,6 +16,7 @@ alias z="echo -e 'Find Files older than 1 day\n' echo 'find . -mtime -1 | xargs 
 alias kk="cat ~/.ssh/id_rsa.pub | pbcopy"
 alias pip="pip3"
 alias cat="bat"
+alias ap="ansible-playbook"
 
 #### Docker Aliases #####
 alias dc='docker-compose'
