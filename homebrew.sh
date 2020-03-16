@@ -45,6 +45,7 @@ PACKAGES=(
     diff-so-fancy
     ack
     htop
+    exa
 )
 
 for p in ${PACKAGES[@]}; do
