@@ -7,7 +7,7 @@ alias serve="php -S localhost:8000 & open -a '/Applications/Google Chrome.app' '
 alias pa="php artisan"
 alias pao="php artisan optimize"
 alias taglog="git for-each-ref --format '%(refname) %09 %(taggerdate) %(*subject) %(taggeremail)' refs/tags  --sort=taggerdate"
-alias la="ls -lah"
+alias ls="exa"
 alias dnsnuke="dscacheutil -flushcache; sudo killall -HUP mDNSResponder"
 alias say="say -v tessa"
 alias cda="composer dump-autoload"
@@ -16,6 +16,7 @@ alias z="echo -e 'Find Files older than 1 day\n' echo 'find . -mtime -1 | xargs 
 alias kk="cat ~/.ssh/id_rsa.pub | pbcopy"
 alias pip="pip3"
 alias cat="bat"
+alias ap="ansible-playbook"
 
 #### Docker Aliases #####
 alias dc='docker-compose'

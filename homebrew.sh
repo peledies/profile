@@ -45,6 +45,7 @@ PACKAGES=(
     diff-so-fancy
     ack
     htop
+    terraform
     exa
 )
 
