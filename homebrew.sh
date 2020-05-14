@@ -46,6 +46,8 @@ PACKAGES=(
     ack
     htop
     terraform
+    tree
+    jq
 )
 
 for p in ${PACKAGES[@]}; do
