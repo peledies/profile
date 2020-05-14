@@ -36,3 +36,7 @@ alias deploy-staging="cd ~/dtn/ap_ops && ssh bastion.spensatech.com true && ansi
 
 #### Business Aliases ##########
 alias chlog="sh -c 'git log -$1 --pretty=format:'%h    %ad    %s' --date=short --no-merges >> CHANGELOG.md'"
+
+#### AWS CLI Aliases #######
+alias ec2-reboot="~/profile/utilities/ec2-reboot.sh"
+alias ec2-list="~/profile/utilities/ec2-list.sh"
