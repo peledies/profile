@@ -46,6 +46,9 @@ PACKAGES=(
     ack
     htop
     terraform
+    tree
+    jq
+    terminal-notifier
 )
 
 for p in ${PACKAGES[@]}; do

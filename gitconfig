@@ -22,7 +22,7 @@
         meta = yellow
         frag = magenta
         old = red
-        new = green
+        new = cyan 
 [color "status"]
         added = yellow
         changed = green
