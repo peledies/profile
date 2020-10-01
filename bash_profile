@@ -20,9 +20,7 @@ export VISUAL
 
 export VIRTUAL_ENV_DISABLE_PROMPT=1
 
-export PS1='\[\033[01;33m\]\u@\h\[\033[00m\]:\[\033[01;33m\]\W\[\033[35m\]$(get_pyenv)$(git_branch)$(git_dirty_status)\[\033[00m\]\n> '
-
-eval "$(pyenv init -)"
+export PS1='\[\033[01;33m\]\u@\h\[\033[00m\]:\[\033[01;33m\]\W\[\033[35m\]$(git_branch)$(git_dirty_status)\[\033[00m\]\n> '
 
 # Silence the bash deprecation message
 export BASH_SILENCE_DEPRECATION_WARNING=1
