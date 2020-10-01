@@ -49,6 +49,7 @@ PACKAGES=(
     tree
     jq
     terminal-notifier
+    exa
 )
 
 for p in ${PACKAGES[@]}; do
