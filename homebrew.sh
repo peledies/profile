@@ -45,6 +45,10 @@ PACKAGES=(
     diff-so-fancy
     ack
     htop
+    terraform
+    tree
+    jq
+    terminal-notifier
     exa
 )
 

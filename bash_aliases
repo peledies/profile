@@ -7,7 +7,7 @@ alias serve="php -S localhost:8000 & open -a '/Applications/Google Chrome.app' '
 alias pa="php artisan"
 alias pao="php artisan optimize"
 alias taglog="git for-each-ref --format '%(refname) %09 %(taggerdate) %(*subject) %(taggeremail)' refs/tags  --sort=taggerdate"
-alias la="ls -lah"
+alias ls="exa"
 alias dnsnuke="dscacheutil -flushcache; sudo killall -HUP mDNSResponder"
 alias say="say -v tessa"
 alias cda="composer dump-autoload"
@@ -16,6 +16,9 @@ alias z="echo -e 'Find Files older than 1 day\n' echo 'find . -mtime -1 | xargs 
 alias kk="cat ~/.ssh/id_rsa.pub | pbcopy"
 alias pip="pip3"
 alias cat="bat"
+alias ap="ansible-playbook"
+alias python="python3"
+alias pidown="ssh pihole 'sudo pihole disable 10s'"
 
 #### Docker Aliases #####
 alias dc='docker-compose'
@@ -32,6 +35,14 @@ alias whatsmyip="dig +short myip.opendns.com @resolver1.opendns.com"
 
 #### DTN/Spensa Aliases ##########
 alias deploy-staging="cd ~/dtn/ap_ops && ssh bastion.spensatech.com true && ansible-playbook -i hosts patch.yml -l staging.ap.spensatech.com && cd -"
+alias dtn-login="aws-azure-login --profile dtn-aws-master --mode gui --no-prompt"
 
 #### Business Aliases ##########
 alias chlog="sh -c 'git log -$1 --pretty=format:'%h    %ad    %s' --date=short --no-merges >> CHANGELOG.md'"
+
+#### AWS CLI Aliases #######
+alias ec2-reboot="~/profile/utilities/ec2-reboot.sh"
+alias ec2-list="~/profile/utilities/ec2-list.sh"
+
+#### Laravel Clear All ####
+alias pacc="pa clear-compiled; pa auth:clear-resets; pa cache:clear; pa config:clear; pa event:clear; pa optimize:clear; pa route:clear; pa view:clear; composer dump-autoload"
