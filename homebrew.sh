@@ -58,7 +58,7 @@ done
 CASKS=(
     google-chrome
     alfred
-    spectacle
+    rectangle
     vagrant
     VirtualBox
     spotify

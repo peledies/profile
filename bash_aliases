@@ -18,7 +18,7 @@ alias pip="pip3"
 alias cat="bat"
 alias ap="ansible-playbook"
 alias python="python3"
-alias pidown="ssh pihole 'sudo pihole disable 10s'"
+alias pidown="ssh pihole 'sudo pihole disable 30s'"
 
 #### Docker Aliases #####
 alias dc='docker-compose'

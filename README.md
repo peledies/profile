@@ -33,3 +33,8 @@ Create an alias for the vimrc
 ```
 ln -nfs ~/profile/vimrc ~/.vimrc
 ```
+
+Create an alias for vi directory
+```
+ln -nfs ~/profile/vim ~/.vim
+```

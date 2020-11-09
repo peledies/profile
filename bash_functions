@@ -331,3 +331,13 @@ function dcs(){
   fi
 }
 export -f dcs
+
+unset -f dap
+function dap(){
+  if [ -z "$1" ];then
+    echo "${red}You must specify a jira issue to open${default}"
+  else
+    open "https://dtnse1.atlassian.net/browse/DAP-$1"
+  fi
+}
+export -f dap
