@@ -64,6 +64,7 @@ CASKS=(
     spotify
     visual-studio-code
     awscli
+    session-manager-plugin
 )
 
 for c in ${CASKS[@]}; do
