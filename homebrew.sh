@@ -37,7 +37,7 @@ function brewCaskInstall(){
 }
 
 PACKAGES=(
-    node
+    node@14
     ffmpeg
     tldr
     bat
@@ -49,6 +49,8 @@ PACKAGES=(
     tree
     jq
     terminal-notifier
+    docker
+    docker-compose
 )
 
 for p in ${PACKAGES[@]}; do
@@ -63,7 +65,6 @@ CASKS=(
     VirtualBox
     spotify
     visual-studio-code
-    awscli
     session-manager-plugin
 )
 
@@ -81,3 +82,7 @@ if vagrant plugin list | grep vbguest > /dev/null; then
 else
     echo -e "\n${default} RUN${cyan} 'vagrant plugin install vagrant-vbguest' to install ${default}\n"
 fi
+
+# Install AWS CLI 2.x
+curl -s "https://awscli.amazonaws.com/AWSCLIV2.pkg" -o "AWSCLIV2.pkg"
+sudo installer -pkg AWSCLIV2.pkg -target /
