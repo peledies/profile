@@ -24,6 +24,8 @@ alias pidown="ssh pihole 'sudo pihole disable 30s'"
 #### Docker Aliases #####
 alias dc='docker-compose'
 alias dcl='docker-compose logs'
+alias dclean='docker rm -v $(docker ps --filter status=exited -q 2>/dev/null) 2>/dev/null && docker rmi $(docker images --filter dangling=true -q 2>/dev/null) 2>/dev/null'
+alias dcps='docker ps --format="table {{.Names}}\t{{.Ports}}\t{{.Status}}\t{{.Networks}}"'
 
 #### Vagrant Aliases ###########
 alias vs="vagrant status"

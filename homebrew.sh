@@ -27,12 +27,12 @@ function brewInstall(){
 }
 
 function brewCaskInstall(){
-    if brew cask ls --versions $1 >/dev/null; then
-        v=$(brew cask ls --versions $1)
+    if brew --cask ls --versions $1 >/dev/null; then
+        v=$(brew --cask ls --versions $1)
         echo -e "\n${green} ✓ ${cyan}$1 Installed ${default}\n   $v"
     else
-        echo -e "\n${red}$1 not found.\n${default}running '${cyan}brew cask install $1${default}'"
-        brew cask install $1 >/dev/null
+        echo -e "\n${red}$1 not found.\n${default}running '${cyan}brew --cask install $1${default}'"
+        brew --cask install $1 >/dev/null
     fi
 }
 
