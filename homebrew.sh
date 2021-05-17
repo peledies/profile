@@ -38,7 +38,6 @@ function brewCaskInstall(){
 
 PACKAGES=(
     node@14
-    ffmpeg
     tldr
     bat
     ansible
@@ -49,12 +48,9 @@ PACKAGES=(
     tree
     jq
     terminal-notifier
-<<<<<<< HEAD
     exa
-=======
     docker
     docker-compose
->>>>>>> work
 )
 
 for p in ${PACKAGES[@]}; do
