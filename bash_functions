@@ -1,11 +1,19 @@
 #!/bin/bash
-green=$(tput setaf 2)
-gold=$(tput setaf 3)
-magenta=$(tput setaf 5)
-cyan=$(tput setaf 6)
-red=$(tput setaf 1)
-default=$(tput sgr0)
-gray=$(tput setaf 243)
+
+source ~/profile/assets/info_box.sh
+source ~/profile/assets/pretty_tasks.sh
+
+unset -f mnt
+function mnt {
+  info_box "Mounting Synology Drives"
+
+  echo_start
+    echo -n "Mounting NFS mounts to /Service/Volumes/Data/Network/NAS"
+    sudo automount -vc > /dev/null 2>&1
+  test_for_success $?
+
+}
+export mnt
 
 # run a command in every child directory relative to your CWD
 unset -f sub
@@ -331,3 +339,42 @@ function dcs(){
   fi
 }
 export -f dcs
+
+unset -f dap
+function dap(){
+  if [ -z "$1" ];then
+    echo "${red}You must specify a jira issue to open${default}"
+  else
+    open "https://dtnse1.atlassian.net/browse/DAP-$1"
+  fi
+}
+export -f dap
+
+unset -f agph
+function agph(){
+  if [ -z "$1" ];then
+    echo "${red}You must specify a jira issue to open${default}"
+  else
+    open "https://dtnse1.atlassian.net/browse/AGPH-$1"
+  fi
+}
+export -f agph
+
+unset -f dtnss
+function dtnss(){
+  if [ -z "$1" ];then
+    echo "${red}You must specify an instance id to connect to${default}"
+  elif [ -z "$2" ];then
+    echo "${red}You must specify an AWS profile to use.${default}"
+  else
+    aws ssm start-session --target $1 --profile $2
+  fi
+}
+export -f dtnss
+
+unset -f gpg
+function gpg(){
+  afplay ~/profile/assets/git_push_It.mp3 &
+  git push
+}
+export -f gpg

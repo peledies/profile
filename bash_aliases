@@ -8,6 +8,7 @@ alias pa="php artisan"
 alias pao="php artisan optimize"
 alias taglog="git for-each-ref --format '%(refname) %09 %(taggerdate) %(*subject) %(taggeremail)' refs/tags  --sort=taggerdate"
 alias ls="exa"
+alias ll="ls -lah"
 alias dnsnuke="dscacheutil -flushcache; sudo killall -HUP mDNSResponder"
 alias say="say -v tessa"
 alias cda="composer dump-autoload"
@@ -18,14 +19,20 @@ alias pip="pip3"
 alias cat="bat"
 alias ap="ansible-playbook"
 alias python="python3"
-alias pidown="ssh pihole 'sudo pihole disable 10s'"
+alias pidown="ssh pihole 'sudo pihole disable 30s'"
+
+#### GIT Aliases #####
+alias gp="git push"
 
 #### Docker Aliases #####
 alias dc='docker-compose'
 alias dcl='docker-compose logs'
+alias dclean='docker rm -v $(docker ps --filter status=exited -q 2>/dev/null) 2>/dev/null && docker rmi $(docker images --filter dangling=true -q 2>/dev/null) 2>/dev/null'
+alias dcps='docker ps --format="table {{.Names}}\t{{.Ports}}\t{{.Status}}\t{{.Networks}}"'
 
 #### Vagrant Aliases ###########
 alias vs="vagrant status"
+alias vss="vagrant ssh"
 alias vgs="vagrant global-status --prune"
 alias vgsr="vagrant global-status --prune | grep running"
 
@@ -35,7 +42,8 @@ alias whatsmyip="dig +short myip.opendns.com @resolver1.opendns.com"
 
 #### DTN/Spensa Aliases ##########
 alias deploy-staging="cd ~/dtn/ap_ops && ssh bastion.spensatech.com true && ansible-playbook -i hosts patch.yml -l staging.ap.spensatech.com && cd -"
-alias dtn-login="aws-azure-login --profile dtn-aws-master --mode gui --no-prompt"
+alias aws-dtn="aws-azure-login --profile dtn-aws-master --enable-chrome-seamless-sso"
+alias aws-dtn-vpn="aws-azure-login --profile dtn-aws-master --mode gui --no-prompt"
 
 #### Business Aliases ##########
 alias chlog="sh -c 'git log -$1 --pretty=format:'%h    %ad    %s' --date=short --no-merges >> CHANGELOG.md'"
@@ -46,3 +54,9 @@ alias ec2-list="~/profile/utilities/ec2-list.sh"
 
 #### Laravel Clear All ####
 alias pacc="pa clear-compiled; pa auth:clear-resets; pa cache:clear; pa config:clear; pa event:clear; pa optimize:clear; pa route:clear; pa view:clear; composer dump-autoload"
+
+#### Terraform Aliases ####
+alias tf="terraform"
+alias tfp="terraform plan"
+alias tfa="terraform apply"
+alias tfd="export AWS_PROFILE=dtn-ag-dev"
