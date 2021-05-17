@@ -22,7 +22,7 @@
         meta = yellow
         frag = magenta
         old = red
-        new = cyan 
+        new = cyan
 [color "status"]
         added = yellow
         changed = green
@@ -36,7 +36,8 @@
 [user]
 	name = Deac Karns
 	email = deac.karns@dtn.com
-
+[pull]
+        rebase = false
 [difftool "smerge"]
         cmd = smerge \"$BASE\" \"$LOCAL\" \"$REMOTE\"
 [diff]

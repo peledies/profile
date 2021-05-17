@@ -21,6 +21,9 @@ alias ap="ansible-playbook"
 alias python="python3"
 alias pidown="ssh pihole 'sudo pihole disable 30s'"
 
+#### GIT Aliases #####
+alias gp="git push"
+
 #### Docker Aliases #####
 alias dc='docker-compose'
 alias dcl='docker-compose logs'
