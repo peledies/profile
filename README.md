@@ -46,4 +46,7 @@ ln -nfs ~/profile/vim ~/.vim
 ## Environment Install
 
 > you can clone the homebrew shell script directly if thats all you need
-> `curl -O https://raw.githubusercontent.com/peledies/profile/master/homebrew.sh && chmod +x homebrew.sh`
+
+```
+curl -O https://raw.githubusercontent.com/peledies/profile/master/homebrew.sh && chmod +x homebrew.sh
+```
