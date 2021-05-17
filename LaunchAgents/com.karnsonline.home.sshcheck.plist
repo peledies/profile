@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.karnsonline.home.sshcheck</string>
+
+    <key>RunAtLoad</key>
+    <true/>
+
+    <key>StandardErrorPath</key>
+    <string>/Users/deac/launchd_err.log</string>
+
+    <key>StandardOutPath</key>
+    <string>/Users/deac/launchd.log</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <string>/Users/deac/profile/utilities/ssh-check.sh</string>
+        <string>spensa_admin@imagery.ap.dtn.com</string>
+        <string>/Users/deac/.ssh/keys/production-key.pem</string>
+    </array>
+    <key>StartCalendarInterval</key>
+    <dict>
+        <key>Hour</key>
+        <integer>9</integer>
+        <key>Minute</key>
+        <integer>0</integer>
+    </dict>
+</dict>
+</plist>
+</plist>

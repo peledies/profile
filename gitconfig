@@ -22,7 +22,7 @@
         meta = yellow
         frag = magenta
         old = red
-        new = green
+        new = cyan 
 [color "status"]
         added = yellow
         changed = green
@@ -35,7 +35,7 @@
         default = simple
 [user]
 	name = Deac Karns
-	email = deac@hashsalt.net
+	email = deac.karns@dtn.com
 
 [difftool "smerge"]
         cmd = smerge \"$BASE\" \"$LOCAL\" \"$REMOTE\"
