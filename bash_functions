@@ -378,3 +378,12 @@ function gpg(){
   git push
 }
 export -f gpg
+
+unset -f loop
+function loop(){
+  while :
+    do
+    eval "$1"
+    sleep 3
+  done
+}

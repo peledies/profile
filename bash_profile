@@ -30,3 +30,5 @@ export PS1='\[\033[01;33m\]\u@\h\[\033[00m\]:\[\033[01;33m\]\W\[\033[35m\]$(git_
 
 # Silence the bash deprecation message
 export BASH_SILENCE_DEPRECATION_WARNING=1
+
+export SCREENRC="~/.screenrc"

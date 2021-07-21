@@ -23,12 +23,14 @@ alias pidown="ssh pihole 'sudo pihole disable 30s'"
 
 #### GIT Aliases #####
 alias gp="git push"
+alias grm='git branch -r | awk "{print \$1}" | egrep -v -f /dev/fd/0 <(git branch -vv | grep origin) | awk "{print \$1}" | xargs git branch -d'
 
 #### Docker Aliases #####
 alias dc='docker-compose'
 alias dcl='docker-compose logs'
 alias dclean='docker rm -v $(docker ps --filter status=exited -q 2>/dev/null) 2>/dev/null && docker rmi $(docker images --filter dangling=true -q 2>/dev/null) 2>/dev/null'
 alias dcps='docker ps --format="table {{.Names}}\t{{.Ports}}\t{{.Status}}\t{{.Networks}}"'
+alias dnuke="yes | docker system prune -a; yes | docker volume prune"
 
 #### Vagrant Aliases ###########
 alias vs="vagrant status"

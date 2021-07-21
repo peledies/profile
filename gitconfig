@@ -1,7 +1,7 @@
 [color]
         ui = true
 [merge]
-        ff = false
+        ff = true 
 [alias]
         co = checkout
         ci = commit
