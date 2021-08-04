@@ -12,7 +12,7 @@ alias ll="ls -lah"
 alias dnsnuke="dscacheutil -flushcache; sudo killall -HUP mDNSResponder"
 alias say="say -v tessa"
 alias cda="composer dump-autoload"
-alias t="echo -e 'tunnel will close on exit\n' echo 'ssh -L 33306:localhost:3306 user@remote.com'"
+alias t="echo -e ' tunnel will close on exit\n ssh -L 33306:localhost:3306 user@remote.com\n Usage: go to localhost:33306 to use the tunnel'"
 alias z="echo -e 'Find Files older than 1 day\n' echo 'find . -mtime -1 | xargs tar --no-recursion -czf myfile.tgz'"
 alias kk="cat ~/.ssh/id_rsa.pub | pbcopy"
 alias pip="pip3"
@@ -41,11 +41,6 @@ alias vgsr="vagrant global-status --prune | grep running"
 #### SysAdmin Aliases ##########
 alias unban="sudo fail2ban-client set sshd unbanip"
 alias whatsmyip="dig +short myip.opendns.com @resolver1.opendns.com"
-
-#### DTN/Spensa Aliases ##########
-alias deploy-staging="cd ~/dtn/ap_ops && ssh bastion.spensatech.com true && ansible-playbook -i hosts patch.yml -l staging.ap.spensatech.com && cd -"
-alias aws-dtn="aws-azure-login --profile dtn-aws-master --enable-chrome-seamless-sso"
-alias aws-dtn-vpn="aws-azure-login --profile dtn-aws-master --mode gui --no-prompt"
 
 #### Business Aliases ##########
 alias chlog="sh -c 'git log -$1 --pretty=format:'%h    %ad    %s' --date=short --no-merges >> CHANGELOG.md'"

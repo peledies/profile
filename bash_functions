@@ -340,38 +340,6 @@ function dcs(){
 }
 export -f dcs
 
-unset -f dap
-function dap(){
-  if [ -z "$1" ];then
-    echo "${red}You must specify a jira issue to open${default}"
-  else
-    open "https://dtnse1.atlassian.net/browse/DAP-$1"
-  fi
-}
-export -f dap
-
-unset -f agph
-function agph(){
-  if [ -z "$1" ];then
-    echo "${red}You must specify a jira issue to open${default}"
-  else
-    open "https://dtnse1.atlassian.net/browse/AGPH-$1"
-  fi
-}
-export -f agph
-
-unset -f dtnss
-function dtnss(){
-  if [ -z "$1" ];then
-    echo "${red}You must specify an instance id to connect to${default}"
-  elif [ -z "$2" ];then
-    echo "${red}You must specify an AWS profile to use.${default}"
-  else
-    aws ssm start-session --target $1 --profile $2
-  fi
-}
-export -f dtnss
-
 unset -f gpg
 function gpg(){
   afplay ~/profile/assets/git_push_It.mp3 &
@@ -386,4 +354,59 @@ function loop(){
     eval "$1"
     sleep 3
   done
+}
+
+############################
+# DTN kubernetes functions #
+############################
+
+# Prerequisites
+#   * aws-cli (https://aws.amazon.com/cli)
+#   * aws-azure-login (https://github.com/sportradar/aws-azure-login)
+#   * profiles configured in ~/.aws/config
+
+function dtn-kube() {
+	ENV=${1}
+	REGION=${2}
+	CLUSTER_NAME=${3}
+	NAMESPACE=${4}
+
+	if [ -z "$NAMESPACE" ]; then
+		echo "No namespace provided"
+		return
+	fi
+
+	if ! aws --profile dtn-aws-master sts get-caller-identity &>/dev/null; then
+		aws-azure-login --profile dtn-aws-master --enable-chrome-seamless-sso --no-prompt
+	fi
+
+	export KUBECONFIG=~/.kube/${ENV}-${REGION}-${CLUSTER_NAME}-config
+
+	if [ ! -f ${KUBECONFIG} ]; then
+		echo "Generating kubeconfig at ${KUBECONFIG}"
+		aws --profile dtn-coreservices-${ENV} --region ${REGION} eks update-kubeconfig --name ${CLUSTER_NAME}
+	fi
+
+	echo "Using namespace \"${NAMESPACE}\""
+
+	kubectl config set-context --current --namespace=${NAMESPACE} >&/dev/null
+}
+
+function dtn-kube-dev-us-east-1() {
+	NAMESPACE=${1}
+	dtn-kube dev us-east-1 dtn-main-c2 ${NAMESPACE}
+}
+
+function dtn-kube-stg-us-east-1() {
+	NAMESPACE=${1}
+	dtn-kube stg us-east-1 dtn-main ${NAMESPACE}
+}
+
+function dtn-kube-prd-us-east-1() {
+	NAMESPACE=${1}
+	dtn-kube prd us-east-1 dtn-main ${NAMESPACE}
+}
+
+function terragrunt-clean() {
+	find . -type d -name ".terragrunt-cache" -prune -exec rm -rf {} \;
 }
