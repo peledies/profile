@@ -1,11 +1,19 @@
 #!/bin/bash
-green=$(tput setaf 2)
-gold=$(tput setaf 3)
-magenta=$(tput setaf 5)
-cyan=$(tput setaf 6)
-red=$(tput setaf 1)
-default=$(tput sgr0)
-gray=$(tput setaf 243)
+
+source ~/profile/assets/info_box.sh
+source ~/profile/assets/pretty_tasks.sh
+
+unset -f mnt
+function mnt {
+  info_box "Mounting Synology Drives"
+
+  echo_start
+    echo -n "Mounting NFS mounts to /Service/Volumes/Data/Network/NAS"
+    sudo automount -vc > /dev/null 2>&1
+  test_for_success $?
+
+}
+export mnt
 
 # run a command in every child directory relative to your CWD
 unset -f sub
@@ -331,3 +339,74 @@ function dcs(){
   fi
 }
 export -f dcs
+
+unset -f gpg
+function gpg(){
+  afplay ~/profile/assets/git_push_It.mp3 &
+  git push
+}
+export -f gpg
+
+unset -f loop
+function loop(){
+  while :
+    do
+    eval "$1"
+    sleep 3
+  done
+}
+
+############################
+# DTN kubernetes functions #
+############################
+
+# Prerequisites
+#   * aws-cli (https://aws.amazon.com/cli)
+#   * aws-azure-login (https://github.com/sportradar/aws-azure-login)
+#   * profiles configured in ~/.aws/config
+
+function dtn-kube() {
+	ENV=${1}
+	REGION=${2}
+	CLUSTER_NAME=${3}
+	NAMESPACE=${4}
+
+	if [ -z "$NAMESPACE" ]; then
+		echo "No namespace provided"
+		return
+	fi
+
+	if ! aws --profile dtn-aws-master sts get-caller-identity &>/dev/null; then
+		aws-azure-login --profile dtn-aws-master --enable-chrome-seamless-sso --no-prompt
+	fi
+
+	export KUBECONFIG=~/.kube/${ENV}-${REGION}-${CLUSTER_NAME}-config
+
+	if [ ! -f ${KUBECONFIG} ]; then
+		echo "Generating kubeconfig at ${KUBECONFIG}"
+		aws --profile dtn-coreservices-${ENV} --region ${REGION} eks update-kubeconfig --name ${CLUSTER_NAME}
+	fi
+
+	echo "Using namespace \"${NAMESPACE}\""
+
+	kubectl config set-context --current --namespace=${NAMESPACE} >&/dev/null
+}
+
+function dtn-kube-dev-us-east-1() {
+	NAMESPACE=${1}
+	dtn-kube dev us-east-1 dtn-main-c2 ${NAMESPACE}
+}
+
+function dtn-kube-stg-us-east-1() {
+	NAMESPACE=${1}
+	dtn-kube stg us-east-1 dtn-main ${NAMESPACE}
+}
+
+function dtn-kube-prd-us-east-1() {
+	NAMESPACE=${1}
+	dtn-kube prd us-east-1 dtn-main ${NAMESPACE}
+}
+
+function terragrunt-clean() {
+	find . -type d -name ".terragrunt-cache" -prune -exec rm -rf {} \;
+}

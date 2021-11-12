@@ -27,18 +27,17 @@ function brewInstall(){
 }
 
 function brewCaskInstall(){
-    if brew cask ls --versions $1 >/dev/null; then
-        v=$(brew cask ls --versions $1)
+    if brew ls --cask --versions $1 >/dev/null; then
+        v=$(brew ls --cask --versions $1)
         echo -e "\n${green} ✓ ${cyan}$1 Installed ${default}\n   $v"
     else
-        echo -e "\n${red}$1 not found.\n${default}running '${cyan}brew cask install $1${default}'"
-        brew cask install $1 >/dev/null
+        echo -e "\n${red}$1 not found.\n${default}running '${cyan}brew install --cask $1${default}'"
+        brew install --cask $1 >/dev/null
     fi
 }
 
 PACKAGES=(
-    node
-    ffmpeg
+    node@14
     tldr
     bat
     ansible
@@ -50,6 +49,8 @@ PACKAGES=(
     jq
     terminal-notifier
     exa
+    docker
+    docker-compose
 )
 
 for p in ${PACKAGES[@]}; do
@@ -59,12 +60,12 @@ done
 CASKS=(
     google-chrome
     alfred
-    spectacle
+    rectangle
     vagrant
     VirtualBox
     spotify
     visual-studio-code
-    awscli
+    session-manager-plugin
 )
 
 for c in ${CASKS[@]}; do
@@ -81,3 +82,7 @@ if vagrant plugin list | grep vbguest > /dev/null; then
 else
     echo -e "\n${default} RUN${cyan} 'vagrant plugin install vagrant-vbguest' to install ${default}\n"
 fi
+
+# Install AWS CLI 2.x
+curl -s "https://awscli.amazonaws.com/AWSCLIV2.pkg" -o "AWSCLIV2.pkg"
+sudo installer -pkg AWSCLIV2.pkg -target /

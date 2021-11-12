@@ -20,16 +20,33 @@ fi
 ```
 
 Create an alias for the gitconfig
+
 ```
 ln -nfs ~/profile/gitconfig ~/.gitconfig
 ```
 
 Create an alias for the gitignore_global
+
 ```
 ln -nfs ~/profile/gitignore_global ~/.gitignore_global
 ```
 
 Create an alias for the vimrc
+
 ```
 ln -nfs ~/profile/vimrc ~/.vimrc
+```
+
+Create an alias for vi directory
+
+```
+ln -nfs ~/profile/vim ~/.vim
+```
+
+## Environment Install
+
+> you can clone the homebrew shell script directly if thats all you need
+
+```
+curl -O https://raw.githubusercontent.com/peledies/profile/master/homebrew.sh && chmod +x homebrew.sh
 ```

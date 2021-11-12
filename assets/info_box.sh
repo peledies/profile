@@ -1,0 +1,17 @@
+#!/bin/bash
+
+info_box() {
+  NUM=$((${#1} + 4))
+  echo "${cyan}"
+
+  # print the top of the info box
+  eval printf %.0s# '{1..'"${NUM}"\}; echo
+
+  # print the middle of the info box
+  echo "# $1 #"
+
+  # print the bottom of the info box
+  eval printf %.0s# '{1..'"${NUM}"\}; echo
+
+  echo "${default}"
+}
