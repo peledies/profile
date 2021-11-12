@@ -12,6 +12,13 @@ Files need to be put in place in the following directory:
 launchctl load -w ~/Library/LaunchAgents/<plist_name>
 ```
 
+## Re-loading
+
+```
+launchctl unload -w ~/Library/LaunchAgents/<plist_name>
+launchctl load -w ~/Library/LaunchAgents/<plist_name>
+```
+
 ## Debugging
 
 ```
