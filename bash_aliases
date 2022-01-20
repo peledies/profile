@@ -23,9 +23,11 @@ alias pidown="ssh pihole 'sudo pihole disable 30s'"
 
 #### GIT Aliases #####
 alias gp="git push"
-alias grm='git branch -r | awk "{print \$1}" | egrep -v -f /dev/fd/0 <(git branch -vv | grep origin) | awk "{print \$1}" | xargs git branch -d'
+alias gcam="git commit -am"
+alias gitclean="git fetch -p && git branch -vv | awk '/: gone]/{print \$1}' | xargs git branch -d"
 
 #### Docker Aliases #####
+alias dstop='docker stop $(docker ps -q) 2>/dev/null'
 alias dc='docker-compose'
 alias dcl='docker-compose logs'
 alias dclean='docker rm -v $(docker ps --filter status=exited -q 2>/dev/null) 2>/dev/null && docker rmi $(docker images --filter dangling=true -q 2>/dev/null) 2>/dev/null'
@@ -40,7 +42,9 @@ alias vgsr="vagrant global-status --prune | grep running"
 
 #### SysAdmin Aliases ##########
 alias unban="sudo fail2ban-client set sshd unbanip"
-alias whatsmyip="dig +short myip.opendns.com @resolver1.opendns.com"
+alias whatsmyip="curl ifconfig.me"
+alias localip="ifconfig en0 inet | awk '{ if (\$1 ~/inet/) { print \$2} }'"
+alias uuid="uuidgen | awk '{print tolower(\$0)}' | tr -d '\n' | tee >(pbcopy) && echo ''"
 
 #### Business Aliases ##########
 alias chlog="sh -c 'git log -$1 --pretty=format:'%h    %ad    %s' --date=short --no-merges >> CHANGELOG.md'"
@@ -57,3 +61,6 @@ alias tf="terraform"
 alias tfp="terraform plan"
 alias tfa="terraform apply"
 alias tfd="export AWS_PROFILE=dtn-ag-dev"
+
+#### NPM Aliases ####
+alias nni="rm -rf node_modules && rm package-lock.json && npm install"

@@ -1,7 +1,7 @@
 [color]
         ui = true
 [merge]
-        ff = true 
+        ff = true
 [alias]
         co = checkout
         ci = commit
@@ -32,7 +32,7 @@
         ignorecase = false
 	pager = diff-so-fancy | less --tabs=4 -RFX
 [push]
-        default = simple
+        default = current
 [user]
 	name = Deac Karns
 	email = deac.karns@dtn.com
@@ -45,3 +45,5 @@
 [mergetool "smerge"]
         cmd = smerge mergetool \"$BASE\" \"$LOCAL\" \"$REMOTE\" -o \"$MERGED\"
         trustExitCode = true
+[url "git@github.com:"]
+    insteadOf = "https://github.com/"
