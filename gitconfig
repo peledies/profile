@@ -10,6 +10,7 @@
         tree = log --graph --abbrev-commit --decorate --all
         today = log --since=midnight
         yesterday = log --since=yesterday.midnight --before=yesterday.11:59pm
+        unstage = reset HEAD --
 [color]
         branch = auto
         diff = auto

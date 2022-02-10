@@ -31,6 +31,14 @@ git_repo(){
 }
 export git_repo
 
+unset -f active_aws_profile
+active_aws_profile(){
+  if [ ! -z "$AWS_PROFILE" ]; then
+    echo "${green} AWS:[$AWS_PROFILE]${default}"
+  fi
+}
+export active_aws_profile
+
 unset -f git_branch
 git_branch(){
   git rev-parse --show-toplevel > /dev/null 2>&1
