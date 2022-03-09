@@ -36,7 +36,7 @@
         default = current
 [user]
 	name = Deac Karns
-	email = deac.karns@dtn.com
+	email = fkarns@bandwidth.com
 [pull]
         rebase = false
 [difftool "smerge"]

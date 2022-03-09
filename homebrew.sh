@@ -51,6 +51,8 @@ PACKAGES=(
     exa
     docker
     docker-compose
+    lastpass-cli
+    watch
 )
 
 for p in ${PACKAGES[@]}; do
