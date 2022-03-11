@@ -1,46 +1,43 @@
 #!/bin/bash
 
-#### DTN Kubernetes Helpers ####
-export AZURE_DEFAULT_USERNAME="deac.karns@dtn.com"
-export K8S_INFRA_ROOT="/Users/deac/dtn/k8s-infra"
-source "${K8S_INFRA_ROOT}/helpers.sh"
+source ~/profile/assets/info_box.sh
 
+BWUSERNAME=`whoami`
 
-#### DTN/Spensa Aliases ##########
-alias deploy-staging="cd ~/dtn/ap_ops && ssh bastion.spensatech.com true && ansible-playbook -i hosts patch.yml -l staging.ap.spensatech.com && cd -"
-alias aws-dtn="aws-azure-login --profile dtn-aws-master --enable-chrome-seamless-sso"
-alias aws-dtn-vpn="aws-azure-login --profile dtn-aws-master --mode gui --no-prompt"
+unset -f bw_vpn
+function bw_vpn {
 
+    hash lpass 2>/dev/null || { echo -e "\n${red}LastPass-cli not found.\n${default}run '${cyan}brew install lastpass-cli${default}'"; kill -INT $$; }
+    
+    info_box "Connecting to Bandwidth VPN"
 
-#### DTN Helper Functions #######
-unset -f dap
-function dap(){
-  if [ -z "$1" ];then
-    echo "${red}You must specify a jira issue to open${default}"
-  else
-    open "https://dtnse1.atlassian.net/browse/DAP-$1"
-  fi
+    STATE=`/opt/cisco/anyconnect/bin/vpn state | sed -n 7p | awk '{print $NF}'`
+
+    if [ -n "$1" ]; then
+        /opt/cisco/anyconnect/bin/vpn $1
+    else
+        if [ "$STATE" == "Connected" ]; then
+            echo "already connected"
+        else
+            LPSTATUS=`lpass status`
+
+            if [ "$LPSTATUS" == "Not logged in." ]; then
+                read -p 'LastPass Email: ' LPEMAIL
+                lpass login --trust $LPEMAIL
+            fi
+
+            LPPW=`lpass show --password bandwidth.com`
+
+            read -p 'MFA Code: ' MFA
+            
+            /opt/cisco/anyconnect/bin/vpn -s connect "RDU VPN" <<EOF
+0
+$BWUSERNAME
+$LPPW
+$MFA
+y
+EOF
+        fi
+    fi
 }
-export -f dap
-
-unset -f agph
-function agph(){
-  if [ -z "$1" ];then
-    echo "${red}You must specify a jira issue to open${default}"
-  else
-    open "https://dtnse1.atlassian.net/browse/AGPH-$1"
-  fi
-}
-export -f agph
-
-unset -f dtnss
-function dtnss(){
-  if [ -z "$1" ];then
-    echo "${red}You must specify an instance id to connect to${default}"
-  elif [ -z "$2" ];then
-    echo "${red}You must specify an AWS profile to use.${default}"
-  else
-    aws ssm start-session --target $1 --profile $2
-  fi
-}
-export -f dtnss
+export bw_vpn
