@@ -47,12 +47,16 @@ PACKAGES=(
     terraform
     tree
     jq
+    yq
     terminal-notifier
     exa
     docker
     docker-compose
+    lazydocker
     lastpass-cli
     watch
+    ctop
+    fig
 )
 
 for p in ${PACKAGES[@]}; do

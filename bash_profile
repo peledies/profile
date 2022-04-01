@@ -32,3 +32,6 @@ export PS1='\[\033[01;33m\]\u@\h\[\033[00m\]:\[\033[01;33m\]\W\[\033]$(active_aw
 export BASH_SILENCE_DEPRECATION_WARNING=1
 
 export SCREENRC="~/.screenrc"
+
+# set the docker default platform for builds
+export DOCKER_DEFAULT_PLATFORM=linux/amd64

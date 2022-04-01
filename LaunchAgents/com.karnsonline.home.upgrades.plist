@@ -9,14 +9,14 @@
       <true/>
 
       <key>StandardErrorPath</key>
-      <string>/Users/deac/launchd_err.log</string>
+      <string>/Users/fkarns/launchd_err.log</string>
 
       <key>StandardOutPath</key>
-      <string>/Users/deac/launchd.log</string>
+      <string>/Users/fkarns/launchd.log</string>
 
       <key>ProgramArguments</key>
       <array>
-          <string>/Users/deac/profile/utilities/upgrades.sh</string>
+          <string>/Users/fkarns/profile/utilities/upgrades.sh</string>
       </array>
 
       <key>StartInterval</key>

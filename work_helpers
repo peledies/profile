@@ -1,43 +1,19 @@
 #!/bin/bash
 
-source ~/profile/assets/info_box.sh
-
-BWUSERNAME=`whoami`
-
-unset -f bw_vpn
-function bw_vpn {
-
-    hash lpass 2>/dev/null || { echo -e "\n${red}LastPass-cli not found.\n${default}run '${cyan}brew install lastpass-cli${default}'"; kill -INT $$; }
-    
-    info_box "Connecting to Bandwidth VPN"
-
-    STATE=`/opt/cisco/anyconnect/bin/vpn state | sed -n 7p | awk '{print $NF}'`
-
-    if [ -n "$1" ]; then
-        /opt/cisco/anyconnect/bin/vpn $1
-    else
-        if [ "$STATE" == "Connected" ]; then
-            echo "already connected"
-        else
-            LPSTATUS=`lpass status`
-
-            if [ "$LPSTATUS" == "Not logged in." ]; then
-                read -p 'LastPass Email: ' LPEMAIL
-                lpass login --trust $LPEMAIL
-            fi
-
-            LPPW=`lpass show --password bandwidth.com`
-
-            read -p 'MFA Code: ' MFA
-            
-            /opt/cisco/anyconnect/bin/vpn -s connect "RDU VPN" <<EOF
-0
-$BWUSERNAME
-$LPPW
-$MFA
-y
-EOF
-        fi
-    fi
+unset -f cfa
+cfa () {
+    open -a "Google Chrome" https://bandwidth-jira.atlassian.net/browse/CFA-$1
 }
-export bw_vpn
+export cfa
+
+# AWS Profile setter. Uses AWS CLI to give you a select menu of profiles
+unset -f awse
+awse () {
+    profiles=`aws configure list-profiles`
+    select option in $profiles; do
+        echo "${cyan}Switching to AWS Profile: ${magenta}$option${default}"
+        export AWS_PROFILE=$option
+        break
+    done
+}
+export awse

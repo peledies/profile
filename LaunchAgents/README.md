@@ -6,17 +6,32 @@ Files need to be put in place in the following directory:
 ~/Library/LaunchAgents/
 ```
 
+They can be put in place with the following bash line, go ahead, drop it in the terminal.
+```
+for f in ~/profile/LaunchAgents/*.plist; do ln -sf $f ~/Library/LaunchAgents/$(basename $f); done
+```
+
 ## Loading
-
+bootstrap single launch agent
 ```
-launchctl load -w ~/Library/LaunchAgents/<plist_name>
+launchctl bootstrap gui/$(id -u $(whoami)) ~/Library/LaunchAgents/<plist_name>
 ```
 
-## Re-loading
-
+bootstrap all launch agents
 ```
-launchctl unload -w ~/Library/LaunchAgents/<plist_name>
-launchctl load -w ~/Library/LaunchAgents/<plist_name>
+for f in ~/profile/LaunchAgents/*.plist; do launchctl bootstrap gui/$(id -u $(whoami)) ~/Library/LaunchAgents/$(basename $f); done
+```
+
+## un-loading
+
+bootout single launch agent
+```
+launchctl bootout gui/$(id -u $(whoami)) ~/Library/LaunchAgents/<plist_name>
+```
+
+bootout all launch agents
+```
+for f in ~/profile/LaunchAgents/*.plist; do launchctl bootout gui/$(id -u $(whoami)) ~/Library/LaunchAgents/$(basename $f); done
 ```
 
 ## Debugging

@@ -33,6 +33,7 @@ alias dcl='docker-compose logs'
 alias dclean='docker rm -v $(docker ps --filter status=exited -q 2>/dev/null) 2>/dev/null && docker rmi $(docker images --filter dangling=true -q 2>/dev/null) 2>/dev/null'
 alias dcps='docker ps --format="table {{.Names}}\t{{.Ports}}\t{{.Status}}\t{{.Networks}}"'
 alias dnuke="yes | docker system prune -a; yes | docker volume prune"
+alias lad="lazydocker"
 
 #### Vagrant Aliases ###########
 alias vs="vagrant status"
