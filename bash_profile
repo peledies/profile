@@ -10,6 +10,7 @@ export PATH=/usr/local/share/npm/bin:$PATH
 export PATH=~/.composer/vendor/bin:$PATH
 export PATH=~/Library/Python/2.7/bin/:$PATH
 export PATH=/usr/local/lib/python3.7/:$PATH
+export PATH=/opt/homebrew/bin:$PATH
 
 # set the tab names for osx to the pwd
 PROMPT_COMMAND='echo -ne "\033]0;${PWD##*/}\007"'
