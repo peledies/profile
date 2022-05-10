@@ -41,14 +41,16 @@ export active_aws_profile
 
 unset -f color_hostname
 color_hostname() {
-  if [ "$HOSTNAME" = "fkarns-mbp" ]; then
+
+  name=$(hostname | awk -F. '{print $1}')
+  if [ "$name" = "fkarns-mbp" ]; then
     color=${cyan}
-  elif [ "$HOSTNAME" = "Deacs-Mac-mini"]; then
-    color=${green}
+  elif [ "$name" = "Mac-mini"]; then
+    color=${magenta}
   else
-    color=${default}
+    color=${gold}
   fi
-  echo "${color}$HOSTNAME${default}"
+  echo "${color}$name${default}"
 }
 export color_hostname
 
