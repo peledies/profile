@@ -39,6 +39,19 @@ active_aws_profile(){
 }
 export active_aws_profile
 
+unset -f color_hostname
+color_hostname() {
+  if [ "$HOSTNAME" = "fkarns-mbp" ]; then
+    color=${cyan}
+  elif [ "$HOSTNAME" = "Deacs-Mac-mini"]; then
+    color=${green}
+  else
+    color=${default}
+  fi
+  echo "${color}$HOSTNAME${default}"
+}
+export color_hostname
+
 unset -f git_branch
 git_branch(){
   git rev-parse --show-toplevel > /dev/null 2>&1
