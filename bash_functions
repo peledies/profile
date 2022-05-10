@@ -45,7 +45,7 @@ color_hostname() {
   name=$(hostname | awk -F. '{print $1}')
   if [ "$name" = "fkarns-mbp" ]; then
     color=${cyan}
-  elif [ "$name" = "Mac-mini"]; then
+  elif [ "$name" = "Mac-mini" ]; then
     color=${magenta}
   else
     color=${gold}
