@@ -47,6 +47,8 @@ color_hostname() {
     color=${cyan}
   elif [ "$name" = "Mac-mini" ]; then
     color=${magenta}
+  elif [ "$name" = "deacs-mbp" ]; then
+    color=${blue}
   else
     color=${gold}
   fi
