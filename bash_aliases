@@ -65,3 +65,7 @@ alias tfd="export AWS_PROFILE=dtn-ag-dev"
 
 #### NPM Aliases ####
 alias nni="rm -rf node_modules && rm package-lock.json && npm install"
+alias snow=/Applications/SnowSQL.app/Contents/MacOS/snowsql
+
+#### Convenience Aliases ####
+alias ff="fzf"

@@ -11,6 +11,7 @@ export PATH=~/.composer/vendor/bin:$PATH
 export PATH=~/Library/Python/2.7/bin/:$PATH
 export PATH=/usr/local/lib/python3.7/:$PATH
 export PATH=/opt/homebrew/bin:$PATH
+export PATH=$HOME/Library/Python/3.8/bin:$PATH
 
 # set the tab names for osx to the pwd
 PROMPT_COMMAND='echo -ne "\033]0;${PWD##*/}\007"'
@@ -36,3 +37,7 @@ export SCREENRC="~/.screenrc"
 
 # set the docker default platform for builds
 export DOCKER_DEFAULT_PLATFORM=linux/amd64
+
+# FZF configuration
+export FZF_CTRL_T_OPTS="--preview 'bat {} --style=numbers --color=always' --height=75% --bind '?:toggle-preview'"
+export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window down:3:hidden:wrap --bind '?:toggle-preview'"

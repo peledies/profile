@@ -1,8 +1,13 @@
 #!/bin/bash
 
+#OktaAWSCLI
+if [[ -d "$HOME/.okta_bw/bin" && ":$PATH:" != *":$HOME/.okta_bw/bin:"* ]]; then
+    PATH="$HOME/.okta_bw/bin:$PATH"
+fi
+
 unset -f cfa
 cfa () {
-    open -a "Google Chrome" https://bandwidth-jira.atlassian.net/browse/CFA-$1
+    open -a "Google Chrome Beta" https://bandwidth-jira.atlassian.net/browse/CFA-$1
 }
 export cfa
 
@@ -13,6 +18,7 @@ awse () {
     select option in $profiles; do
         echo "${cyan}Switching to AWS Profile: ${magenta}$option${default}"
         export AWS_PROFILE=$option
+        withokta
         break
     done
 }

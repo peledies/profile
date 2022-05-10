@@ -37,26 +37,29 @@ function brewCaskInstall(){
 }
 
 PACKAGES=(
-    node@14
-    tldr
-    bat
-    ansible
-    diff-so-fancy
     ack
-    htop
-    terraform
-    tree
-    jq
-    yq
-    terminal-notifier
-    exa
+    ansible
+    bat
+    ctop
+    diff-so-fancy
     docker
     docker-compose
-    lazydocker
-    lastpass-cli
-    watch
-    ctop
+    exa
     fig
+    fzf
+    htop
+    jq
+    lastpass-cli
+    lazydocker
+    newt
+    node@14
+    tableplus
+    terminal-notifier
+    terraform
+    tldr
+    tree
+    watch
+    yq
 )
 
 for p in ${PACKAGES[@]}; do
