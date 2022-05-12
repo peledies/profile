@@ -41,3 +41,6 @@ export DOCKER_DEFAULT_PLATFORM=linux/amd64
 # FZF configuration
 export FZF_CTRL_T_OPTS="--preview 'bat {} --style=numbers --color=always' --height=75% --bind '?:toggle-preview'"
 export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window down:3:hidden:wrap --bind '?:toggle-preview'"
+
+# Homebrew Configuration
+HOMEBREW_NO_AUTO_UPDATE=1
