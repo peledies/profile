@@ -383,3 +383,36 @@ function loop(){
 # DTN functions #
 #################
 source ~/profile/work_helpers
+
+#########################
+# Photography functions #
+#########################
+
+unset -f exifshort
+function exifshort(){
+
+  if hash exiftool 2>/dev/null; then
+    echo ""
+  else
+    if [ "$(uname)" == "Darwin" ]; then
+      brew install exiftool
+    elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
+      sudo apt install exiftool
+    fi
+  fi
+
+  FILE=$1
+  if [ -z "$FILE" ];then
+    echo "${red}You must specify a file path${default}"
+  else
+    MODEL=`exiftool -Model $FILE | awk -F ': ' '{print $2}'`
+    ISO=`exiftool -ISO $FILE | awk -F ': ' '{print $2}'`
+    LENS=`exiftool -LensModel $FILE | awk -F ': ' '{print $2}'`
+    EXPOSURE=`exiftool -ExposureTime $FILE | awk -F ': ' '{print $2}'`
+    DATE=`exiftool -CreateDate $FILE | awk -F ': ' '{print $2}'`
+    APERTURE=`exiftool -ApertureValue $FILE | awk -F ': ' '{print $2}'`
+    FOCAL_LENGTH=`exiftool -FocalLength $FILE | awk -F ': ' '{print $2}'`
+
+    echo "$MODEL + $LENS @ $FOCAL_LENGTH, ISO $ISO, $EXPOSURE seconds, f/$APERTURE, $DATE"
+  fi
+}
