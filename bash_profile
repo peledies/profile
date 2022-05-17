@@ -28,7 +28,7 @@ export VISUAL
 
 export VIRTUAL_ENV_DISABLE_PROMPT=1
 
-export PS1='\[\033[01;33m\]\u@$(color_hostname)\[\033[00m\]:\[\033[01;33m\]\W\[\033]$(active_aws_profile)$(git_branch)$(git_dirty_status)\[\033[00m\]\n> '
+export PS1='$(color_hostname)\[\033[00m\]:\[\033[01;33m\]\W\[\033]$(active_aws_profile)$(git_branch)$(git_dirty_status)\[\033[00m\]\n> '
 
 # Silence the bash deprecation message
 export BASH_SILENCE_DEPRECATION_WARNING=1
@@ -41,3 +41,6 @@ export DOCKER_DEFAULT_PLATFORM=linux/amd64
 # FZF configuration
 export FZF_CTRL_T_OPTS="--preview 'bat {} --style=numbers --color=always' --height=75% --bind '?:toggle-preview'"
 export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window down:3:hidden:wrap --bind '?:toggle-preview'"
+
+# Homebrew Configuration
+HOMEBREW_NO_AUTO_UPDATE=1

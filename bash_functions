@@ -47,6 +47,8 @@ color_hostname() {
     color=${cyan}
   elif [ "$name" = "Mac-mini" ]; then
     color=${magenta}
+  elif [ "$name" = "deacs-mbp" ]; then
+    color=${blue}
   else
     color=${gold}
   fi
@@ -363,12 +365,12 @@ function dcs(){
 }
 export -f dcs
 
-unset -f gpg
-function gpg(){
+unset -f gpgood
+function gpgood(){
   afplay ~/profile/assets/git_push_It.mp3 &
   git push
 }
-export -f gpg
+export -f gpgood
 
 unset -f loop
 function loop(){
