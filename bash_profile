@@ -47,3 +47,9 @@ export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window down:3:hidden:wrap 
 
 # Homebrew Configuration
 HOMEBREW_NO_AUTO_UPDATE=1
+
+# Terminal timeout for cmatrix screensaver
+TMOUT=120
+TRAPALRM() {
+    cmatrix -s
+}

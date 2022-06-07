@@ -406,6 +406,7 @@ function exifshort(){
   FILE=$1
   if [ -z "$FILE" ];then
     echo "${red}You must specify a file path${default}"
+    exit 1
   else
     MODEL=`exiftool -Model $FILE | awk -F ': ' '{print $2}'`
     ISO=`exiftool -ISO $FILE | awk -F ': ' '{print $2}'`
@@ -417,4 +418,29 @@ function exifshort(){
 
     echo "$MODEL + $LENS @ $FOCAL_LENGTH, ISO $ISO, $EXPOSURE seconds, f/$APERTURE, $DATE"
   fi
+}
+
+unset -f burnexif
+function burnexif(){
+  IN=$1
+  OUT=~/Desktop/burn.jpg
+  PAD=50
+  FONT_SIZE=32
+
+  PATH_IN=$(readlink -f $IN)
+  EXTENSION=${PATH_IN##*.}
+  PATH_OUT=${PATH_IN%.*}-processed.${EXTENSION}
+
+  echo -e "\nProcessing:\n  $PATH_IN"
+  echo -e "Output File:\n  $PATH_OUT"
+
+  ((LEFT=(0 + $PAD)))
+  ((RIGHT=$(identify -format '%w' $PATH_IN) - $PAD - 240))
+  ((BOTTOM=$(identify -format '%h' $PATH_IN) - $PAD))
+
+  STRING="$(exifshort $PATH_IN)"
+  echo -e "\nBurning exif data to image"
+  convert -pointsize $FONT_SIZE -fill yellow -draw "text 10,$BOTTOM '$STRING'" $PATH_IN $PATH_OUT
+  echo -e "\nBurning watermark to image"
+  convert -pointsize $FONT_SIZE -fill yellow -draw "text $RIGHT,$BOTTOM 'karnsonline.com'" $PATH_OUT $PATH_OUT
 }
