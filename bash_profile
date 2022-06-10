@@ -2,6 +2,8 @@
 export CLICOLOR=1
 export LSCOLORS=GxFxCxDxBxededabagadad
 export ANSIBLE_NOCOWS=1
+export HISTSIZE=5000
+
 # LSCOLORS generator http://geoff.greer.fm/lscolors/
 export PATH=/usr/local/opt/node@14/bin:$PATH
 export PATH=/usr/local/sbin:$PATH
@@ -49,7 +51,7 @@ export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window down:3:hidden:wrap 
 HOMEBREW_NO_AUTO_UPDATE=1
 
 # Terminal timeout for cmatrix screensaver
-TMOUT=120
-TRAPALRM() {
-    cmatrix -s
-}
+#OUT=120
+#TRAPALRM() {
+#    cmatrix -s
+#}
