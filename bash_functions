@@ -424,7 +424,7 @@ unset -f burnexif
 function burnexif(){
   IN=$1
   OUT=~/Desktop/burn.jpg
-  PAD=50
+  PAD=100
   FONT_SIZE=32
 
   PATH_IN=$(readlink -f $IN)
