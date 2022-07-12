@@ -5,6 +5,8 @@
 KEYS=(
   HashSalt.pem
   karnsonline.pem
+  # aseda.pem
+  # mongoDev.pem
 )
 
 echo "Ensuring $HOME/.ssh/keys directory exists"
