@@ -43,6 +43,12 @@ Create an alias for vi directory
 ln -nfs ~/profile/vim ~/.vim
 ```
 
+Create an ssh config that sources all configs
+
+```
+echo -e "Host *\n   AddKeysToAgent yes\n   UseKeychain yes\n   IdentityFile ~/.ssh/id_rsa\n\nInclude config.d/*.config" > ~/.ssh/config
+```
+
 ## Environment Install
 
 > you can clone the homebrew shell script directly if thats all you need
