@@ -444,3 +444,38 @@ function burnexif(){
   echo -e "\nBurning watermark to image"
   convert -pointsize $FONT_SIZE -fill yellow -draw "text $RIGHT,$BOTTOM 'karnsonline.com'" $PATH_OUT $PATH_OUT
 }
+
+unset -f ssh-sync
+function ssh-sync(){
+  TERMINAL_HEIGHT=`tput lines`
+  BOX_HEIGHT=`printf "%.0f" $(echo "scale=2; $TERMINAL_HEIGHT * .5" | bc)`
+
+  TERMINAL_WIDTH=`tput cols`
+  BOX_WIDTH=`printf "%.0f" $(echo "scale=2; $TERMINAL_WIDTH * .75" | bc)`
+  while [ 1 ]
+  do
+    CHOICE=$(
+    whiptail --title "SSH Configuration Sync" --nocancel --menu "Select an item from the menu" $BOX_HEIGHT $BOX_WIDTH 4 \
+      "1)" "Pull Keys from LastPass"   \
+      "2)" "Push config files to LastPass"  \
+      "3)" "Pull config files from LastPass" \
+      "x)" "Exit" 3>&2 2>&1 1>&3
+    )
+
+    case $CHOICE in
+      "1)")
+          sh $HOME/profile/ssh_keys.sh
+      ;;
+      "2)")
+          sh $HOME/profile/ssh_config_lpass_push.sh
+      ;;
+      "3)")
+          sh $HOME/profile/ssh_config_lpass_get.sh
+      ;;
+
+      "x)")
+        break
+      ;;
+    esac
+  done
+}
