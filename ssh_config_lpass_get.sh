@@ -2,6 +2,7 @@
 
 magenta=$(tput setaf 5)
 cyan=$(tput setaf 6)
+red=$(tput setaf 1)
 default=$(tput sgr0)
 
 # this is the "folder" in lastpass
@@ -24,7 +25,7 @@ do
             lpass show "$config" --notes > "$SSH_CONFIG_PATH/$FILE"
             ;;
       [nN])
-            echo "${cyan}Skip${default}"
+            echo "${red}Skip${default}"
             ;;
 esac
 done
