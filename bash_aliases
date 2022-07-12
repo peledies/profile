@@ -18,6 +18,7 @@ alias kk="cat ~/.ssh/id_rsa.pub | pbcopy"
 alias pip="pip3"
 alias cat="bat"
 alias ap="ansible-playbook"
+alias av="ansible-vault"
 alias python="python3"
 alias pidown="ssh pihole 'sudo pihole disable 30s'"
 

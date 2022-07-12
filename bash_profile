@@ -14,7 +14,7 @@ export PATH=~/Library/Python/2.7/bin/:$PATH
 export PATH=/usr/local/lib/python3.7/:$PATH
 export PATH=/opt/homebrew/bin:$PATH
 export PATH=$HOME/Library/Python/3.8/bin:$PATH
-
+export PATH=/opt/homebrew/opt/kubernetes-cli@1.22/bin:$PATH
 # set the tab names for osx to the pwd
 PROMPT_COMMAND='echo -ne "\033]0;${PWD##*/}\007"'
 
