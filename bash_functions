@@ -455,10 +455,11 @@ function ssh-sync(){
   while [ 1 ]
   do
     CHOICE=$(
-    whiptail --title "SSH Configuration Sync" --nocancel --menu "Select an item from the menu" $BOX_HEIGHT $BOX_WIDTH 4 \
+    whiptail --title "SSH Configuration Sync" --nocancel --menu "Select an item from the menu" $BOX_HEIGHT $BOX_WIDTH 5 \
       "1)" "Pull Keys from LastPass"   \
       "2)" "Push config files to LastPass"  \
       "3)" "Pull config files from LastPass" \
+      "4)" "Pull AWS Credentials from LastPass" \
       "x)" "Exit" 3>&2 2>&1 1>&3
     )
 
@@ -472,7 +473,9 @@ function ssh-sync(){
       "3)")
           sh $HOME/profile/ssh_config_lpass_get.sh
       ;;
-
+      "4)")
+          sh $HOME/profile/aws_credentials_lpass_get.sh
+      ;;
       "x)")
         break
       ;;
