@@ -465,7 +465,7 @@ function secret-sync(){
 
     case $CHOICE in
       "1)")
-          sh $HOME/profile/secret-sync/ssh_keys.sh
+          sh $HOME/profile/secret-sync/ssh_keys_lpass_get.sh
       ;;
       "2)")
           sh $HOME/profile/secret-sync/ssh_config_lpass_push.sh
