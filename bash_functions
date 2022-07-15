@@ -446,7 +446,7 @@ function burnexif(){
 }
 
 unset -f ssh-sync
-function ssh-sync(){
+function secret-sync(){
   TERMINAL_HEIGHT=`tput lines`
   BOX_HEIGHT=`printf "%.0f" $(echo "scale=2; $TERMINAL_HEIGHT * .5" | bc)`
 
@@ -455,26 +455,26 @@ function ssh-sync(){
   while [ 1 ]
   do
     CHOICE=$(
-    whiptail --title "SSH Configuration Sync" --nocancel --menu "Select an item from the menu" $BOX_HEIGHT $BOX_WIDTH 5 \
-      "1)" "Pull Keys from LastPass"   \
-      "2)" "Push config files to LastPass"  \
-      "3)" "Pull config files from LastPass" \
+    whiptail --title "Secret Configuration Sync" --nocancel --menu "Select an item from the menu" $BOX_HEIGHT $BOX_WIDTH 5 \
+      "1)" "Pull SSH Keys from LastPass"   \
+      "2)" "Push SSH config files to LastPass"  \
+      "3)" "Pull SSH config files from LastPass" \
       "4)" "Pull AWS Credentials from LastPass" \
       "x)" "Exit" 3>&2 2>&1 1>&3
     )
 
     case $CHOICE in
       "1)")
-          sh $HOME/profile/ssh_keys.sh
+          sh $HOME/profile/secret-sync/ssh_keys.sh
       ;;
       "2)")
-          sh $HOME/profile/ssh_config_lpass_push.sh
+          sh $HOME/profile/secret-sync/ssh_config_lpass_push.sh
       ;;
       "3)")
-          sh $HOME/profile/ssh_config_lpass_get.sh
+          sh $HOME/profile/secret-sync/ssh_config_lpass_get.sh
       ;;
       "4)")
-          sh $HOME/profile/aws_credentials_lpass_get.sh
+          sh $HOME/profile/secret-sync/aws_credentials_lpass_get.sh
       ;;
       "x)")
         break

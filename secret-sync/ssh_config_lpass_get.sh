@@ -41,7 +41,7 @@ Include config.d/*.config" > $SSH_CONFIG_FILE
 # get an array of config files to be fetched
 RAW_CONFIG_NAMES=($(lpass ls $NAMESPACE | awk '{print $1}'))
 
-# Allow user to choose his options
+# Allow user to choose options
 WHIPTAIL_CONFIG_NAMES=()
 for VALUE in "${RAW_CONFIG_NAMES[@]}"
 do
@@ -53,10 +53,9 @@ CHOICES=($(whiptail --separate-output --checklist "What config files would you l
 exitstatus=$?
 if [ $exitstatus = 0 ]; then
     # OK was pressed
-    for CHOICE in $CHOICES
+    for CHOICE in "${CHOICES[@]}"
     do
-#     lpass show "$config" --notes > "$SSH_CONFIG_PATH/$FILE"
-        (lpass show "${NAMESPACE}/${CHOICE}" --notes) > "${SSH_CONFIG_PATH}/${CHOICE}"
+      lpass show "${NAMESPACE}/${CHOICE}" --notes > "${SSH_CONFIG_PATH}/${CHOICE}"
     done
 else
     # Cancel was pressed
