@@ -12,6 +12,7 @@ default=$(tput sgr0)
 
 # this is the "folder" in lastpass
 NAMESPACE="aws-credentials"
+DEFAULT_REGION="us-east-1"
 
 # Ensure whiptail
 if hash whiptail 2>/dev/null; then
@@ -46,29 +47,10 @@ if [ $exitstatus = 0 ]; then
         ID=$(lpass show "${NAMESPACE}/${CHOICE}" --field aws_secret_access_key)
         aws configure set aws_access_key_id $ID --profile $CHOICE
         aws configure set aws_secret_access_key $SECRET --profile $CHOICE
-        aws configure set region us-east-1 --profile $CHOICE
+        aws configure set region $DEFAULT_REGION --profile $CHOICE
         aws configure set output json --profile $CHOICE
     done
 else
     # Cancel was pressed
     exit
 fi
-# for config in "${LPASSCONFIGS[@]}"
-# do
-#   # echo "$config"
-#   NAME=$(basename $config)
-#   read -r -p "Do you want to pull ${magenta}$NAME${default} from LastPass [Y/n] " input
-
-#   case $input in
-#       [yY])
-#             echo "${cyan}Done${default}"
-#             secret=$(lpass show "$config" --field aws_access_key_id)
-#             id=$(lpass show "$config" --field aws_secret_access_key)
-#             aws configure set aws_access_key_id $id --profile $NAME
-#             aws configure set aws_secret_access_key $secret --profile $NAME
-#             ;;
-#       [nN])
-#             echo "${red}Skip${default}"
-#             ;;
-# esac
-# done
