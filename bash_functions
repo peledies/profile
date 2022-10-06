@@ -331,14 +331,20 @@ function ns(){
   fi
 
   if [ -n "$1" ];then
-    echo -e "\n\n${cyan}GOOGLE REPORTS${default}"
+    echo -e "\n\n${cyan}PIHOLE 192.168.1.5 REPORTS${default}"
+    nslookup -q=any $1 192.168.1.5
+
+    echo -e "\n\n${cyan}GOOGLE 8.8.8.8 REPORTS${default}"
     nslookup -q=any $1 8.8.8.8
+
+    echo -e "\n\n${cyan}GOOGLE 8.8.4.4 REPORTS${default}"
+    nslookup -q=any $1 8.8.4.4
 
     echo -e "\n\n${cyan}VERISIGN REPORTS${default}"
     nslookup -q=any $1 64.6.64.6
 
-    echo -e "\n\n${cyan}OPENDNS REPORTS${default}"
-    nslookup -q=any $1 208.67.222.222
+    echo -e "\n\n${cyan}Cloudflare 1.1.1.1 REPORTS${default}"
+    nslookup -q=any $1 1.1.1.1
   fi
 }
 export -f ns
