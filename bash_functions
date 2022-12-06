@@ -488,3 +488,8 @@ function secret-sync(){
     esac
   done
 }
+
+unset -f wake
+function wake(){
+  ssh $1 'caffeinate -u -t 1'
+}

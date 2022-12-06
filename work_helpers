@@ -14,12 +14,19 @@ export cfa
 # AWS Profile setter. Uses AWS CLI to give you a select menu of profiles
 unset -f awse
 awse () {
+    rm $HOME/.okta/cookies.properties
+    echo ".okta/cookies cleaned up"
+
     profiles=`aws configure list-profiles`
     select option in $profiles; do
         echo "${cyan}Switching to AWS Profile: ${magenta}$option${default}"
         export AWS_PROFILE=$option
-        withokta
         break
     done
+    # the <<- the dash makes it so the heredoc ignores the tabs
+    withokta <<< "
+1
+2
+"
 }
 export awse

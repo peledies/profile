@@ -25,4 +25,3 @@ do
 # Encrypt ssh config files and store them in this repo
   openssl enc -aes-256-cbc -in $config -out $ENC_CONFIG_PATH/$FILE.enc -pass "pass:$password"
 done
-
