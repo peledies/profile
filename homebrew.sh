@@ -73,6 +73,7 @@ CASKS=(
     spotify
     visual-studio-code
     session-manager-plugin
+    blackhole-2ch
 )
 
 for c in ${CASKS[@]}; do
