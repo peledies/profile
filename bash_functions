@@ -452,7 +452,7 @@ function burnexif(){
 }
 
 unset -f ssh-sync
-function secret-sync(){
+function ssh-sync(){
   TERMINAL_HEIGHT=`tput lines`
   BOX_HEIGHT=`printf "%.0f" $(echo "scale=2; $TERMINAL_HEIGHT * .5" | bc)`
 

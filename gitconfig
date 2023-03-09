@@ -34,6 +34,7 @@
 	pager = diff-so-fancy | less --tabs=4 -RFX
 [push]
         default = current
+	autoSetupRemote = true
 [user]
 	name = Deac Karns
 	email = fkarns@bandwidth.com
