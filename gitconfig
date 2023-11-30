@@ -32,6 +32,7 @@
         excludesfile = ~/.gitignore_global
         ignorecase = false
 	pager = diff-so-fancy | less --tabs=4 -RFX
+        hooksPath = ~/profile/git/hooks
 [push]
         default = current
 	autoSetupRemote = true

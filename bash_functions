@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 source ~/profile/assets/info_box.sh
 source ~/profile/assets/pretty_tasks.sh
@@ -33,18 +33,48 @@ export git_repo
 
 unset -f active_aws_profile
 active_aws_profile(){
-  if [ ! -z "$AWS_PROFILE" ]; then
-    echo "${green} AWS:[$AWS_PROFILE]${default}"
+
+  if [[ $AWS_PROFILE ]]; then
+    SSO_ACCOUNT=$(aws sts get-caller-identity --query "Account" --output text)
+    if [ ${#SSO_ACCOUNT} -eq 12 ];  then
+      if [ ! -z "$AWS_PROFILE" ]; then
+        echo "${green} AWS:[$AWS_PROFILE]${default}"
+      fi
+    fi
   fi
 }
 export active_aws_profile
+
+unset -f k8s_context
+k8s_context(){
+  if hash kubectl 2>/dev/null; then
+    echo " ${blue}k8s:[$(kubectl config current-context)]${default}"
+  fi
+}
+export k8s_context
+
+unset -f ktx
+ktx(){
+  if hash kubectl 2>/dev/null; then
+    CONTEXTS=( $(kubectl config get-contexts | awk 'NR!=1''{print $2}') )
+
+    PS3="${red}Select a kubectl context (q to quit): $gold"
+    select context in "${CONTEXTS[@]}"; do
+      case "$context" in
+        "") break ;;  # This is a fake; any invalid entry makes $context=="", not just "q".
+        *) echo ${blue} && kubectl config use-context $context && echo ${default}; break ;;
+      esac
+    done
+  fi
+}
+export ktx
 
 unset -f color_hostname
 color_hostname() {
 
   name=$(hostname | awk -F. '{print $1}')
   if [ "$name" = "fkarns-mbp" ]; then
-    color=${cyan}
+    color=${red}
   elif [ "$name" = "Mac-mini" ]; then
     color=${magenta}
   elif [ "$name" = "deacs-mbp" ]; then
@@ -492,4 +522,8 @@ function ssh-sync(){
 unset -f wake
 function wake(){
   ssh $1 'caffeinate -u -t 1'
+}
+
+function ktx_pull(){
+  lpass show Bandwidth/Kubernetes\ Config --notes > $HOME/.kube/config
 }

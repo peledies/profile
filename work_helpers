@@ -7,26 +7,96 @@ fi
 
 unset -f cfa
 cfa () {
-    open -a "Google Chrome Beta" https://bandwidth-jira.atlassian.net/browse/CFA-$1
+    open -a "Google Chrome" https://bandwidth-jira.atlassian.net/browse/CFA-$1
 }
 export cfa
 
-# AWS Profile setter. Uses AWS CLI to give you a select menu of profiles
-unset -f awse
-awse () {
-    rm $HOME/.okta/cookies.properties
-    echo ".okta/cookies cleaned up"
 
-    profiles=`aws configure list-profiles`
-    select option in $profiles; do
-        echo "${cyan}Switching to AWS Profile: ${magenta}$option${default}"
-        export AWS_PROFILE=$option
-        break
-    done
-    # the <<- the dash makes it so the heredoc ignores the tabs
-    withokta <<< "
-1
-2
-"
+unset -f adhoc
+adhoc () {
+    open -a "Google Chrome" https://meet.google.com/pox-wdvm-itz
 }
-export awse
+export adhoc
+
+
+
+unset -f clippy_installer
+clippy_installer () {
+    VERSION="0.2.4"
+    INSTALL_DIR="/usr/local/bin"
+    ARCH=`uname -m`
+    if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+        # Linux
+        OS="linux"
+        DOWNLOAD_DIR="/mnt/chromeos/MyFiles/Downloads"
+    elif [[ "$OSTYPE" == "darwin"* ]]; then
+        # Mac OSX
+        OS="darwin"
+        DOWNLOAD_DIR="$HOME/Downloads"
+    fi
+    open -a "Google Chrome" https://github.com/Bandwidth/clippy/releases/download/v${VERSION}/clippy_${VERSION}_${OS}_${ARCH}.tar.gz
+    tar -zxf $DOWNLOAD_DIR/clippy_0.2.4_darwin_arm64.tar.gz -C $INSTALL_DIR clippy
+    chmod +x $INSTALL_DIR/clippy
+}
+export clippy_installer
+
+unset -f switch
+switch () {
+    LASTPASS_EMAIL='deac.karns@gmail.com'
+    PROFILE=$(clippy aws sso assume)
+    if [ $? -eq 0 ]
+    then
+        export AWS_PROFILE=$PROFILE
+        export AWS_DEFAULT_PROFILE=$PROFILE
+        export AWS_EB_PROFILE=$PROFILE
+
+        # If you are switching to an ENG account it wont use SSO
+        USE_SSO=`aws configure get sso_start_url --profile $PROFILE`
+        if [ -z "${USE_SSO}" ]
+        then
+            LASTPASS_STATUS=`lpass status`
+
+            if [ "$LASTPASS_STATUS" == "Not logged in." ]; then
+                echo "Authenticating with LastPass"
+                lpass login --trust $LASTPASS_EMAIL
+            else
+                echo "LastPass authenticated"
+            fi
+            clippy okta login --factor okta
+        else
+            SSO_ACCOUNT=$(aws sts get-caller-identity --query "Account" --output text)
+            if [ ${#SSO_ACCOUNT} -eq 12 ];  then
+                echo "AWS SSO session valid" ;
+            else
+                echo "AWS SSO session invalid"
+                aws sso login
+            fi
+        fi
+    fi
+}
+export switch
+
+unset -f busy
+busy () {
+    # Get the options
+    while getopts ":n:" option; do
+    case $option in
+        n) # namespace
+            BUSY_NAMESPACE=$OPTARG;;
+        \?) # Invalid option
+            echo "Error: Invalid option"
+            exit;;
+    esac
+    done
+
+    # If the environment is not passed in as an argument, prompt the user for it
+    if [ -z "$BUSY_NAMESPACE" ]
+    then
+        BUSY_NAMESPACE='default'
+    fi
+
+    echo "Launching busybox container in the ${cyan}$BUSY_NAMESPACE${default} namespace"
+    kubectl -n $BUSY_NAMESPACE run -i --rm --tty busy-box --image=busybox --restart=Never -- sh
+    unset BUSY_NAMESPACE
+}
+export busy

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 ##### Deacs aliases ###########
 alias diff="diff -w"
 alias chrome='open -a "Google Chrome" --args --aggressive-cache-discard --disable-cache --disable-application-cache --disable-offline-load-stale-cache --disk-cache-size=0'
@@ -65,7 +65,7 @@ alias tfa="terraform apply"
 alias tfd="export AWS_PROFILE=dtn-ag-dev"
 
 #### NPM Aliases ####
-alias nni="rm -rf node_modules && rm package-lock.json && npm install"
+alias nn="rm -rf node_modules && rm package-lock.json && npm install"
 alias snow=/Applications/SnowSQL.app/Contents/MacOS/snowsql
 
 #### Convenience Aliases ####
