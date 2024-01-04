@@ -55,17 +55,7 @@ export k8s_context
 
 unset -f ktx
 ktx(){
-  if hash kubectl 2>/dev/null; then
-    CONTEXTS=( $(kubectl config get-contexts | awk 'NR!=1''{print $2}') )
-
-    PS3="${red}Select a kubectl context (q to quit): $gold"
-    select context in "${CONTEXTS[@]}"; do
-      case "$context" in
-        "") break ;;  # This is a fake; any invalid entry makes $context=="", not just "q".
-        *) echo ${blue} && kubectl config use-context $context && echo ${default}; break ;;
-      esac
-    done
-  fi
+  . $HOME/profile/ktx
 }
 export ktx
 
