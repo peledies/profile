@@ -44,7 +44,7 @@ alias vgsr="vagrant global-status --prune | grep running"
 
 #### SysAdmin Aliases ##########
 alias unban="sudo fail2ban-client set sshd unbanip"
-alias whatsmyip="curl ifconfig.me"
+alias whatsmyip="curl -s ifconfig.me | tee >(pbcopy); echo ''"
 alias localip="ifconfig en0 inet | awk '{ if (\$1 ~/inet/) { print \$2} }'"
 alias uuid="uuidgen | awk '{print tolower(\$0)}' | tr -d '\n' | tee >(pbcopy) && echo ''"
 
