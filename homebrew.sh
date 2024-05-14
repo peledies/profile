@@ -38,21 +38,15 @@ function brewCaskInstall(){
 
 PACKAGES=(
     ack
-    ansible
     bat
     ctop
     diff-so-fancy
-    docker
-    docker-compose
     exa
-    fig
     fzf
     htop
     jq
     lastpass-cli
     lazydocker
-    newt
-    node@14
     tableplus
     terminal-notifier
     terraform
@@ -67,13 +61,7 @@ for p in ${PACKAGES[@]}; do
 done
 
 CASKS=(
-    google-chrome
-    alfred
     rectangle
-    spotify
-    visual-studio-code
-    session-manager-plugin
-    blackhole-2ch
 )
 
 for c in ${CASKS[@]}; do

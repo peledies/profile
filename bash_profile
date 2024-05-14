@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 export CLICOLOR=1
-export LSCOLORS=GxFxCxDxBxededabagadad
+export LSCOLORS=exFxcxdxbxegedabagacad
 export ANSIBLE_NOCOWS=1
 export HISTSIZE=5000
 
