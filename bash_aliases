@@ -3,7 +3,7 @@
 alias diff="diff -w"
 alias chrome='open -a "Google Chrome" --args --aggressive-cache-discard --disable-cache --disable-application-cache --disable-offline-load-stale-cache --disk-cache-size=0'
 alias chromeNoSSL='open -a "Google Chrome" --args --cipher-suite-blacklist=0x0088,0x0087,0x0039,0x0038,0x0044,0x0045,0x0066,0x0032,0x0033,0x0016,0x0013'
-alias serve="php -S localhost:8000 & open -a '/Applications/Google Chrome.app' 'http://localhost:8000'"
+alias serve="python3 -m http.server 8000 & open -a '/Applications/Google Chrome.app' 'http://localhost:8000'"
 alias pa="php artisan"
 alias pao="php artisan optimize"
 alias taglog="git for-each-ref --format '%(refname) %09 %(taggerdate) %(*subject) %(taggeremail)' refs/tags  --sort=taggerdate"
