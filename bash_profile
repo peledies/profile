@@ -70,3 +70,6 @@ HOMEBREW_NO_AUTO_UPDATE=1
 #TRAPALRM() {
 #    cmatrix -s
 #}
+
+# load all the config files in the .kube directory
+export KUBECONFIG=$(find ~/.kube -name 'config*' | sort | tr '\n' ':')
