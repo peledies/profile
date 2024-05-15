@@ -20,6 +20,7 @@ alias ap="ansible-playbook"
 alias av="ansible-vault"
 alias python="python3"
 alias pidown="ssh pihole 'sudo pihole disable 30s'"
+alias ss="source ~/.bash_profile"
 
 #### GIT Aliases #####
 alias gp="git push"
