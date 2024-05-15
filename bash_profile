@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 export CLICOLOR=1
-export LSCOLORS=GxFxCxDxBxededabagadad
+export LSCOLORS=exFxcxdxbxegedabagacad
 export ANSIBLE_NOCOWS=1
 export HISTSIZE=5000
 
@@ -70,3 +70,6 @@ HOMEBREW_NO_AUTO_UPDATE=1
 #TRAPALRM() {
 #    cmatrix -s
 #}
+
+# load all the config files in the .kube directory
+export KUBECONFIG=$(find ~/.kube -name 'config*' | sort | tr '\n' ':')

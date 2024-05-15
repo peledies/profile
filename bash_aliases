@@ -7,7 +7,6 @@ alias serve="python3 -m http.server 8000 & open -a '/Applications/Google Chrome.
 alias pa="php artisan"
 alias pao="php artisan optimize"
 alias taglog="git for-each-ref --format '%(refname) %09 %(taggerdate) %(*subject) %(taggeremail)' refs/tags  --sort=taggerdate"
-alias ls="exa"
 alias ll="ls -lah"
 alias dnsnuke="dscacheutil -flushcache; sudo killall -HUP mDNSResponder"
 alias say="say -v tessa"
@@ -21,6 +20,7 @@ alias ap="ansible-playbook"
 alias av="ansible-vault"
 alias python="python3"
 alias pidown="ssh pihole 'sudo pihole disable 30s'"
+alias ss="source ~/.bash_profile"
 
 #### GIT Aliases #####
 alias gp="git push"
