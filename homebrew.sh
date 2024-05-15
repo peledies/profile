@@ -54,6 +54,9 @@ PACKAGES=(
     tree
     watch
     yq
+    kubectl
+    k9s
+    helm
 )
 
 for p in ${PACKAGES[@]}; do
