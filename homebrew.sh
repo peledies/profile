@@ -56,6 +56,7 @@ PACKAGES=(
     kubectl
     k9s
     helm
+    macmediakeyforwarder
 )
 
 for p in ${PACKAGES[@]}; do
