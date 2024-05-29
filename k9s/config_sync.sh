@@ -18,5 +18,5 @@ do
   printf "%-40s %s\n" "$NAME" "${magenta}$ID${default}"
   CONFIG="$(lpass show $ID --notes)"
 
-  echo "$CONFIG" > $HOME/.kube/$NAME
+  echo "$CONFIG" > $HOME/.kube/config-$NAME
 done

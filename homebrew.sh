@@ -41,7 +41,6 @@ PACKAGES=(
     bat
     ctop
     diff-so-fancy
-    exa
     fzf
     htop
     jq
@@ -65,6 +64,7 @@ done
 
 CASKS=(
     rectangle
+    qlmarkdown
 )
 
 for c in ${CASKS[@]}; do
