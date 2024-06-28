@@ -515,5 +515,5 @@ function wake(){
 }
 
 function ktx_pull(){
-  lpass show Bandwidth/Kubernetes\ Config --notes > $HOME/.kube/config
+  ~/profile/k9s/config_sync.sh
 }
