@@ -513,7 +513,3 @@ unset -f wake
 function wake(){
   ssh $1 'caffeinate -u -t 1'
 }
-
-function ktx_pull(){
-  lpass show Bandwidth/Kubernetes\ Config --notes > $HOME/.kube/config
-}

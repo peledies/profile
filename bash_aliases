@@ -24,13 +24,16 @@ alias ss="source ~/.bash_profile"
 
 #### GIT Aliases #####
 alias gp="git push"
+alias gpl="git pull"
+alias gci="git commit"
+alias ga="git add"
 alias gcam="git commit -am"
 alias gitclean="git fetch -p && git branch -vv | awk '/: gone]/{print \$1}' | xargs git branch -d"
 
 #### Docker Aliases #####
 alias dstop='docker stop $(docker ps -q) 2>/dev/null'
-alias dc='docker-compose'
-alias dcl='docker-compose logs'
+alias dc='docker compose'
+alias dcl='docker compose logs'
 alias dclean='docker rm -v $(docker ps --filter status=exited -q 2>/dev/null) 2>/dev/null && docker rmi $(docker images --filter dangling=true -q 2>/dev/null) 2>/dev/null'
 alias dcps='docker ps --format="table {{.Names}}\t{{.Ports}}\t{{.Status}}\t{{.Networks}}"'
 alias dnuke="yes | docker system prune -a; yes | docker volume prune"
