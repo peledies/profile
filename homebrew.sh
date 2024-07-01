@@ -41,7 +41,6 @@ PACKAGES=(
     bat
     ctop
     diff-so-fancy
-    exa
     fzf
     htop
     jq
@@ -57,6 +56,7 @@ PACKAGES=(
     kubectl
     k9s
     helm
+    macmediakeyforwarder
 )
 
 for p in ${PACKAGES[@]}; do
@@ -65,6 +65,7 @@ done
 
 CASKS=(
     rectangle
+    qlmarkdown
 )
 
 for c in ${CASKS[@]}; do

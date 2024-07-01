@@ -513,3 +513,7 @@ unset -f wake
 function wake(){
   ssh $1 'caffeinate -u -t 1'
 }
+
+function ktx_pull(){
+  ~/profile/k9s/config_sync.sh
+}

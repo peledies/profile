@@ -53,7 +53,7 @@ export SCREENRC="~/.screenrc"
 
 # set the docker default platform for builds
 # export DOCKER_DEFAULT_PLATFORM=linux/amd64
-export DOCKER_DEFAULT_PLATFORM=linux/arm64
+# export DOCKER_DEFAULT_PLATFORM=linux/arm64
 
 # FZF configuration
 # To install useful key bindings and fuzzy completion:
