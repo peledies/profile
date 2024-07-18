@@ -71,3 +71,6 @@ alias snow=/Applications/SnowSQL.app/Contents/MacOS/snowsql
 #### Convenience Aliases ####
 alias ff="fzf"
 alias dsp="~/profile/utilities/display.sh"
+
+#### Helm Aliases ####
+alias helcat="cat -pp -l yaml"

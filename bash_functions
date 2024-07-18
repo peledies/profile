@@ -354,6 +354,9 @@ function ns(){
     echo -e "\n\n${cyan}PIHOLE 192.168.1.5 REPORTS${default}"
     nslookup -q=any $1 192.168.1.5
 
+        echo -e "\n\n${cyan}PIHOLE 192.168.1.53 REPORTS${default}"
+    nslookup -q=any $1 192.168.1.53
+
     echo -e "\n\n${cyan}GOOGLE 8.8.8.8 REPORTS${default}"
     nslookup -q=any $1 8.8.8.8
 
