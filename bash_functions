@@ -516,15 +516,3 @@ unset -f wake
 function wake(){
   ssh $1 'caffeinate -u -t 1'
 }
-
-function ktx_pull(){
-  ~/profile/k9s/config_sync.sh
-}
-
-function ktx_get(){
-  ~/profile/k9s/kubectl_get.sh
-}
-
-function ktx_use(){
-  ~/profile/k9s/kubectl_use.sh
-}

@@ -128,11 +128,30 @@ function kubectl_get() {
   chmod +x $symlink_path/kubectl
 }
 
+function kubectl_pull() {
+
+  # this is the "folder" in lastpass
+  NAMESPACE="kubernetes-configs"
+
+  IDS=$(lpass show -xjG '.*' | jq --raw-output '.[] | select( .group == "'$NAMESPACE'" ) | select(.url != "http://group" ) | .id')
+
+  echo -e "\n${cyan}Creating the following kube config files in ${magenta}$HOME/.kube${cyan}:${default}\n"
+
+  for ID in $IDS
+  do
+    NAME=$(lpass show $ID --name)
+    printf "%-40s %s\n" "$NAME" "${magenta}$ID${default}"
+    CONFIG="$(lpass show $ID --notes)"
+
+    echo "$CONFIG" > $HOME/.kube/config-$NAME
+  done
+}
+
 verify_path
 verify_symlink
 
 PS3="${cyan}Select an option: $gold"
-options=("Switch context" "Use kubectl version" "Get kubectl version")
+options=("Switch context" "Use kubectl version" "Get kubectl version" "Get config from lastpass")
 select opt in "${options[@]}"; do
   case $opt in
     "Switch context")
@@ -145,6 +164,10 @@ select opt in "${options[@]}"; do
       ;;
     "Get kubectl version")
       kubectl_get
+      break
+      ;;
+    "Get config from lastpass")
+      kubectl_pull
       break
       ;;
     "")
