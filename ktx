@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+# Author: Deac Karns
+# Date: 10/09/2024
+# Description: A simple script to switch between kubectl contexts and versions, and to download new versions of kubectl.
+
 red=$(tput setaf 1)
 gold=$(tput setaf 3)
 blue=$(tput setaf 4)
@@ -7,70 +11,144 @@ magenta=$(tput setaf 5)
 cyan=$(tput setaf 6)
 default=$(tput sgr0)
 
-# ensure kubectl is installed
-if ! hash kubectl 2>/dev/null
-then
-  echo "${red}You need kubectl installed${default}"
-  exit 0
-fi
+bin_dir=$HOME/.kube/kubectl/bin
 
-CONTEXTS=( $(kubectl config get-contexts | awk 'NR!=1''{print $2}') )
+symlink_dir=.kube/kubectl
+symlink_path=$HOME/$symlink_dir
 
-# If dialog is installed, use a GUI version
-if hash dialog 2>/dev/null; then
+echo "██╗  ██╗████████╗██╗  ██╗"
+echo "██║ ██╔╝╚══██╔══╝╚██╗██╔╝"
+echo "█████╔╝    ██║    ╚███╔╝ "
+echo "██╔═██╗    ██║    ██╔██╗ "
+echo "██║  ██╗   ██║   ██╔╝ ██╗"
+echo "╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝"
+echo -e "${gold}Kubectl Context Switcher\n\n${default}"
 
-  # we require bash >= 4 to use arrays
-  if [ "${BASH_VERSINFO:-0}" -le 4 ]
-  then
-    echo "${red}You need bash >= 4${default}"
-    exit 0
+function verify_path() {
+  if [[ ":$PATH:" != *":$symlink_path:"* ]]; then
+    echo -e "${red}The directory $symlink_path is not in your PATH.${default}"
+    echo -e "${gold}You need to add the following to your PATH:\n - ${magenta}\$HOME/$symlink_dir${default}"
+
+    kill -INT $$
   fi
+}
 
-  declare -a array
-
-  i=1 #Index counter for adding to array
-  j=1 #Option menu value generator
-
-  for line in "${CONTEXTS[@]}"
-  do
-    array[ $i ]=$j
-      (( j++ ))
-      array[ ($i + 1) ]=$line
-      (( i=($i+2) ))
-  done
-
-  #Define parameters for menu
-  TERMINAL=$(tty) #Gather current terminal session for appropriate redirection
-  HEIGHT=20
-  WIDTH=76
-  CHOICE_HEIGHT=${#CONTEXTS[@]}
-  TITLE="Kubectl Context Switcher"
-  MENU="Select Context:"
-
-  #Build the menu with variables & dynamic content
-  CHOICE=$(dialog --title "$TITLE" \
-                  --menu "$MENU" \
-                  $HEIGHT $WIDTH $CHOICE_HEIGHT \
-                  "${array[@]}" \
-                  2>&1 >$TERMINAL)
-
-  if [ ! -z "$CHOICE" ]
-  then
-    context="${CONTEXTS[$CHOICE - 1]}"
+function verify_symlink() {
+  if [ ! -L $symlink_path/kubectl ]; then
+    echo -e "${red}kubectl symlink does not exist. \nLets get you a version of kubectl${default}"
+    kubectl_get
+    kill -INT $$
   fi
-  clear
-else
-  PS3="${cyan}Select a kubectl context (q to quit): $gold"
+}
+
+function switch_context() {
+
+  CONTEXTS=( $(kubectl config get-contexts | awk 'NR!=1''{print $2}') )
+
+  echo -e "\n${gold}Select context to switch to:${default}"
+  PS3="${cyan}Select a kubectl context: $gold"
   select context in "${CONTEXTS[@]}"; do
     case "$context" in
-      "") break ;;  # This is a fake; any invalid entry makes $context=="", not just "q".
-      *) break ;;
+      "")
+        echo "${red}Invalid Option ${magenta}CTL + C to quit${default}"
+      ;;
+      *)
+        kubectl config use-context $context > /dev/null
+        echo "${gold}Kubectl Context switched to ${magenta}$context${default}"
+        break
+      ;;
     esac
   done
-fi
+}
 
-if [ ! -z "$context" ]
-then
-  kubectl config use-context $context > /dev/null
-  echo "${blue}Kubectl Context switched to [${magenta}$context${default}]"
-fi
+function kubectl_use() {
+
+  # Get the list of files in the bin directory and store them in an array.
+  files=("$bin_dir"/*)
+
+  # This script processes an array of file paths and modifies each element to retain only the file name,
+  # stripping away the directory path. The resulting array will contain just the base names of the files.
+  files=("${files[@]##*/}")
+
+  echo -e "\n${gold}Select kubectl version to use:${default}"
+  # Prompt the user to select a file from the array.
+  PS3="${cyan}Select installed version: $gold"
+  select file in "${files[@]}"; do
+    case "$file" in
+      "")
+        echo "${red}Invalid Option ${magenta}CTL + C to quit${default}"
+      ;;  # This is a fake; any invalid entry makes $context=="", not just "q".
+      *)
+        # update the symlink to point to the selected file
+        echo "kubectl set to version: ${magenta}$file${default}"
+        ln -nsf $bin_dir/${file} $symlink_path/kubectl
+        break
+      ;;
+    esac
+  done
+
+
+}
+
+function kubectl_get() {
+  read -p "${cyan}Enter the kubectl version to get: ${default}" version
+  echo "${magenta}You have selected kubectl version: ${version}${default}"
+
+  if [[ $(uname -m) == "x86_64" ]]; then
+    echo "${cyan}Detected architecture: amd64${default}"
+    arch="amd64"
+  elif [[ $(uname -m) == "arm64" ]]; then
+    echo "${cyan}Detected architecture: arm64${default}"
+    arch="arm64"
+  else
+    echo "${red}Unsupported architecture. Use amd64 or arm64${default}"
+    kill -INT $$
+  fi
+
+  if [[ $(uname) == "Darwin" ]]; then
+    echo "${cyan}Detected OS: macOS${default}"
+    os="darwin"
+  elif [[ $(uname) == "Linux" ]]; then
+    echo "${cyan}Detected OS: Linux${default}"
+    os="linux"
+  else
+    echo "${red}Unsupported OS. Use Mac or Linux${default}"
+    kill -INT $$
+  fi
+
+  mkdir -p $bin_dir
+
+  echo -e "${cyan}Downloading kubectl version: ${magenta}${version}${default}"
+  curl -Ls "https://dl.k8s.io/release/v${version}/bin/${os}/${arch}/kubectl" -o $bin_dir/v${version}
+
+  echo -e "${cyan}Creating symlink to kubectl version: ${magenta}${version}${default}"
+  ln -nsf $bin_dir/v${version} $symlink_path/kubectl
+
+  echo -e "${cyan}Setting execute permissions for kubectl${default}"
+  chmod +x $symlink_path/kubectl
+}
+
+verify_path
+verify_symlink
+
+PS3="${cyan}Select an option: $gold"
+options=("Switch context" "Use kubectl version" "Get kubectl version")
+select opt in "${options[@]}"; do
+  case $opt in
+    "Switch context")
+      switch_context
+      break
+      ;;
+    "Use kubectl version")
+      kubectl_use
+      break
+      ;;
+    "Get kubectl version")
+      kubectl_get
+      break
+      ;;
+    "")
+      echo "${red}Invalid Option ${magenta}CTL + C to quit${default}"
+      ;;
+  esac
+done

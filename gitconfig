@@ -39,7 +39,7 @@
 	autoSetupRemote = true
 [user]
 	name = Deac Karns
-	email = deac@pixelparasol.com
+	email = fkarns@bandwidth.com
 [pull]
         rebase = false
 [difftool "smerge"]
