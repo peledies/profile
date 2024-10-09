@@ -53,7 +53,6 @@ PACKAGES=(
     tree
     watch
     yq
-    kubectl
     k9s
     helm
     macmediakeyforwarder
