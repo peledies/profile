@@ -1,0 +1,2 @@
+pillow==11.0.0
+PyExifTool==0.5.6
