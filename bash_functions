@@ -53,12 +53,6 @@ k8s_context(){
 }
 export k8s_context
 
-unset -f ktx
-ktx(){
-  . $HOME/profile/ktx
-}
-export ktx
-
 unset -f color_hostname
 color_hostname() {
 
@@ -351,10 +345,8 @@ function ns(){
   fi
 
   if [ -n "$1" ];then
-    echo -e "\n\n${cyan}PIHOLE 192.168.1.5 REPORTS${default}"
-    nslookup -q=any $1 192.168.1.5
 
-        echo -e "\n\n${cyan}PIHOLE 192.168.1.53 REPORTS${default}"
+    echo -e "\n\n${cyan}PIHOLE 192.168.1.53 REPORTS${default}"
     nslookup -q=any $1 192.168.1.53
 
     echo -e "\n\n${cyan}GOOGLE 8.8.8.8 REPORTS${default}"
@@ -447,31 +439,6 @@ function exifshort(){
 
     echo "$MODEL + $LENS @ $FOCAL_LENGTH, ISO $ISO, $EXPOSURE seconds, f/$APERTURE, $DATE"
   fi
-}
-
-unset -f burnexif
-function burnexif(){
-  IN=$1
-  OUT=~/Desktop/burn.jpg
-  PAD=100
-  FONT_SIZE=32
-
-  PATH_IN=$(readlink -f $IN)
-  EXTENSION=${PATH_IN##*.}
-  PATH_OUT=${PATH_IN%.*}-processed.${EXTENSION}
-
-  echo -e "\nProcessing:\n  $PATH_IN"
-  echo -e "Output File:\n  $PATH_OUT"
-
-  ((LEFT=(0 + $PAD)))
-  ((RIGHT=$(identify -format '%w' $PATH_IN) - $PAD - 240))
-  ((BOTTOM=$(identify -format '%h' $PATH_IN) - $PAD))
-
-  STRING="$(exifshort $PATH_IN)"
-  echo -e "\nBurning exif data to image"
-  convert -pointsize $FONT_SIZE -fill yellow -draw "text 10,$BOTTOM '$STRING'" $PATH_IN $PATH_OUT
-  echo -e "\nBurning watermark to image"
-  convert -pointsize $FONT_SIZE -fill yellow -draw "text $RIGHT,$BOTTOM 'karnsonline.com'" $PATH_OUT $PATH_OUT
 }
 
 unset -f ssh-sync

@@ -16,18 +16,13 @@ gray=$(tput setaf 243)
 
 
 # LSCOLORS generator http://geoff.greer.fm/lscolors/
-export PATH=/usr/local/opt/node@14/bin:$PATH
-export PATH=/usr/local/sbin:$PATH
-export PATH=/usr/local/bin:$PATH
-export PATH=/usr/local/share/npm/bin:$PATH
-export PATH=~/.composer/vendor/bin:$PATH
-export PATH=~/Library/Python/2.7/bin/:$PATH
-export PATH=/usr/local/lib/python3.7/:$PATH
-export PATH=/opt/homebrew/bin:$PATH
-export PATH=$HOME/Library/Python/3.8/bin:$PATH
-export PATH=$HOME/.kube/kubectl:$PATH
-# export PATH=/opt/homebrew/opt/kubernetes-cli@1.22/bin:$PATH
-export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
+PATH=/usr/local/sbin:$PATH
+PATH=/usr/local/bin:$PATH
+PATH=/opt/homebrew/bin:$PATH # Silicon Macs
+PATH=$HOME/.kube/kubectl:$PATH # Kubectl versions installed with ktx
+PATH=$HOME/profile/bin:$PATH
+
+export PATH=$PATH
 
 # set the tab names for osx to the pwd
 PROMPT_COMMAND='echo -ne "\033]0;${PWD##*/}\007"'
@@ -52,10 +47,6 @@ export BASH_SILENCE_DEPRECATION_WARNING=1
 
 export SCREENRC="~/.screenrc"
 
-# set the docker default platform for builds
-# export DOCKER_DEFAULT_PLATFORM=linux/amd64
-# export DOCKER_DEFAULT_PLATFORM=linux/arm64
-
 # FZF configuration
 # To install useful key bindings and fuzzy completion:
 # $(brew --prefix)/opt/fzf/install
@@ -66,11 +57,6 @@ export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window down:3:hidden:wrap 
 # Homebrew Configuration
 HOMEBREW_NO_AUTO_UPDATE=1
 
-# Terminal timeout for cmatrix screensaver
-#OUT=120
-#TRAPALRM() {
-#    cmatrix -s
-#}
 
 # load all the config files in the .kube directory
 export KUBECONFIG=$(find ~/.kube -name 'config*' | sort | tr '\n' ':')
