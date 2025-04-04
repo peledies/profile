@@ -483,3 +483,16 @@ unset -f wake
 function wake(){
   ssh $1 'caffeinate -u -t 1'
 }
+
+unset -f b64d
+function b64d(){
+  if [ -z "$1" ];then
+    echo "${red}You must specify a base64 encoded string to decode.${default}"
+  fi
+
+  if [ -n "$1" ];then
+    echo "${cyan}[START] Base64 decoded Data${default}"
+    echo $1 | base64 --decode
+    echo "${cyan}[END] Base64 decoded Data${default}"
+  fi
+}

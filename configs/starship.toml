@@ -1,0 +1,43 @@
+format = '$directory$kubernetes$aws$git_branch$git_status$package$cmd_duration$line_break$character'
+command_timeout = 5000
+add_newline = true
+
+[aws]
+disabled = false
+format = ' [$symbol$profile]($style)'
+style = 'bold blue'
+symbol = '☁️ '
+
+[aws.profile_aliases]
+Insights-Glorg-Lab_PowerUser = 'Glorg-Lab'
+Insights-Glorg-Prod_PowerUser = 'Glorg-Prod'
+
+[cmd_duration]
+disabled = false
+min_time = 1000
+
+[git_branch]
+disabled = false
+symbol = " "
+format = " [$symbol$branch]($style)"
+style = "bold purple"
+
+[git_status]
+disabled = false
+format = ' ([\[$all_status$ahead_behind\]]($style))'
+
+[package]
+disabled = false
+format = ' [$symbol$version]($style) '
+
+[kubernetes]
+disabled = false
+symbol = "[☸](bold blue)"
+style = "green"
+format = '$symbol[$context]($style)'
+contexts = [
+  { context_pattern = ".*Prod.*", style = "red bold", context_alias = "Glorg-Prod" },
+  { context_pattern = ".*Lab.*", style = "blue bold", context_alias = "Glorg-Lab" },
+  { context_pattern = ".*Lab.*", style = "blue bold" },
+]
+
