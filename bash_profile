@@ -20,7 +20,7 @@ PATH=/usr/local/sbin:$PATH
 PATH=/usr/local/bin:$PATH
 PATH=/opt/homebrew/bin:$PATH # Silicon Macs
 PATH=$HOME/.kube/kubectl:$PATH # Kubectl versions installed with ktx
-PATH=$HOME/profile/bin:$PATH
+# PATH=$HOME/profile/bin:$PATH
 
 export PATH=$PATH
 
