@@ -1,4 +1,4 @@
-format = '$directory$kubernetes$aws$git_branch$git_status$package$cmd_duration$line_break$character'
+format = '$directory$kubernetes$aws$git_branch$git_status$package$cmd_duration$all$line_break$character'
 command_timeout = 5000
 add_newline = true
 
@@ -29,6 +29,9 @@ format = ' ([\[$all_status$ahead_behind\]]($style))'
 [package]
 disabled = false
 format = ' [$symbol$version]($style) '
+
+[helm]
+disabled = true
 
 [kubernetes]
 disabled = false
