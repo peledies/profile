@@ -24,9 +24,6 @@ PATH=$HOME/.kube/kubectl:$PATH # Kubectl versions installed with ktx
 
 export PATH=$PATH
 
-# set the tab names for osx to the pwd
-PROMPT_COMMAND='echo -ne "\033]0;${PWD##*/}\007"'
-
 #Git configuration stuff
 source ~/profile/git-completion.bash
 source ~/profile/git-prompt.sh
@@ -40,7 +37,8 @@ export VISUAL
 export VIRTUAL_ENV_DISABLE_PROMPT=1
 
 # export PS1='$(color_hostname)\[\033[00m\]:\[\033[01;33m\]\W\[\033]$(k8s_context)$(active_aws_profile)$(git_branch)$(git_dirty_status)\[\033[00m\]\n> '
-export PS1='$(color_hostname)${cyan}:${gold}\W$(k8s_context)$(active_aws_profile)$(git_branch)$(git_dirty_status)${default}\n> '
+# export PS1='$(color_hostname)${cyan}:${gold}\W$(k8s_context)$(active_aws_profile)$(git_branch)$(git_dirty_status)${default}\n> '
+eval "$(starship init bash)"
 
 # Silence the bash deprecation message
 export BASH_SILENCE_DEPRECATION_WARNING=1

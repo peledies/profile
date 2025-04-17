@@ -19,6 +19,11 @@ source ~/profile/bash_aliases
 fi
 ```
 
+Create an alias for the starship config
+```
+ln -nfs ~/profile/configs/starship.toml ~/.config/starship.toml
+```
+
 Create an alias for the gitconfig
 
 ```
