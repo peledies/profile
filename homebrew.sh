@@ -56,6 +56,7 @@ PACKAGES=(
     k9s
     helm
     macmediakeyforwarder
+    harlequin # TUI for Database
 )
 
 for p in ${PACKAGES[@]}; do

@@ -17,7 +17,10 @@ export HISTSIZE=5000
 PATH=/usr/local/sbin:$PATH
 PATH=/usr/local/bin:$PATH
 PATH=/opt/homebrew/bin:$PATH # Silicon Macs
-PATH=$HOME/.kube/kubectl:$PATH # Kubectl versions installed with ktx
+PATH="/opt/homebrew/opt/ruby/bin:$PATH" # Ruby installed with Homebrew
+PATH="$(gem env home)/bin:$PATH" # gem install binaries
+PATH="/usr/local/go/bin/:$PATH" # Go installed with its installer
+PATH="~/.volta/bin/":$PATH # volta global installs
 # PATH=$HOME/profile/bin:$PATH
 
 export PATH=$PATH
