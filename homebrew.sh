@@ -36,27 +36,37 @@ function brewCaskInstall(){
     fi
 }
 
+FORMULAE=(
+    peledies/formulae
+)
+for f in ${FORMULAE[@]}; do
+  brew tap $f
+done
+
 PACKAGES=(
     ack
     bat
     ctop
     diff-so-fancy
     fzf
+    git
+    harlequin # TUI for Database
+    helm
     htop
     jq
+    k9s
+    ktx
     lastpass-cli
     lazydocker
+    macmediakeyforwarder
     tableplus
     terminal-notifier
     terraform
     tldr
     tree
+    volta
     watch
     yq
-    k9s
-    helm
-    macmediakeyforwarder
-    harlequin # TUI for Database
 )
 
 for p in ${PACKAGES[@]}; do
@@ -66,15 +76,9 @@ done
 CASKS=(
     rectangle
     qlmarkdown
+    maccy
 )
 
 for c in ${CASKS[@]}; do
   brewCaskInstall $c
 done
-
-# Set up diff-so-fancy
-git config --global core.pager "diff-so-fancy | less --tabs=4 -RFX"
-
-# Install AWS CLI 2.x
-curl -s "https://awscli.amazonaws.com/AWSCLIV2.pkg" -o "AWSCLIV2.pkg"
-sudo installer -pkg AWSCLIV2.pkg -target /
