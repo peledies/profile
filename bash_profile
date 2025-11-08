@@ -25,10 +25,6 @@ PATH="~/.volta/bin/":$PATH # volta global installs
 
 export PATH=$PATH
 
-#Git configuration stuff
-# source ~/profile/git-completion.bash
-# source ~/profile/git-prompt.sh
-
 #Editor config
 EDITOR='vi'
 export EDITOR
@@ -42,9 +38,8 @@ export VIRTUAL_ENV_DISABLE_PROMPT=1
 
 echo "Launching Starship"
 eval "$(starship init bash)"
+
 # FZF configuration
-# To install useful key bindings and fuzzy completion:
-# $(brew --prefix)/opt/fzf/install
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 export FZF_CTRL_T_OPTS="--preview 'bat {} --style=numbers --color=always' --height=75% --bind '?:toggle-preview'"
 export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window down:3:hidden:wrap --bind '?:toggle-preview'"

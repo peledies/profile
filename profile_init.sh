@@ -58,7 +58,7 @@ else
     echo -e "\n${green} ✓ ${cyan}InShellIsense already installed${default}\n"
 fi
 
-
+# write bash_profile to use the profile configs
 echo "##### Enable bash_profile ###########
 if [ -f $HOME/profile/bash_profile ]; then
 source $HOME/profile/bash_profile
@@ -74,7 +74,13 @@ if [ -f $HOME/profile/bash_aliases ]; then
 source $HOME/profile/bash_aliases
 fi" > $HOME/.bash_profile
 
+
+# Run homebrew setup script
 bash $HOME/profile/homebrew.sh
+
+# configure fzf
+echo -e "\n${green} ✓ ${cyan}Configure fzf keybindings ${default}\n"
+/opt/homebrew/opt/fzf/install --key-bindings --completion --no-update-rc --no-zsh --no-fish > /dev/null
 
 # Create .config directory if it doesn't exist
 if [ ! -d "$HOME/.config" ]; then
