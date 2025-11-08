@@ -1,4 +1,5 @@
-#!/bin/bash
+#!/usr/bin/env bash
+
 green=$(tput setaf 2)
 gold=$(tput setaf 3)
 magenta=$(tput setaf 5)
@@ -7,7 +8,6 @@ red=$(tput setaf 1)
 default=$(tput sgr0)
 gray=$(tput setaf 243)
 
-
 #install homebrew
 if hash brew 2>/dev/null; then
     echo ""
@@ -15,7 +15,6 @@ else
     echo -e "\n${red}Homebrew not found.\n'${cyan}Installing Homebrew${default}'"
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 fi
-
 
 # switch to bash prompt only if not already bash
 if [ "$SHELL" != "/bin/bash" ]; then
@@ -29,12 +28,15 @@ open https://www.google.com/chrome/browser-tools/
 echo -e "\n${green} ✓ ${cyan}Opening lastpass vault URL${default}\n"
 open https://lastpass.com/login/?lpnorefresh=1
 
-
 # remove xcode-select
-# TODO: need to prompt here
-# TODO: need to see if dir exists first (idempotent)
-#rm -rf /Library/Developer/CommandLineTools 
+if [ -d /Library/Developer/CommandLineTools ]; then
+    echo -e "\n${green} ✓ ${cyan}Removing /Library/Developer/CommandLineTools directory${default}\n"
+    sudo rm -rf /Library/Developer/CommandLineTools
+else
+    echo -e "\n${green} ✓ ${cyan}/Library/Developer/CommandLineTools does not exist.${default}\n"
+fi
 
+# Clone profile repository if it doesn't exist
 if [ ! -d $HOME/profile ]; then
     echo -e "\n${green} ✓ ${cyan}Cloning profile repository${default}\n"
     git clone https://github.com/peledies/profile.git $HOME/profile
@@ -102,7 +104,6 @@ else
     echo -e "\n${green} ✓ ${cyan}AWS CLI v2 already installed${default}\n"
 fi
 
-
 # Install Node.js via Volta if not already installed
 if ! command -v node &> /dev/null; then
     echo -e "\n${green} ✓ ${cyan}Installing Node.js v22 via Volta${default}\n"
@@ -118,7 +119,6 @@ if [ ! -d $HOME/.kube ]; then
 else
     echo -e "\n${green} ✓ ${cyan}.kube directory already exists${default}\n"
 fi
-
 
 # Create symlinks if they don't already exist
 if [ ! -e $HOME/.config/starship.toml ] || [ ! -L $HOME/.config/starship.toml ]; then
