@@ -28,13 +28,6 @@ open https://www.google.com/chrome/browser-tools/
 echo -e "\n${green} ✓ ${cyan}Opening lastpass vault URL${default}\n"
 open https://lastpass.com/login/?lpnorefresh=1
 
-# remove xcode-select
-if [ -d /Library/Developer/CommandLineTools ]; then
-    echo -e "\n${green} ✓ ${cyan}Removing /Library/Developer/CommandLineTools directory${default}\n"
-    sudo rm -rf /Library/Developer/CommandLineTools
-else
-    echo -e "\n${green} ✓ ${cyan}/Library/Developer/CommandLineTools does not exist.${default}\n"
-fi
 
 # Clone profile repository if it doesn't exist
 if [ ! -d $HOME/profile ]; then
