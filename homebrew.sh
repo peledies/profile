@@ -77,6 +77,7 @@ CASKS=(
     rectangle
     qlmarkdown
     maccy
+    rancher-desktop
 )
 
 for c in ${CASKS[@]}; do
