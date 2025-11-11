@@ -58,8 +58,6 @@ PACKAGES=(
     ktx
     lastpass-cli
     lazydocker
-    macmediakeyforwarder
-    tableplus
     terminal-notifier
     terraform
     tldr
@@ -74,10 +72,12 @@ for p in ${PACKAGES[@]}; do
 done
 
 CASKS=(
-    rectangle
-    qlmarkdown
     maccy
-    rancher-desktop
+    macmediakeyforwarder
+    qlmarkdown
+    rancher
+    rectangle
+    tableplus
 )
 
 for c in ${CASKS[@]}; do

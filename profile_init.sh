@@ -176,4 +176,20 @@ else
     echo -e "\n${green} ✓ ${cyan}SSH config already exists${default}\n"
 fi
 
+open /Applications/Rancher\ Desktop.app
+
+# wait for rancher desktop to start
+echo -e "\n${green} ✓ ${cyan}Waiting for Rancher Desktop to start...${default}\n"
+
+while ! docker info &> /dev/null; do
+    echo -e "${gray}Waiting for Docker to be available...${default}"
+    sleep 2
+done
+echo -e "\n${green} ✓ ${cyan}Docker is now available${default}\n"
+
+# Set up Docker Buildx for multi-architecture builds
+echo -e "\n${green} ✓ ${cyan}Setting up Docker Buildx for multi-architecture builds${default}\n"
+docker buildx create --name multiarch --driver docker-container --use --bootstrap
+echo -e "\n${green} ✓ ${cyan}Docker Buildx setup complete${default}\n"
+
 echo "${gold}OPEN A NEW TERMINAL NOW${default}"
