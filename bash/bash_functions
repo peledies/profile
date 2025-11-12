@@ -402,10 +402,10 @@ function loop(){
   done
 }
 
-#################
-# DTN functions #
-#################
-source ~/profile/work_helpers
+##################
+# Work functions #
+##################
+source ~/profile/bash/bash_functions_work
 
 #########################
 # Photography functions #

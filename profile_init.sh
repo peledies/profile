@@ -55,18 +55,18 @@ fi
 
 # write bash_profile to use the profile configs
 echo "##### Enable bash_profile ###########
-if [ -f $HOME/profile/bash_profile ]; then
-source $HOME/profile/bash_profile
+if [ -f $HOME/profile/bash/bash_profile ]; then
+source $HOME/profile/bash/bash_profile
 fi
 
 ##### Enable bash_functions ###########
-if [ -f $HOME/profile/bash_functions ]; then
-source $HOME/profile/bash_functions
+if [ -f $HOME/profile/bash/bash_functions ]; then
+source $HOME/profile/bash/bash_functions
 fi
 
 ##### Enable bash_aliases ###########
-if [ -f $HOME/profile/bash_aliases ]; then
-source $HOME/profile/bash_aliases
+if [ -f $HOME/profile/bash/bash_aliases ]; then
+source $HOME/profile/bash/bash_aliases
 fi" > $HOME/.bash_profile
 
 
@@ -113,53 +113,35 @@ else
     echo -e "\n${green} ✓ ${cyan}.kube directory already exists${default}\n"
 fi
 
-# Create symlinks if they don't already exist
-if [ ! -e $HOME/.config/starship.toml ] || [ ! -L $HOME/.config/starship.toml ]; then
-    echo -e "\n${green} ✓ ${cyan}Creating symlink for starship.toml${default}\n"
-    ln -nfs $HOME/profile/configs/starship.toml $HOME/.config/starship.toml
-else
-    echo -e "\n${green} ✓ ${cyan}starship.toml symlink already exists${default}\n"
-fi
+# Create symlink for starship
+echo -e "\n${green} ✓ ${cyan}Creating symlink for starship.toml${default}\n"
+ln -nfs $HOME/profile/configs/starship/starship.toml $HOME/.config/starship.toml
 
 # Create symlink for gitconfig
-if [ ! -e $HOME/.gitconfig ] || [ ! -L $HOME/.gitconfig ]; then
-    echo -e "\n${green} ✓ ${cyan}Creating symlink for gitconfig${default}\n"
-    ln -nfs $HOME/profile/gitconfig $HOME/.gitconfig
-else
-    echo -e "\n${green} ✓ ${cyan}gitconfig symlink already exists${default}\n"
-fi
+echo -e "\n${green} ✓ ${cyan}Creating symlink for gitconfig${default}\n"
+ln -nfs $HOME/profile/configs/git/gitconfig $HOME/.gitconfig
 
 # Create symlink for gitignore_global
-if [ ! -e $HOME/.gitignore_global ] || [ ! -L $HOME/.gitignore_global ]; then
-    echo -e "\n${green} ✓ ${cyan}Creating symlink for gitignore_global${default}\n"
-    ln -nfs $HOME/profile/gitignore_global $HOME/.gitignore_global
-else
-    echo -e "\n${green} ✓ ${cyan}gitignore_global symlink already exists${default}\n"
-fi
+echo -e "\n${green} ✓ ${cyan}Creating symlink for gitignore_global${default}\n"
+ln -nfs $HOME/profile/configs/git/gitignore_global $HOME/.gitignore_global
+
 
 # Create symlink for vimrc
-if [ ! -e $HOME/.vimrc ] || [ ! -L $HOME/.vimrc ]; then
-    echo -e "\n${green} ✓ ${cyan}Creating symlink for vimrc${default}\n"
-    ln -nfs $HOME/profile/vimrc $HOME/.vimrc
-else
-    echo -e "\n${green} ✓ ${cyan}vimrc symlink already exists${default}\n"
-fi
+echo -e "\n${green} ✓ ${cyan}Creating symlink for vimrc${default}\n"
+ln -nfs $HOME/profile/configs/vim/vimrc $HOME/.vimrc
 
 # Create symlink for vim directory
-if [ ! -e $HOME/.vim ] || [ ! -L $HOME/.vim ]; then
-    echo -e "\n${green} ✓ ${cyan}Creating symlink for vim directory${default}\n"
-    ln -nfs $HOME/profile/vim $HOME/.vim
-else
-    echo -e "\n${green} ✓ ${cyan}vim directory symlink already exists${default}\n"
-fi
+echo -e "\n${green} ✓ ${cyan}Creating symlink for vim directory${default}\n"
+ln -nfs $HOME/profile/configs/vim $HOME/.vim
 
 # Create symlink for fzf
-if [ ! -e $HOME/.fzf ] || [ ! -L $HOME/.fzf ]; then
-    echo -e "\n${green} ✓ ${cyan}Creating symlink for fzf${default}\n"
-    ln -nfs $HOME/profile/fzf $HOME/.fzf
-else
-    echo -e "\n${green} ✓ ${cyan}fzf symlink already exists${default}\n"
-fi
+echo -e "\n${green} ✓ ${cyan}Creating symlink for fzf${default}\n"
+ln -nfs $HOME/profile/configs/fzf $HOME/.fzf
+
+# create symlink to k9s config
+echo -e "\n${green} ✓ ${cyan}Creating symlink for k9s config${default}\n"
+ln -nfs $HOME/profile/configs/k9s $HOME/.config/k9s
+
 
 # Create SSH config if it doesn't exist
 if [ ! -f $HOME/.ssh/config ]; then

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # This script grabs ssh keys stored in the .ssh/config.d directory, encrypts them and adds them to this repo
 

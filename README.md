@@ -7,7 +7,7 @@ curl -sL https://raw.githubusercontent.com/peledies/profile/master/profile_init.
 
 
 
-## Environment Install
+## Homebrew Install
 
 > Run the homebrew shell script directly if thats all you need
 

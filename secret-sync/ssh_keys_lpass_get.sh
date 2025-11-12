@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # This script grabs ssh keys stored in lastpass and sets them up on the machine
 

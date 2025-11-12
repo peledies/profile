@@ -1,5 +1,4 @@
-#!/bin/bash
-
+#!/usr/bin/env bash
 PROJECT_ROOT=$(pwd)
 
 green=$(tput setaf 2)

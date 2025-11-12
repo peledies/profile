@@ -1,0 +1,20 @@
+#--- Create busybox debug pod in same namespace and node as selected pod
+plugins:
+  debug:
+    shortCut: Shift-D
+    description: Create Debug Pod
+    dangerous: true
+    scopes:
+      - pods
+    command: bash
+    background: false
+    args:
+      - -c
+      - |
+        NODE=$(kubectl get pod $NAME -n $NAMESPACE -o jsonpath='{.spec.nodeName}')
+        kubectl run debug-busybox-$RANDOM \
+          --namespace $NAMESPACE \
+          --image=busybox \
+          --restart=Never \
+          --overrides="{\"spec\":{\"nodeName\":\"$NODE\"}}" \
+          -- /bin/sh -c "sleep infinity"

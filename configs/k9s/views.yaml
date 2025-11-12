@@ -1,0 +1,14 @@
+views:
+  v1/pods:
+    sortColumn: NAMESPACE:asc
+    columns:
+      - NAMESPACE
+      - NAME
+      - AGE
+
+  argoproj.io/v1alpha1/rollouts:
+    columns:
+      - NAME
+      - STRATEGY:.spec.strategy|keys|.[0]|W
+      - STATUS:.status.phase|W
+      - SERVICE_ACCOUNT:.spec.template.spec.serviceAccountName|W

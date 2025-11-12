@@ -1,12 +1,9 @@
-#!/bin/bash
+#!/usr/bin/env bash
+
 green=$(tput setaf 2)
-gold=$(tput setaf 3)
-magenta=$(tput setaf 5)
 cyan=$(tput setaf 6)
 red=$(tput setaf 1)
 default=$(tput sgr0)
-gray=$(tput setaf 243)
-
 
 if hash brew 2>/dev/null; then
     echo ""
@@ -39,12 +36,14 @@ function brewCaskInstall(){
 FORMULAE=(
     peledies/formulae
 )
+
 for f in ${FORMULAE[@]}; do
   brew tap $f
 done
 
 PACKAGES=(
     ack
+    bash
     bat
     ctop
     diff-so-fancy
@@ -53,6 +52,7 @@ PACKAGES=(
     harlequin # TUI for Database
     helm
     htop
+    ipcalc
     jq
     k9s
     ktx
@@ -72,14 +72,24 @@ for p in ${PACKAGES[@]}; do
 done
 
 CASKS=(
+    bruno
     maccy
     macmediakeyforwarder
     qlmarkdown
     rancher
     rectangle
     tableplus
+    visual-studio-code
 )
 
 for c in ${CASKS[@]}; do
   brewCaskInstall $c
+done
+
+LINKS=(
+    bash
+)
+
+for l in ${LINKS[@]}; do
+  brew link $l
 done

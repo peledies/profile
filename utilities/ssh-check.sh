@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 function notify() {
     /usr/local/bin/terminal-notifier -title "SSH Heartbeat Check" -message "$1"

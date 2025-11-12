@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 info_box() {
   NUM=$((${#1} + 4))

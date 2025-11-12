@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 #OktaAWSCLI
 if [[ -d "$HOME/.okta_bw/bin" && ":$PATH:" != *":$HOME/.okta_bw/bin:"* ]]; then

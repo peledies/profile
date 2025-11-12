@@ -1,5 +1,4 @@
-#!/bin/bash
-
+#!/usr/bin/env bash
 # This script decrypts ssh configs in this repo and puts them in place on the machine
 
 SSH_CONFIG_PATH="$HOME/.ssh/config.d/"

@@ -1,0 +1,56 @@
+[color]
+        ui = true
+[merge]
+        ff = true
+[alias]
+        co = checkout
+        ci = commit
+        st = status
+        br = branch
+        tree = log --graph --abbrev-commit --decorate --all
+        today = log --since=midnight
+        yesterday = log --since=yesterday.midnight --before=yesterday.11:59pm
+        unstage = reset HEAD --
+[color]
+        branch = auto
+        diff = auto
+        status = auto
+[color "branch"]
+        current = magenta
+        local = yellow
+        remote = cyan
+[color "diff"]
+        meta = yellow
+        frag = magenta
+        old = red
+        new = cyan
+[color "status"]
+        added = yellow
+        changed = green
+        untracked = cyan
+[core]
+	attributesFile = ~/.gitattributes
+        excludesfile = ~/.gitignore_global
+        ignorecase = false
+	pager = diff-so-fancy | less --tabs=4 -RFX
+        hooksPath = ~/profile/git/hooks
+	autocrlf = false
+[push]
+        default = current
+	autoSetupRemote = true
+[user]
+	name = Deac Karns
+	email = fkarns@bandwidth.com
+[pull]
+        rebase = false
+[difftool "smerge"]
+        cmd = smerge \"$BASE\" \"$LOCAL\" \"$REMOTE\"
+[diff]
+        tool = smerge
+[mergetool "smerge"]
+        cmd = smerge mergetool \"$BASE\" \"$LOCAL\" \"$REMOTE\" -o \"$MERGED\"
+        trustExitCode = true
+[url "git@github.com:"]
+	insteadOf = https://github.com/
+[init]
+	defaultBranch = main
