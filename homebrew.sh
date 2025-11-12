@@ -78,6 +78,7 @@ CASKS=(
     qlmarkdown
     rancher
     rectangle
+    slack
     tableplus
     visual-studio-code
 )

@@ -20,7 +20,8 @@ PATH=/opt/homebrew/bin:$PATH # Silicon Macs
 PATH="/opt/homebrew/opt/ruby/bin:$PATH" # Ruby installed with Homebrew
 PATH="$(gem env home)/bin:$PATH" # gem install binaries
 PATH="/usr/local/go/bin/:$PATH" # Go installed with its installer
-PATH="~/.volta/bin/":$PATH # volta global installs
+PATH="$HOME/.volta/bin/":$PATH # volta global installs
+PATH="$HOME/.rd/bin:$PATH" # Rancher Desktop binaries
 # PATH=$HOME/profile/bin:$PATH
 
 export PATH=$PATH
@@ -40,14 +41,14 @@ echo "Launching Starship"
 eval "$(starship init bash)"
 
 # FZF configuration
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+[ -f $HOME/.fzf.bash ] && source $HOME/.fzf.bash
 export FZF_CTRL_T_OPTS="--preview 'bat {} --style=numbers --color=always' --height=75% --bind '?:toggle-preview'"
 export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window down:3:hidden:wrap --bind '?:toggle-preview'"
 
 # Silence the bash deprecation message
 export BASH_SILENCE_DEPRECATION_WARNING=1
 
-export SCREENRC="~/.screenrc"
+export SCREENRC="$HOME/.screenrc"
 
 # Homebrew Configuration
 HOMEBREW_NO_AUTO_UPDATE=1
@@ -57,7 +58,7 @@ export XDG_CONFIG_HOME=$HOME/.config
 
 # load all the config files in the .kube directory
 echo "Loading KUBECONFIGS"
-export KUBECONFIG=$(find ~/.kube -name 'config*' | sort | tr '\n' ':')
+export KUBECONFIG=$(find $HOME/.kube -name 'config*' | sort | tr '\n' ':')
 
 echo "Launching Inshellisense"
 # Inshellisense configuration
