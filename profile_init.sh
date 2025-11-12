@@ -55,18 +55,18 @@ fi
 
 # write bash_profile to use the profile configs
 echo "##### Enable bash_profile ###########
-if [ -f $HOME/profile/bash/bash_profile ]; then
-source $HOME/profile/bash/bash_profile
+if [ -f \$HOME/profile/bash/bash_profile ]; then
+source \$HOME/profile/bash/bash_profile
 fi
 
 ##### Enable bash_functions ###########
-if [ -f $HOME/profile/bash/bash_functions ]; then
-source $HOME/profile/bash/bash_functions
+if [ -f \$HOME/profile/bash/bash_functions ]; then
+source \$HOME/profile/bash/bash_functions
 fi
 
 ##### Enable bash_aliases ###########
-if [ -f $HOME/profile/bash/bash_aliases ]; then
-source $HOME/profile/bash/bash_aliases
+if [ -f \$HOME/profile/bash/bash_aliases ]; then
+source \$HOME/profile/bash/bash_aliases
 fi" > $HOME/.bash_profile
 
 
