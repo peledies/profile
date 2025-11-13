@@ -171,6 +171,9 @@ echo -e "\n${green} ✓ ${cyan}Setting up Docker Buildx for multi-architecture b
 docker buildx create --name multiarch --driver docker-container --use --bootstrap
 echo -e "\n${green} ✓ ${cyan}Docker Buildx setup complete${default}\n"
 
+# create symlink to ranchers docker sock
+echo -e "\n${green} ✓ ${cyan}Creating symlink for Rancher Desktop Docker socket${default}\n"
+sudo ln -nfs $HOME/.rd/docker.sock /var/run/docker.sock
 
 # Run gitconfig setup script
 bash $HOME/profile/gitconfig.sh
