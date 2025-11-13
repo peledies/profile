@@ -56,10 +56,6 @@ HOMEBREW_NO_AUTO_UPDATE=1
 # XDG Base Directory Specification
 export XDG_CONFIG_HOME=$HOME/.config
 
-# load all the config files in the .kube directory
-echo "Loading KUBECONFIGS"
-export KUBECONFIG=$(find $HOME/.kube -name 'config*' | sort | tr '\n' ':')
-
 echo "Launching Inshellisense"
 # Inshellisense configuration
 # npm install -g @microsoft/inshellisense

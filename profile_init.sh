@@ -95,8 +95,6 @@ else
     echo -e "\n${green} ✓ ${cyan}.config directory already exists${default}\n"
 fi
 
-# Set up diff-so-fancy
-git config --global core.pager "diff-so-fancy | less --tabs=4 -RFX"
 
 # Install AWS CLI 2.x
 if ! command -v aws &> /dev/null || ! aws --version 2>&1 | grep -q "aws-cli/2"; then
@@ -126,10 +124,6 @@ fi
 # Create symlink for starship
 echo -e "\n${green} ✓ ${cyan}Creating symlink for starship.toml${default}\n"
 ln -nfs $HOME/profile/configs/starship/starship.toml $HOME/.config/starship.toml
-
-# Create symlink for gitconfig
-echo -e "\n${green} ✓ ${cyan}Creating symlink for gitconfig${default}\n"
-ln -nfs $HOME/profile/configs/git/gitconfig $HOME/.gitconfig
 
 # Create symlink for gitignore_global
 echo -e "\n${green} ✓ ${cyan}Creating symlink for gitignore_global${default}\n"
@@ -176,5 +170,9 @@ echo -e "\n${green} ✓ ${cyan}Docker is now available${default}\n"
 echo -e "\n${green} ✓ ${cyan}Setting up Docker Buildx for multi-architecture builds${default}\n"
 docker buildx create --name multiarch --driver docker-container --use --bootstrap
 echo -e "\n${green} ✓ ${cyan}Docker Buildx setup complete${default}\n"
+
+
+# Run gitconfig setup script
+bash $HOME/profile/gitconfig.sh
 
 echo "${gold}OPEN A NEW TERMINAL NOW${default}"

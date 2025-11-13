@@ -58,6 +58,7 @@ PACKAGES=(
     ktx
     lastpass-cli
     lazydocker
+    obsidian
     terminal-notifier
     terraform
     tldr
