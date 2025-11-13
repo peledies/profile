@@ -8,6 +8,16 @@ red=$(tput setaf 1)
 default=$(tput sgr0)
 gray=$(tput setaf 243)
 
+
+# Install Xcode Command Line Tools if not already installed
+if ! xcode-select -p &> /dev/null; then
+    echo -e "\n${green} ✓ ${cyan}Installing Xcode Command Line Tools${default}\n"
+    xcode-select --install
+else
+    echo -e "\n${green} ✓ ${cyan}Xcode Command Line Tools already installed${default}\n"
+fi
+
+
 #install homebrew
 if hash brew 2>/dev/null; then
     echo ""
