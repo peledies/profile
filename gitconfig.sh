@@ -61,6 +61,7 @@ git config --global alias.co checkout
 git config --global alias.ci commit
 git config --global alias.st status
 git config --global alias.br branch
+git config --global alias.noop "commit --allow-empty -m 'No-op commit'"
 git config --global alias.tree "log --graph --abbrev-commit --decorate --all"
 git config --global alias.today "log --since=midnight"
 git config --global alias.yesterday "log --since=yesterday.midnight --before=yesterday.11:59pm"
