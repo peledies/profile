@@ -1,5 +1,12 @@
 # Setup fzf
-# ---------
+red="\033[31m"
+green="\033[32m"
+gold="\033[33m"
+blue="\033[34m"
+magenta="\033[35m"
+cyan="\033[36m"
+white="\033[37m"
+default="\033[0m"
 
 echo "Configuring FZF"
 
@@ -23,19 +30,30 @@ export FZF_COMPLETION_DIR_OPTS='--walker dir,follow'
 # Use Tab for trigger sequence instead of the default '**'
 export FZF_COMPLETION_TRIGGER=''
 
+export FZF_DEFAULT_OPTS='--bind tab:down --cycle'
+
+eval "$(fzf --bash)"
+
+# Advanced customization of fzf options via _fzf_comprun function
+# - The first argument to the function is the name of the command.
+# - You should make sure to pass the rest of the arguments ($@) to fzf.
 _fzf_comprun() {
   local command=$1
   shift
 
   case "$command" in
-    cd)           fzf "$@" --preview 'tree -C {} | head -200' ;;
-    *)            fzf "$@" ;;
+    cd)           fzf --preview 'tree -C {} | head -200'   "$@" ;;
+    export|unset) fzf --preview "eval 'echo \$'{}"         "$@" ;;
+    *)            fzf --preview 'bat -n --color=always {}' "$@" ;;
   esac
 }
+
+# ssh FZF completion
+[ -f $HOME/profile/fzf-completions/ssh.sh ] && source $HOME/profile/fzf-completions/ssh.sh
+
 
 # kubectl FZF completion
 # [ -f $HOME/profile/fzf-completions/kubectl.sh ] && source $HOME/profile/fzf-completions/kubectl.sh
 
 # git branch FZF completion
 # [ -f $HOME/profile/fzf-completions/git.sh ] && source $HOME/profile/fzf-completions/git.sh
-eval "$(fzf --bash)"
