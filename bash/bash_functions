@@ -496,3 +496,7 @@ function bd(){
     echo "${cyan}[END] Base64 decoded Data${default}"
   fi
 }
+
+function fgrep(){
+  grep -rl "$1" . | sort -r | fzf --preview "grep -n --color=always '$1' {}"
+}
