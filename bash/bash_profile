@@ -4,6 +4,10 @@ export LSCOLORS=exFxcxdxbxegedabagacad
 export ANSIBLE_NOCOWS=1
 export HISTSIZE=5000
 
+if [[ -f $HOME/.bashrc ]]; then
+  source $HOME/.bashrc
+fi
+
 # red=$(tput setaf 1)
 # green=$(tput setaf 2)
 # gold=$(tput setaf 3)
@@ -45,6 +49,24 @@ eval "$(starship init bash)"
 export FZF_CTRL_T_OPTS="--preview 'bat {} --style=numbers --color=always' --height=75% --bind '?:toggle-preview'"
 export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window down:3:hidden:wrap --bind '?:toggle-preview'"
 
+# Options to fzf command
+export FZF_COMPLETION_OPTS='--border --info=inline'
+
+# Options for path completion (e.g. vim **<TAB>)
+export FZF_COMPLETION_PATH_OPTS='--walker file,dir,follow,hidden'
+
+# Options for directory completion (e.g. cd **<TAB>)
+export FZF_COMPLETION_DIR_OPTS='--walker dir,follow'
+
+# Use Tab for trigger sequence instead of the default '**'
+export FZF_COMPLETION_TRIGGER=''
+
+# kubectl FZF completion
+# [ -f $HOME/profile/fzf-completions/kubectl.sh ] && source $HOME/profile/fzf-completions/kubectl.sh
+
+# git branch FZF completion
+# [ -f $HOME/profile/fzf-completions/git.sh ] && source $HOME/profile/fzf-completions/git.sh
+
 # Silence the bash deprecation message
 export BASH_SILENCE_DEPRECATION_WARNING=1
 
@@ -56,7 +78,8 @@ HOMEBREW_NO_AUTO_UPDATE=1
 # XDG Base Directory Specification
 export XDG_CONFIG_HOME=$HOME/.config
 
-echo "Launching Inshellisense"
-# Inshellisense configuration
-# npm install -g @microsoft/inshellisense
-is -s bash --login
+# echo "Launching Inshellisense"
+
+# # Inshellisense configuration
+# # npm install -g @microsoft/inshellisense
+# is -s bash --login
