@@ -497,6 +497,6 @@ function bd(){
   fi
 }
 
-function fgrep(){
+function fzg(){
   grep -rl "$1" . | sort -r | fzf --preview "grep -n --color=always '$1' {}"
 }
