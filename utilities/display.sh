@@ -117,8 +117,8 @@ function half() {
   echo -e "${green}✓${default} Applying Half Screen Mode (2560x1440 @ ${current_hz}Hz)"
 
   "$DISPLAYPLACER" \
-    "id:$external_id res:2560x1440 hz:$current_hz color_depth:8 enabled:true scaling:off origin:(0,0) degree:0" \
-    "id:$builtin_id res:$builtin_res hz:$builtin_hz color_depth:8 enabled:true scaling:on origin:(2560,140) degree:0"
+    "id:$builtin_id res:$builtin_res hz:$builtin_hz color_depth:8 enabled:true scaling:on origin:(0,0) degree:0" \
+    "id:$external_id res:2560x1440 hz:$current_hz color_depth:8 enabled:true scaling:off origin:(-2560,140) degree:0"
 
   echo -e "${green}✓${default} Display configuration applied"
 }
@@ -159,8 +159,8 @@ function full() {
   echo -e "${green}✓${default} Applying Full Screen Mode (${max_res} @ ${current_hz}Hz)"
 
   "$DISPLAYPLACER" \
-    "id:$external_id res:$max_res hz:$current_hz color_depth:8 enabled:true scaling:off origin:(0,0) degree:0" \
-    "id:$builtin_id res:$builtin_res hz:$builtin_hz color_depth:8 enabled:true scaling:on origin:(${width},166) degree:0" || {
+    "id:$builtin_id res:$builtin_res hz:$builtin_hz color_depth:8 enabled:true scaling:on origin:(0,0) degree:0" \
+    "id:$external_id res:$max_res hz:$current_hz color_depth:8 enabled:true scaling:off origin:(-${width},166) degree:0" || {
     echo -e "${red}Error: Failed to apply display configuration${default}"
     echo -e "${yellow}Try running '$0 -l' to see supported resolutions${default}"
     exit 1
