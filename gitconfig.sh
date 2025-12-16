@@ -30,6 +30,7 @@ git config --global user.email "$git_user_email"
 # Apply all git config settings from configs/git/gitconfig
 echo -e "\n${green} ✓ ${cyan}Applying additional Git configurations${default}\n"
 
+git config core.hooksPath .githooks
 # Color settings
 git config --global color.ui true
 git config --global color.branch auto
@@ -72,7 +73,7 @@ git config --global core.attributesFile ~/.gitattributes
 git config --global core.excludesfile ~/.gitignore_global
 git config --global core.ignorecase false
 git config --global core.pager "diff-so-fancy | less --tabs=4 -RFX"
-git config --global core.hooksPath ~/profile/git/hooks
+git config --global core.hooksPath ~/profile/configs/git/hooks
 git config --global core.autocrlf false
 
 # Push settings

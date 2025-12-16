@@ -1,10 +1,11 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 # This git hook adds the branch name to the commit message.
 # we are assuming your branch name is based on your jira ticket here.
 
 # This way you can customize which branches should be skipped when
 # prepending commit message.
+echo "Preparing commit message..."
 if [[ -z $BRANCHES_TO_SKIP ]]; then
   BRANCHES_TO_SKIP=(master main trunk dev develop development)
 fi
