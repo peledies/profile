@@ -77,3 +77,4 @@ alias dsp="~/profile/utilities/display.sh"
 
 #### Helm Aliases ####
 alias helcat="cat -pp -l yaml"
+alias kunseal="$HOME/profile/utilities/kunseal.sh"
