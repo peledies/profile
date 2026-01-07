@@ -79,7 +79,8 @@ if [ "$DECRYPT_MODE" -eq 1 ]; then
 
   echo -e "\n${CYAN}Decrypted Secret Value:${NC}\n"
   VALUE=$(echo -n "$BASE64RESULT" | jq -r '.data.RESULT' | base64 --decode)
-  echo -e "${MAGENTA}$VALUE${NC}" | tee /dev/tty | pbcopy
+  echo -e "${MAGENTA}$VALUE${NC}"
+  echo -n "$VALUE" | pbcopy
 
 else
   echo -e "\n${CYAN}Encrypt mode enabled.${NC}\n"
@@ -89,7 +90,8 @@ else
   SECRET_VALUE=$(echo -n "$SECRET_VALUE" | kubeseal --raw --from-file=/dev/stdin --namespace="$NAMESPACE" --name="$NAME" --scope=strict)
 
   echo -e "\n${CYAN}Encrypted Secret Value:${NC}\n"
-  echo -e "${MAGENTA}$SECRET_VALUE${NC}" | tee /dev/tty | pbcopy
+  echo -e "${MAGENTA}$SECRET_VALUE${NC}"
+  echo -n "$SECRET_VALUE" | pbcopy
 
 fi
 
