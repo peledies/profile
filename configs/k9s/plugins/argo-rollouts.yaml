@@ -17,7 +17,7 @@ plugins:
       - -c
       - kubectl argo rollouts get rollout $NAME --context $CONTEXT -n $NAMESPACE |& less -R
   argo-rollouts-watch:
-    shortCut: w
+    shortCut: a
     confirm: false
     description: Watch progress
     scopes:
