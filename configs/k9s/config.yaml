@@ -12,7 +12,7 @@ k9s:
     skin: monokai
     enableMouse: false
     headless: false
-    logoless: true
+    logoless: false
     crumbsless: false
     splashless: true
     reactive: false
