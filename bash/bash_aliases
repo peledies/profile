@@ -80,7 +80,7 @@ alias helcat="cat -pp -l yaml"
 alias kunseal="$HOME/profile/utilities/kunseal.sh"
 
 
-alias helm='docker run -ti --rm -v $(pwd):/apps -w /apps \
-    -v ~/.kube:/root/.kube -v ~/.helm:/root/.helm -v ~/.config/helm:/root/.config/helm \
-    -v ~/.cache/helm:/root/.cache/helm \
-    alpine/helm'
+# alias helm='docker run -ti --rm -v $(pwd):/apps -w /apps \
+#     -v ~/.kube:/root/.kube -v ~/.helm:/root/.helm -v ~/.config/helm:/root/.config/helm \
+#     -v ~/.cache/helm:/root/.cache/helm \
+#     alpine/helm'

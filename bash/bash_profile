@@ -15,7 +15,7 @@ PATH="/opt/homebrew/opt/ruby/bin:$PATH" # Ruby installed with Homebrew
 PATH="$(gem env home)/bin:$PATH" # gem install binaries
 PATH="/usr/local/go/bin/:$PATH" # Go installed with its installer
 PATH="$HOME/.volta/bin/":$PATH # volta global installs
-PATH="$HOME/.rd/bin:$PATH" # Rancher Desktop binaries
+PATH=$PATH:"$HOME/.rd/bin/" # Rancher Desktop binaries
 # PATH=$HOME/profile/bin:$PATH
 
 export PATH=$PATH
