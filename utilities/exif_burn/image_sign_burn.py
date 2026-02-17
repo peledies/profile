@@ -14,7 +14,9 @@ signature_size = 5
 padding = 2
 
 # Path to the signature image (must be square)
-signature_path = "/Users/deac/Signature_Art.png"
+# Get the directory where this script is located
+script_dir = path.dirname(path.abspath(__file__))
+signature_path = path.join(script_dir, "Signature_Art.png")
 
 # make sure imbage pathe is passed as argument
 if len(sys.argv) != 2:
@@ -23,6 +25,12 @@ if len(sys.argv) != 2:
 
 image_path = f"{sys.argv[1]}"
 image_path_parts = path.splitext(image_path)
+
+# Check if signature file exists
+if not path.exists(signature_path):
+  print(f"Error: Signature file not found at: {signature_path}")
+  print(f"Please update the 'signature_path' variable in the script to point to your signature image.")
+  sys.exit(1)
 
 # Open the signature image
 signature = Image.open(signature_path)
@@ -55,5 +63,12 @@ signature_top = height - signature_size - padding_size
 # paste the signature on the image
 image.paste(resized_signature, (signature_left,signature_top), resized_signature)
 
-# Save the modified image
-image.save(f"{image_path_parts[0]}-signed{image_path_parts[1]}")
+# Save the modified image with EXIF data preserved but GPS data removed
+exif_data = image.getexif()
+
+# Remove GPS data (location) tags
+# GPS IFD tag is 34853
+if 34853 in exif_data:
+    del exif_data[34853]
+
+image.save(f"{image_path_parts[0]}-signed{image_path_parts[1]}", exif=exif_data)

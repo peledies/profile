@@ -79,12 +79,31 @@ def calculate_font_size(text, image_width, max_font_size=72):
   image = Image.new("RGB", (image_width, 200))
   draw = ImageDraw.Draw(image)
 
-  font_size = max_font_size
-  font = ImageFont.load_default(font_size)
+  # Try to use system fonts, fall back to default if not available
+  font_paths = [
+    "/System/Library/Fonts/Helvetica.ttc",
+    "/System/Library/Fonts/Supplemental/Arial.ttf",
+    "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",
+  ]
 
-  while draw.textlength(text, font) > image_width:
-      font_size -= 1
-      font = ImageFont.load_default(font_size)
+  font_path = None
+  for fp in font_paths:
+    if path.exists(fp):
+      font_path = fp
+      break
+
+  font_size = max_font_size
+  if font_path:
+    try:
+      font = ImageFont.truetype(font_path, font_size)
+      while draw.textlength(text, font) > image_width:
+        font_size -= 1
+        font = ImageFont.truetype(font_path, font_size)
+    except Exception:
+      # If TrueType fails, use default
+      font = ImageFont.load_default()
+  else:
+    font = ImageFont.load_default()
 
   return font
 
@@ -117,6 +136,13 @@ print(f"Text width: {text_width}")
 
 draw.text(((width - text_width) // 2, height - padding_bottom), data.exif_string, font=font)
 
-# Save the modified image
-image.save(f"{image_path_parts[0]}-exif_burn{image_path_parts[1]}")
+# Save the modified image with EXIF data preserved but GPS data removed
+exif_data = image.getexif()
+
+# Remove GPS data (location) tags
+# GPS IFD tag is 34853
+if 34853 in exif_data:
+    del exif_data[34853]
+
+image.save(f"{image_path_parts[0]}-exif_burn{image_path_parts[1]}", exif=exif_data)
 # image.show()
