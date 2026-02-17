@@ -15,6 +15,9 @@ green: &green "#a7e24c"
 purple: &purple "#856cc4"
 yellow: &yellow "#e1df8f"
 darkGray: &darkGray "#666666"
+brightRed: &brightRed "#ff0000"
+brightGreen: &brightGreen "#00ff00"
+brightBlue: &brightBlue "#0000ff"
 
 # Skin...
 k9s:
@@ -134,7 +137,7 @@ k9s:
       bgColor: *background
       cursorFgColor: *foreground
       cursorBgColor: *backgroundOpaque
-      markColor: *magenta
+      markColor: *brightGreen
       # Header row styles.
       header:
         fgColor: *foreground
@@ -151,13 +154,14 @@ k9s:
 
     # YAML info styles.
     yaml:
-      keyColor: *green
-      colonColor: *magenta
-      valueColor: *foreground
+      keyColor: *magenta
+      colonColor: *foreground
+      valueColor: *yellow
+      highlightColor: *green
 
     # Logs styles.
     logs:
-      fgColor: *foreground
+      fgColor: *green
       bgColor: *background
       indicator:
         fgColor: *foreground

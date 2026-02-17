@@ -146,6 +146,10 @@ ln -nfs $HOME/profile/configs/fzf $HOME/.fzf
 echo -e "\n${green} ✓ ${cyan}Creating symlink for k9s config${default}\n"
 ln -nfs $HOME/profile/configs/k9s $HOME/.config/k9s
 
+# create symlink to k9s data
+echo -e "\n${green} ✓ ${cyan}Creating symlink for k9s data${default}\n"
+ln -nfs $HOME/profile/configs/k9s/clusters $HOME/.local/share/k9s
+
 
 # Create SSH config if it doesn't exist
 if [ ! -f $HOME/.ssh/config ]; then
