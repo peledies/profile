@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+# Delegate to a local repo hook if one exists.
+HOOK_NAME=$(basename "$0")
+GIT_DIR=$(git rev-parse --git-dir 2>/dev/null)
+LOCAL_HOOK="${GIT_DIR}/hooks/${HOOK_NAME}"
+THIS_HOOK=$(realpath "$0" 2>/dev/null || readlink -f "$0")
+
+if [[ -f "$LOCAL_HOOK" && -x "$LOCAL_HOOK" ]]; then
+  LOCAL_HOOK_REAL=$(realpath "$LOCAL_HOOK" 2>/dev/null || readlink -f "$LOCAL_HOOK")
+  if [[ "$LOCAL_HOOK_REAL" != "$THIS_HOOK" ]]; then
+    exec "$LOCAL_HOOK" "$@"
+  fi
+fi

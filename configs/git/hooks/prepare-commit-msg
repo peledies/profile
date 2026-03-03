@@ -1,7 +1,19 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # This git hook adds the branch name to the commit message.
 # we are assuming your branch name is based on your jira ticket here.
+
+# If a local prepare-commit-msg hook exists in the repo, delegate to it instead.
+GIT_DIR=$(git rev-parse --git-dir 2>/dev/null)
+LOCAL_HOOK="${GIT_DIR}/hooks/prepare-commit-msg"
+THIS_HOOK=$(realpath "$0" 2>/dev/null || readlink -f "$0")
+
+if [[ -f "$LOCAL_HOOK" && -x "$LOCAL_HOOK" ]]; then
+  LOCAL_HOOK_REAL=$(realpath "$LOCAL_HOOK" 2>/dev/null || readlink -f "$LOCAL_HOOK")
+  if [[ "$LOCAL_HOOK_REAL" != "$THIS_HOOK" ]]; then
+    exec "$LOCAL_HOOK" "$@"
+  fi
+fi
 
 # This way you can customize which branches should be skipped when
 # prepending commit message.
