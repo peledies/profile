@@ -500,3 +500,52 @@ function bd(){
 function fzg(){
   grep -rl "$1" . | sort -r | fzf --preview "grep -n --context --color=always '$1' {}"
 }
+
+# Fuzzy Git checkout branch
+fgb() {
+  local branches branch target
+  # 1. Get all branches and exit if not in a git repo
+  branches=$(git branch --all --color=always | grep -v HEAD) || return
+
+  # 2. Select branch using standard fzf
+  branch=$(echo "$branches" | fzf \
+    --ansi \
+    --height 40% \
+    --layout reverse \
+    --border \
+    --header "Git Checkout" \
+    --preview "git log --oneline --graph --color=always -n 10 \$(echo {} | sed 's/.* //')") || return
+
+  # 3. Clean the selection
+  target=$(echo "$branch" | sed "s/^[* ]*//;s#remotes/[^/]*/##;s#nodes/[^/]*/##" | awk '{print $1}')
+
+  # 4. Smart Checkout
+  if git rev-parse --verify "$target" >/dev/null 2>&1; then
+    git checkout "$target" --
+  else
+    echo "Branch not found locally. Attempting to track from remote..."
+    git checkout --track "origin/$target" -- || git checkout "$target" --
+  fi
+}
+
+# Fuzzy Git diff
+fgd() {
+  local files
+  # 1. Get all tracked files with changes (staged or unstaged)
+  # grep -v "^??" excludes untracked files from the short status
+  files=$(git status --short | grep -v "^??" | awk '{print $2}')
+
+  [[ -z "$files" ]] && echo "No tracked changes to diff." && return
+
+  # 2. Preview logic:
+  # We check both staged (--cached) and unstaged changes for the file
+  echo "$files" | fzf \
+    --ansi \
+    --no-sort \
+    --height 80% \
+    --layout reverse \
+    --border \
+    --header "Git Diff (Tracked Only) | TAB: Multi-select" \
+    --preview 'git diff --color=always -- {} ; git diff --color=always --cached -- {} | bat --color=always --style=plain' \
+    --multi
+}

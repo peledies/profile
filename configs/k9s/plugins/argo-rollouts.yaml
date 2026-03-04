@@ -1,7 +1,7 @@
 # Manage argo-rollouts
 # See https://argoproj.github.io/argo-rollouts/
 # <g> Get rollout details
-# <w> Watch rollout progress
+# <a> Watch rollout progress
 # <p> (with confirmation) Promote rollout
 # <r> (with confirmation) Restart rollout
 plugins:

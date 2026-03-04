@@ -40,9 +40,14 @@ export SCREENRC="$HOME/.screenrc"
 # Homebrew Configuration
 HOMEBREW_NO_AUTO_UPDATE=1
 
-# XDG Base Directory Specification
-export XDG_CONFIG_HOME=$HOME/.config
-export XDG_DATA_HOME=$HOME/.local/share
+# K9S Path configuration
+export K9S_CONFIG_DIR=$HOME/.config/k9s
+# Required for K9S plugins to load in a directory
+export XDG_DATA_HOME=$HOME/.config
+
 
 # FZF configuration
 [ -f $HOME/.fzf/.fzf.bash ] && source $HOME/.fzf/.fzf.bash
+
+# FZF Git completions
+source ~/profile/fzf-completions/git.sh

@@ -45,6 +45,7 @@ PACKAGES=(
     ack
     bash
     bat
+    copilot-cli
     ctop
     diff-so-fancy
     fzf
@@ -59,6 +60,7 @@ PACKAGES=(
     lastpass-cli
     lazydocker
     obsidian
+    popeye
     terminal-notifier
     terraform
     tldr

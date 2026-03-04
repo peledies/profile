@@ -6,9 +6,31 @@ views:
       - NAME
       - AGE
 
+  apps/v1/replicasets:
+    columns:
+      - NAME
+      - GHA_RUN_ID:.metadata.labels.gha_run_id|
+      - VERSION:.metadata.labels.tags\.datadoghq\.com/version|
+      - REVISION:.metadata.annotations.rollout\.argoproj\.io/revision|
+      - DESIRED
+      - CURRENT
+      - READY
+      - AGE
+
   argoproj.io/v1alpha1/rollouts:
     columns:
       - NAME
-      - STRATEGY:.spec.strategy|keys|.[0]|W
-      - STATUS:.status.phase|W
-      - SERVICE_ACCOUNT:.spec.template.spec.serviceAccountName|W
+      - STRATEGY:.spec.strategy|keys|.[0]|
+      - STATUS:.status.phase|
+      - SERVICE_ACCOUNT:.spec.template.spec.serviceAccountName|
+      - GHA_RUN_ID:.metadata.labels.gha_run_id|
+      - VERSION:.metadata.labels.tags\.datadoghq\.com/version|
+      - REVISION:.metadata.annotations.rollout\.argoproj\.io/revision|
+
+  argoproj.io/v1alpha1/analysisruns:
+    columns:
+      - NAME
+      - STATUS:.status.phase|
+      - IMAGE:.spec.metrics[0].provider.job.spec.template.spec.containers[0].image|W
+      - REVISION:.metadata.annotations.rollout\.argoproj\.io/revision|
+      - ROLLOUT_TYPE:.metadata.labels.rollout-type|

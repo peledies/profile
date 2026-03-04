@@ -1,9 +1,8 @@
 k9s:
-  liveViewAutoRefresh: false
-  gpuVendors: {}
-  screenDumpDir: /Users/fkarns/Library/Application Support/k9s/screen-dumps
+  liveViewAutoRefresh: true
   refreshRate: 2
-  apiServerTimeout: 2m0s
+  gpuVendors: {}
+  apiServerTimeout: 15s
   maxConnRetry: 5
   readOnly: false
   noExitOnCtrlC: false
