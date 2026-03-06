@@ -49,3 +49,20 @@ plugins:
     args:
       - -c
       - kubectl argo rollouts restart $NAME --context $CONTEXT -n $NAMESPACE |& less
+  argo-rollouts-retry:
+    shortCut: x
+    confirm: true
+    description: Retry
+    scopes:
+      - rollouts
+    command: bash
+    background: false
+    args:
+      - -c
+      - |
+        ANALYSIS_RUN=$(kubectl get rollout $NAME -n $NAMESPACE --context $CONTEXT -o jsonpath='{.status.blueGreen.prePromotionAnalysisRunStatus.name}' 2>/dev/null)
+        if [ -n "$ANALYSIS_RUN" ]; then
+          echo "Deleting analysis run: $ANALYSIS_RUN"
+          kubectl delete analysisrun $ANALYSIS_RUN -n $NAMESPACE --context $CONTEXT 2>/dev/null || true
+        fi
+        kubectl argo rollouts retry $NAME --context $CONTEXT -n $NAMESPACE |& less
