@@ -1,0 +1,30 @@
+#!/bin/bash
+# Toggle Sidecar (extend display to iPad) via Screen Mirroring menu bar
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+BINARY="$SCRIPT_DIR/sidecar_toggle"
+SOURCE_DIR="$SCRIPT_DIR/../utilities/sidecar"
+
+if [[ ! -x "$BINARY" ]]; then
+    echo "Building sidecar_toggle..."
+    make -C "$SOURCE_DIR" || exit 1
+fi
+
+# Open the Screen Mirroring panel via AppleScript
+osascript <<'APPLESCRIPT'
+tell application "System Events"
+    tell process "ControlCenter"
+        repeat with i from 1 to count of menu bar items of menu bar 1
+            try
+                if description of menu bar item i of menu bar 1 contains "Screen Mirroring" then
+                    click menu bar item i of menu bar 1
+                    delay 1.5
+                    exit repeat
+                end if
+            end try
+        end repeat
+    end tell
+end tell
+APPLESCRIPT
+
+"$BINARY"

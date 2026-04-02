@@ -16,7 +16,7 @@ PATH="$(gem env home)/bin:$PATH" # gem install binaries
 PATH="/usr/local/go/bin/:$PATH" # Go installed with its installer
 PATH="$HOME/.volta/bin/":$PATH # volta global installs
 PATH=$PATH:"$HOME/.rd/bin/" # Rancher Desktop binaries
-# PATH=$HOME/profile/bin:$PATH
+PATH=$HOME/profile/bin:$PATH
 
 export PATH=$PATH
 
