@@ -1,4 +1,4 @@
-#--- Create busybox debug pod in same namespace and node as selected pod
+#--- Create alpine debug pod in same namespace and node as selected pod
 plugins:
   debug:
     shortCut: Shift-D
@@ -12,9 +12,9 @@ plugins:
       - -c
       - |
         NODE=$(kubectl get pod $NAME -n $NAMESPACE -o jsonpath='{.spec.nodeName}')
-        kubectl run debug-busybox-$RANDOM \
+        kubectl run debug-alpine-delete-me-$RANDOM \
           --namespace $NAMESPACE \
-          --image=busybox \
+          --image=alpine \
           --restart=Never \
           --overrides="{\"spec\":{\"nodeName\":\"$NODE\"}}" \
           -- /bin/sh -c "sleep infinity"
