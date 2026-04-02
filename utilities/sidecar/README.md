@@ -1,0 +1,1 @@
+The 'screen mirroring' menu item has to be set to "always show in menu bar" for this to work
