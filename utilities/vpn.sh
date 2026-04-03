@@ -9,7 +9,7 @@ cyan=$(tput setaf 6)
 default=$(tput sgr0)
 
 # Defaults
-DEFAULT_HOST="Bandwidth - JFK"
+DEFAULT_HOST=""
 VPN_BIN="/opt/cisco/secureclient/bin/vpn"
 
 # Load config (silent fallback if missing)
@@ -24,6 +24,58 @@ fi
 
 # Cisco Secure Client GUI app name
 GUI_APP="Cisco Secure Client"
+
+function get_hosts_array() {
+  local hosts_output
+  hosts_output=$("$VPN_BIN" hosts 2>&1)
+  HOSTS=()
+  while IFS= read -r line; do
+    if [[ "$line" =~ ^[[:space:]]*\>[[:space:]]+(.*) ]]; then
+      HOSTS+=("${BASH_REMATCH[1]}")
+    fi
+  done <<< "$hosts_output"
+}
+
+function select_default_host() {
+  echo -e "${cyan}No default VPN host configured.${default}\n"
+
+  get_hosts_array
+
+  if [[ ${#HOSTS[@]} -eq 0 ]]; then
+    echo -e "${red}No VPN hosts found${default}"
+    exit 1
+  fi
+
+  echo -e "${cyan}Available VPN Hosts:${default}\n"
+  local i=1
+  for host in "${HOSTS[@]}"; do
+    echo -e "  ${i}) ${host}"
+    ((i++))
+  done
+
+  echo ""
+  read -p "Select a default host [1-${#HOSTS[@]}]: " selection
+
+  if [[ ! "$selection" =~ ^[0-9]+$ ]] || (( selection < 1 || selection > ${#HOSTS[@]} )); then
+    echo -e "${red}Invalid selection${default}"
+    exit 1
+  fi
+
+  DEFAULT_HOST="${HOSTS[$((selection - 1))]}"
+
+  # Save to config
+  if [[ -f "$HOME/.vpnrc" ]]; then
+    if grep -q "^DEFAULT_HOST=" "$HOME/.vpnrc"; then
+      sed -i '' "s|^DEFAULT_HOST=.*|DEFAULT_HOST=\"${DEFAULT_HOST}\"|" "$HOME/.vpnrc"
+    else
+      echo "DEFAULT_HOST=\"${DEFAULT_HOST}\"" >> "$HOME/.vpnrc"
+    fi
+  else
+    echo "DEFAULT_HOST=\"${DEFAULT_HOST}\"" > "$HOME/.vpnrc"
+  fi
+
+  echo -e "\n${green}Default host set to '${DEFAULT_HOST}' and saved to ~/.vpnrc${default}"
+}
 
 function get_vpn_state() {
   "$VPN_BIN" state 2>&1
@@ -48,24 +100,19 @@ function show_status() {
 }
 
 function list_hosts() {
-  local hosts_output
-  hosts_output=$("$VPN_BIN" hosts 2>&1)
+  get_hosts_array
 
   echo -e "${cyan}Available VPN Hosts:${default}\n"
 
   local i=1
-  while IFS= read -r line; do
-    # Lines with hosts start with "    > "
-    if [[ "$line" =~ ^[[:space:]]*\>[[:space:]]+(.*) ]]; then
-      local host="${BASH_REMATCH[1]}"
-      if [[ "$host" == "$DEFAULT_HOST" ]]; then
-        echo -e "  ${green}${i}) ${host} (default)${default}"
-      else
-        echo -e "  ${i}) ${host}"
-      fi
-      ((i++))
+  for host in "${HOSTS[@]}"; do
+    if [[ -n "$DEFAULT_HOST" && "$host" == "$DEFAULT_HOST" ]]; then
+      echo -e "  ${green}${i}) ${host} (default)${default}"
+    else
+      echo -e "  ${i}) ${host}"
     fi
-  done <<< "$hosts_output"
+    ((i++))
+  done
 }
 
 function do_disconnect() {
@@ -101,14 +148,14 @@ ${cyan}VPN Connection Tool${default}
 ${green}Usage:${default} $0 [OPTION] [HOST]
 
 ${green}Options:${default}
-  -c [host]  Connect to VPN (default: ${DEFAULT_HOST})
+  -c [host]  Connect to VPN${DEFAULT_HOST:+ (default: ${DEFAULT_HOST})}
   -d         Disconnect from VPN
   -s         Show connection status
   -l         List available VPN hosts
   -h         Show this help message
 
 ${green}Examples:${default}
-  $0 -c                       # Connect to ${DEFAULT_HOST}
+  $0 -c                       # Connect to default host
   $0 -c "Denver Corp VPN"    # Connect to specific host
   $0 -d                       # Disconnect
   $0 -s                       # Show status
@@ -156,7 +203,10 @@ shift $((OPTIND - 1))
 # Capture remaining argument as host for connect
 if [[ "$ACTION" == "connect" && $# -gt 0 ]]; then
   CONNECT_HOST="$1"
-else
+elif [[ "$ACTION" == "connect" && -z "$DEFAULT_HOST" ]]; then
+  select_default_host
+  CONNECT_HOST="$DEFAULT_HOST"
+elif [[ "$ACTION" == "connect" ]]; then
   CONNECT_HOST="$DEFAULT_HOST"
 fi
 
