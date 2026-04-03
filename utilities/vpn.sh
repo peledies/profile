@@ -71,6 +71,21 @@ function list_hosts() {
   done <<< "$hosts_output"
 }
 
+function do_disconnect() {
+  if ! is_connected; then
+    echo -e "${yellow}Not connected${default}"
+    return 0
+  fi
+
+  local host
+  host=$(get_connected_host)
+  echo -e "Disconnecting from ${cyan}${host}${default}..."
+
+  "$VPN_BIN" disconnect 2>&1 | tail -1
+
+  echo -e "${green}Disconnected${default}"
+}
+
 function usage() {
   cat << EOF
 ${cyan}VPN Connection Tool${default}
@@ -143,6 +158,9 @@ case "$ACTION" in
     ;;
   list)
     list_hosts
+    ;;
+  disconnect)
+    do_disconnect
     ;;
   *)
     echo -e "${red}Not yet implemented${default}"
