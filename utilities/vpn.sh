@@ -83,30 +83,6 @@ function do_disconnect() {
   echo -e "${green}Disconnected${default}"
 }
 
-function wait_for_connection() {
-  local timeout=60
-  local interval=2
-  local elapsed=0
-
-  echo -e "Waiting for connection (authenticate in your browser)..."
-
-  while [[ $elapsed -lt $timeout ]]; do
-    if is_connected; then
-      local host
-      host=$(get_connected_host)
-      echo -e "\n${green}Connected${default} to ${cyan}${host}${default}"
-      return 0
-    fi
-    sleep "$interval"
-    elapsed=$((elapsed + interval))
-    printf "."
-  done
-
-  echo -e "\n${red}Connection timed out after ${timeout}s${default}"
-  echo -e "${yellow}Check your browser for the Okta authentication prompt${default}"
-  return 1
-}
-
 function do_connect() {
   local host="$1"
 
@@ -128,9 +104,8 @@ function do_connect() {
   open -a "$GUI_APP"
 
   echo -e "${yellow}Select '${host}' in the GUI and click Connect${default}"
-  echo -e "Okta authentication will open in your browser\n"
-
-  wait_for_connection
+  echo -e "Okta authentication will open in your browser"
+  echo -e "Run ${cyan}$0 -s${default} to verify connection status"
 }
 
 function usage() {
