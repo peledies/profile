@@ -50,6 +50,27 @@ function show_status() {
   fi
 }
 
+function list_hosts() {
+  local hosts_output
+  hosts_output=$("$VPN_BIN" hosts 2>&1)
+
+  echo -e "${cyan}Available VPN Hosts:${default}\n"
+
+  local i=1
+  while IFS= read -r line; do
+    # Lines with hosts start with "    > "
+    if [[ "$line" =~ ^[[:space:]]*\>[[:space:]]+(.*) ]]; then
+      local host="${BASH_REMATCH[1]}"
+      if [[ "$host" == "$DEFAULT_HOST" ]]; then
+        echo -e "  ${green}${i}) ${host} (default)${default}"
+      else
+        echo -e "  ${i}) ${host}"
+      fi
+      ((i++))
+    fi
+  done <<< "$hosts_output"
+}
+
 function usage() {
   cat << EOF
 ${cyan}VPN Connection Tool${default}
@@ -119,6 +140,9 @@ fi
 case "$ACTION" in
   status)
     show_status
+    ;;
+  list)
+    list_hosts
     ;;
   *)
     echo -e "${red}Not yet implemented${default}"
