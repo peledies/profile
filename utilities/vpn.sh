@@ -25,6 +25,31 @@ fi
 # Cisco Secure Client GUI app name
 GUI_APP="Cisco Secure Client"
 
+function get_vpn_state() {
+  "$VPN_BIN" state 2>&1
+}
+
+function is_connected() {
+  get_vpn_state | grep -q "state: Connected"
+}
+
+function get_connected_host() {
+  get_vpn_state | grep "notice: Connected to" | sed 's/.*Connected to \(.*\)\./\1/' | tail -1
+}
+
+function show_status() {
+  local state_output
+  state_output=$(get_vpn_state)
+
+  if echo "$state_output" | grep -q "state: Connected"; then
+    local host
+    host=$(echo "$state_output" | grep "notice: Connected to" | sed 's/.*Connected to \(.*\)\./\1/' | tail -1)
+    echo -e "${green}Connected${default} to ${cyan}${host}${default}"
+  else
+    echo -e "${yellow}Disconnected${default}"
+  fi
+}
+
 function usage() {
   cat << EOF
 ${cyan}VPN Connection Tool${default}
@@ -52,3 +77,51 @@ if [[ $# -eq 0 ]]; then
   usage
   exit 1
 fi
+
+# Parse the first argument for -c's optional host parameter
+CONNECT_HOST=""
+ACTION=""
+
+while getopts ":cdslh" opt; do
+  case ${opt} in
+    c)
+      ACTION="connect"
+      ;;
+    d)
+      ACTION="disconnect"
+      ;;
+    s)
+      ACTION="status"
+      ;;
+    l)
+      ACTION="list"
+      ;;
+    h)
+      usage
+      exit 0
+      ;;
+    *)
+      echo -e "${red}Invalid option: -${OPTARG}${default}" >&2
+      usage
+      exit 1
+      ;;
+  esac
+done
+shift $((OPTIND - 1))
+
+# Capture remaining argument as host for connect
+if [[ "$ACTION" == "connect" && $# -gt 0 ]]; then
+  CONNECT_HOST="$1"
+else
+  CONNECT_HOST="$DEFAULT_HOST"
+fi
+
+case "$ACTION" in
+  status)
+    show_status
+    ;;
+  *)
+    echo -e "${red}Not yet implemented${default}"
+    exit 1
+    ;;
+esac
