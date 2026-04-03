@@ -86,6 +86,67 @@ function do_disconnect() {
   echo -e "${green}Disconnected${default}"
 }
 
+function kill_gui() {
+  if pgrep -f "$GUI_APP" > /dev/null 2>&1; then
+    echo -e "Closing ${GUI_APP} GUI..."
+    killall "$GUI_APP" 2>/dev/null || true
+    sleep 2
+
+    if pgrep -f "$GUI_APP" > /dev/null 2>&1; then
+      echo -e "${yellow}Warning: ${GUI_APP} is still running. Connect may fail.${default}"
+    fi
+  fi
+}
+
+function wait_for_connection() {
+  local timeout=60
+  local interval=2
+  local elapsed=0
+
+  echo -e "Waiting for connection (authenticate in your browser)..."
+
+  while [[ $elapsed -lt $timeout ]]; do
+    if is_connected; then
+      local host
+      host=$(get_connected_host)
+      echo -e "\n${green}Connected${default} to ${cyan}${host}${default}"
+      return 0
+    fi
+    sleep "$interval"
+    elapsed=$((elapsed + interval))
+    printf "."
+  done
+
+  echo -e "\n${red}Connection timed out after ${timeout}s${default}"
+  echo -e "${yellow}Check your browser for the Okta authentication prompt${default}"
+  return 1
+}
+
+function do_connect() {
+  local host="$1"
+
+  # Check if already connected
+  if is_connected; then
+    local current_host
+    current_host=$(get_connected_host)
+    echo -e "${green}Already connected${default} to ${cyan}${current_host}${default}"
+
+    read -p "Disconnect and reconnect to ${host}? (y/n): " response
+    if [[ ! "$response" =~ ^[Yy]$ ]]; then
+      return 0
+    fi
+    do_disconnect
+    sleep 1
+  fi
+
+  kill_gui
+
+  echo -e "Connecting to ${cyan}${host}${default}..."
+  echo "connect ${host}" | "$VPN_BIN" -s 2>&1 > /dev/null &
+
+  wait_for_connection
+}
+
 function usage() {
   cat << EOF
 ${cyan}VPN Connection Tool${default}
@@ -153,17 +214,16 @@ else
 fi
 
 case "$ACTION" in
+  connect)
+    do_connect "$CONNECT_HOST"
+    ;;
+  disconnect)
+    do_disconnect
+    ;;
   status)
     show_status
     ;;
   list)
     list_hosts
-    ;;
-  disconnect)
-    do_disconnect
-    ;;
-  *)
-    echo -e "${red}Not yet implemented${default}"
-    exit 1
     ;;
 esac
