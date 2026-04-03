@@ -68,7 +68,7 @@ function select_default_host() {
     if grep -q "^DEFAULT_HOST=" "$HOME/.vpnrc"; then
       sed -i '' "s|^DEFAULT_HOST=.*|DEFAULT_HOST=\"${DEFAULT_HOST}\"|" "$HOME/.vpnrc"
     else
-      echo "DEFAULT_HOST=\"${DEFAULT_HOST}\"" >> "$HOME/.vpnrc"
+      printf '\n%s\n' "DEFAULT_HOST=\"${DEFAULT_HOST}\"" >> "$HOME/.vpnrc"
     fi
   else
     echo "DEFAULT_HOST=\"${DEFAULT_HOST}\"" > "$HOME/.vpnrc"
