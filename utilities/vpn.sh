@@ -133,10 +133,32 @@ function do_disconnect() {
 function do_connect() {
   local host="$1"
 
-  echo -e "Opening ${cyan}${GUI_APP}${default}..."
-  open -a "$GUI_APP"
+  # Check if already connected
+  if is_connected; then
+    local current_host
+    current_host=$(get_connected_host)
+    echo -e "${green}Already connected${default} to ${cyan}${current_host}${default}"
+    return 0
+  fi
 
-  echo -e "${yellow}Select '${host}' and click Connect${default}"
+  echo -e "Connecting to ${cyan}${host}${default}..."
+
+  # Use AppleScript to set host and click Connect in the GUI
+  open -a "$GUI_APP"
+  sleep 1
+
+  osascript -e "
+    tell application \"System Events\"
+      tell process \"Cisco Secure Client\"
+        tell window \"Cisco Secure Client\"
+          set value of combo box 1 to \"${host}\"
+          delay 0.5
+          click button \"Connect\"
+        end tell
+      end tell
+    end tell
+  " 2>&1 | grep -v "^$" || true
+
   echo -e "Okta authentication will open in your browser"
   echo -e "Run ${cyan}$0 -s${default} to verify connection status"
 }
