@@ -38,12 +38,9 @@ function get_connected_host() {
 }
 
 function show_status() {
-  local state_output
-  state_output=$(get_vpn_state)
-
-  if echo "$state_output" | grep -q "state: Connected"; then
+  if is_connected; then
     local host
-    host=$(echo "$state_output" | grep "notice: Connected to" | sed 's/.*Connected to \(.*\)\./\1/' | tail -1)
+    host=$(get_connected_host)
     echo -e "${green}Connected${default} to ${cyan}${host}${default}"
   else
     echo -e "${yellow}Disconnected${default}"
