@@ -127,6 +127,9 @@ function do_disconnect() {
 
   "$VPN_BIN" disconnect 2>&1 | tail -1
 
+  # Close the GUI window
+  osascript -e 'tell application "Cisco Secure Client" to quit' 2>/dev/null || true
+
   echo -e "${green}Disconnected${default}"
 }
 
