@@ -86,24 +86,10 @@ function do_disconnect() {
 function do_connect() {
   local host="$1"
 
-  # Check if already connected
-  if is_connected; then
-    local current_host
-    current_host=$(get_connected_host)
-    echo -e "${green}Already connected${default} to ${cyan}${current_host}${default}"
-
-    read -p "Disconnect and reconnect to ${host}? (y/n): " response
-    if [[ ! "$response" =~ ^[Yy]$ ]]; then
-      return 0
-    fi
-    do_disconnect
-    sleep 1
-  fi
-
   echo -e "Opening ${cyan}${GUI_APP}${default}..."
   open -a "$GUI_APP"
 
-  echo -e "${yellow}Select '${host}' in the GUI and click Connect${default}"
+  echo -e "${yellow}Select '${host}' and click Connect${default}"
   echo -e "Okta authentication will open in your browser"
   echo -e "Run ${cyan}$0 -s${default} to verify connection status"
 }
