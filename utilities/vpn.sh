@@ -83,18 +83,6 @@ function do_disconnect() {
   echo -e "${green}Disconnected${default}"
 }
 
-function kill_gui() {
-  if pgrep -f "$GUI_APP" > /dev/null 2>&1; then
-    echo -e "Closing ${GUI_APP} GUI..."
-    killall "$GUI_APP" 2>/dev/null || true
-    sleep 2
-
-    if pgrep -f "$GUI_APP" > /dev/null 2>&1; then
-      echo -e "${yellow}Warning: ${GUI_APP} is still running. Connect may fail.${default}"
-    fi
-  fi
-}
-
 function wait_for_connection() {
   local timeout=60
   local interval=2
@@ -136,10 +124,11 @@ function do_connect() {
     sleep 1
   fi
 
-  kill_gui
+  echo -e "Opening ${cyan}${GUI_APP}${default}..."
+  open -a "$GUI_APP"
 
-  echo -e "Connecting to ${cyan}${host}${default}..."
-  echo "connect ${host}" | "$VPN_BIN" -s 2>&1 > /dev/null &
+  echo -e "${yellow}Select '${host}' in the GUI and click Connect${default}"
+  echo -e "Okta authentication will open in your browser\n"
 
   wait_for_connection
 }
