@@ -13,20 +13,6 @@ default=$(tput sgr0)
 die()  { echo -e "${red}❌  $*${default}" >&2; exit 1; }
 info() { echo -e "${cyan}▸${default}  $*"; }
 
-# ── config ───────────────────────────────────────
-UNIFI_HOST=""
-UNIFI_API_KEY=""
-UNIFI_SITE="default"
-
-[[ -f "$HOME/.unifirc" ]] && source "$HOME/.unifirc"
-
-[[ "${1:-}" == "-h" ]] && { usage; exit 0; }
-
-[[ -z "$UNIFI_HOST" ]]    && die "UNIFI_HOST not set. Configure ~/.unifirc"
-[[ -z "$UNIFI_API_KEY" ]] && die "UNIFI_API_KEY not set. Configure ~/.unifirc"
-
-BASE_URL="https://${UNIFI_HOST}/proxy/network/api/s/${UNIFI_SITE}"
-
 # ── usage ────────────────────────────────────────
 function usage() {
   cat << EOF
@@ -45,6 +31,20 @@ ${green}Unnamed clients:${default} Devices whose name is a MAC address
 ${green}Config:${default} ~/.unifirc (UNIFI_HOST, UNIFI_API_KEY, UNIFI_SITE)
 EOF
 }
+
+# ── config ───────────────────────────────────────
+UNIFI_HOST=""
+UNIFI_API_KEY=""
+UNIFI_SITE="default"
+
+[[ -f "$HOME/.unifirc" ]] && source "$HOME/.unifirc"
+
+[[ "${1:-}" == "-h" ]] && { usage; exit 0; }
+
+[[ -z "$UNIFI_HOST" ]]    && die "UNIFI_HOST not set. Configure ~/.unifirc"
+[[ -z "$UNIFI_API_KEY" ]] && die "UNIFI_API_KEY not set. Configure ~/.unifirc"
+
+BASE_URL="https://${UNIFI_HOST}/proxy/network/api/s/${UNIFI_SITE}"
 
 # ── api ──────────────────────────────────────────
 function api_get() {
