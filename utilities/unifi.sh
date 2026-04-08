@@ -20,6 +20,8 @@ UNIFI_SITE="default"
 
 [[ -f "$HOME/.unifirc" ]] && source "$HOME/.unifirc"
 
+[[ "${1:-}" == "-h" ]] && { usage; exit 0; }
+
 [[ -z "$UNIFI_HOST" ]]    && die "UNIFI_HOST not set. Configure ~/.unifirc"
 [[ -z "$UNIFI_API_KEY" ]] && die "UNIFI_API_KEY not set. Configure ~/.unifirc"
 
@@ -81,7 +83,7 @@ function get_unnamed_clients() {
 function print_client_table() {
   local clients="$1"
   local count
-  count=$(echo "$clients" | wc -l | tr -d ' ')
+  count=$(echo "$clients" | grep -c .)
 
   info "Found ${green}${count}${default} unnamed clients (MAC-named, no alias)"
   echo ""
@@ -117,7 +119,7 @@ function do_forget() {
   print_client_table "$clients"
 
   local count
-  count=$(echo "$clients" | wc -l | tr -d ' ')
+  count=$(echo "$clients" | grep -c .)
 
   echo ""
   echo -e "${yellow}⚠  This will permanently forget ${count} clients. Continue? [y/N]${default}"
@@ -141,10 +143,10 @@ function do_forget() {
 
     if [[ "$http_code" == "200" ]]; then
       echo -e "  ${green}✓${default}  Forgot ${mac}"
-      ((success++))
+      success=$((success + 1))
     else
       echo -e "  ${red}✗${default}  Failed to forget ${mac} (HTTP ${http_code})"
-      ((failed++))
+      failed=$((failed + 1))
     fi
   done <<< "$clients"
 
@@ -163,6 +165,7 @@ while getopts ":lfh" opt; do
     *) echo -e "${red}Invalid option: -${OPTARG}${default}" >&2; usage; exit 1 ;;
   esac
 done
+shift $((OPTIND - 1))
 
 case "$ACTION" in
   list)   do_list ;;
