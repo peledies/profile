@@ -23,6 +23,7 @@ ${green}Usage:${default} $0 [OPTION]
 ${green}Options:${default}
   -l         List unnamed clients (default)
   -f         Forget unnamed clients (with confirmation)
+  -n NUM     Limit to NUM clients
   -h         Show this help message
 
 ${green}Unnamed clients:${default} Devices whose name is a MAC address
@@ -125,6 +126,10 @@ function do_list() {
     return 0
   fi
 
+  if [[ "$LIMIT" -gt 0 ]]; then
+    clients=$(echo "$clients" | head -n "$LIMIT")
+  fi
+
   print_client_table "$clients"
 }
 
@@ -135,6 +140,10 @@ function do_forget() {
   if [[ -z "$clients" ]]; then
     info "No unnamed clients found"
     return 0
+  fi
+
+  if [[ "$LIMIT" -gt 0 ]]; then
+    clients=$(echo "$clients" | head -n "$LIMIT")
   fi
 
   print_client_table "$clients"
@@ -177,12 +186,15 @@ function do_forget() {
 
 # ── main logic ───────────────────────────────────
 ACTION="list"
+LIMIT=0
 
-while getopts ":lfh" opt; do
+while getopts ":lfn:h" opt; do
   case ${opt} in
     l) ACTION="list" ;;
     f) ACTION="forget" ;;
+    n) LIMIT="$OPTARG" ;;
     h) usage; exit 0 ;;
+    :) die "Option -${OPTARG} requires an argument" ;;
     *) echo -e "${red}Invalid option: -${OPTARG}${default}" >&2; usage; exit 1 ;;
   esac
 done
