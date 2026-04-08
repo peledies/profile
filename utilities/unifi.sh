@@ -92,7 +92,7 @@ function get_unnamed_clients() {
   echo "$all_clients" | jq -r '
     .data[]
     | select(
-        (.name // "" | test("^([0-9a-fA-F]{2}[:-]){5}[0-9a-fA-F]{2}$"))
+        ((.name // "") == "")
         and ((.alias // "") == "")
         and ((.hostname // "") == "")
       )
