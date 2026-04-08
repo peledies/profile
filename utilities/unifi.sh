@@ -161,27 +161,20 @@ function do_forget() {
   fi
 
   echo ""
-  local success=0
-  local failed=0
+  local macs_json
+  macs_json=$(echo "$clients" | awk -F'\t' '{printf "\"%s\",", $1}' | sed 's/,$//')
 
-  while IFS=$'\t' read -r mac _last_seen _network; do
-    local response
-    response=$(api_post "/cmd/stamgr" "{\"cmd\":\"forget-sta\",\"macs\":[\"${mac}\"]}")
+  local response
+  response=$(api_post "/cmd/stamgr" "{\"cmd\":\"forget-sta\",\"macs\":[${macs_json}]}")
 
-    local http_code
-    http_code=$(echo "$response" | tail -1)
+  local http_code
+  http_code=$(echo "$response" | tail -1)
 
-    if [[ "$http_code" == "200" ]]; then
-      echo -e "  ${green}✓${default}  Forgot ${mac}"
-      success=$((success + 1))
-    else
-      echo -e "  ${red}✗${default}  Failed to forget ${mac} (HTTP ${http_code})"
-      failed=$((failed + 1))
-    fi
-  done <<< "$clients"
-
-  echo ""
-  info "Done: ${green}${success} forgotten${default}, ${red}${failed} failed${default}"
+  if [[ "$http_code" == "200" ]]; then
+    echo -e "  ${green}✓${default}  Forgot ${count} clients"
+  else
+    echo -e "  ${red}✗${default}  Failed to forget clients (HTTP ${http_code})"
+  fi
 }
 
 # ── main logic ───────────────────────────────────
