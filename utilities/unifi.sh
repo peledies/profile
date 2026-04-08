@@ -41,8 +41,29 @@ UNIFI_SITE="default"
 
 [[ "${1:-}" == "-h" ]] && { usage; exit 0; }
 
-[[ -z "$UNIFI_HOST" ]]    && die "UNIFI_HOST not set. Configure ~/.unifirc"
-[[ -z "$UNIFI_API_KEY" ]] && die "UNIFI_API_KEY not set. Configure ~/.unifirc"
+if [[ -z "$UNIFI_HOST" || -z "$UNIFI_API_KEY" ]]; then
+  info "No config found. Let's set up ${cyan}~/.unifirc${default}"
+  echo ""
+
+  read -rp "  UDM Pro IP/hostname: " UNIFI_HOST </dev/tty
+  [[ -z "$UNIFI_HOST" ]] && die "Host is required"
+
+  read -rp "  API key: " UNIFI_API_KEY </dev/tty
+  [[ -z "$UNIFI_API_KEY" ]] && die "API key is required"
+
+  read -rp "  Site name [default]: " UNIFI_SITE </dev/tty
+  UNIFI_SITE="${UNIFI_SITE:-default}"
+
+  cat > "$HOME/.unifirc" << EOF
+UNIFI_HOST="${UNIFI_HOST}"
+UNIFI_API_KEY="${UNIFI_API_KEY}"
+UNIFI_SITE="${UNIFI_SITE}"
+EOF
+
+  echo ""
+  info "Config saved to ${cyan}~/.unifirc${default}"
+  echo ""
+fi
 
 BASE_URL="https://${UNIFI_HOST}/proxy/network/api/s/${UNIFI_SITE}"
 
