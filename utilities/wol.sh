@@ -33,10 +33,10 @@ ${green}Usage:${default} $(basename "$0") [-h]
 
 ${green}Machines:${default}
 $(
-  for name in $(printf '%s\n' "${!MACHINES[@]}" | sort); do
+  while IFS= read -r name; do
     read -r mac ip <<< "${MACHINES[$name]}"
     printf "  %-20s  %-19s  %s\n" "$name" "$mac" "$ip"
-  done
+  done < <(printf '%s\n' "${!MACHINES[@]}" | sort)
 )
 USAGE
 }
@@ -62,13 +62,14 @@ PYEOF
 # ── fzf picker ───────────────────────────────────────────
 pick_machine() {
   local items=""
-  for name in $(printf '%s\n' "${!MACHINES[@]}" | sort); do
+  while IFS= read -r name; do
     read -r mac ip <<< "${MACHINES[$name]}"
     items+="$name\t$mac\t$ip\n"
-  done
+  done < <(printf '%s\n' "${!MACHINES[@]}" | sort)
 
   if command -v fzf &>/dev/null; then
-    printf '%b' "$items" | fzf \
+    local chosen=""
+    chosen=$(printf '%b' "$items" | fzf \
       --prompt="Wake machine: " \
       --delimiter=$'\t' \
       --with-nth=1 \
@@ -82,7 +83,8 @@ pick_machine() {
         printf "\033[33mChecking connectivity...\033[0m\n\n"
         ping -c 1 -t 1 "$ip" 2>&1 | tail -5
       ' \
-      --preview-window=right:50% | cut -f1
+      --preview-window=right:50% | cut -f1) || true
+    printf '%s' "$chosen"
   else
     local names=()
     while IFS= read -r name; do
