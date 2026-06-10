@@ -16,9 +16,7 @@ info() { echo "${cyan}▸${default}  $*"; }
 # Edit this list to add your machines.
 # Format: ["friendly-name"]="MAC IP"
 declare -A MACHINES=(
-  ["media-server"]="aa:bb:cc:dd:ee:ff 192.168.1.50"
-  ["nas"]="11:22:33:44:55:66 192.168.1.60"
-  ["workstation"]="de:ad:be:ef:ca:fe 192.168.1.100"
+  ["Mac Mini M4"]="1c:f6:4c:3d:5d:8e 192.168.1.11"
 )
 
 # ── usage ────────────────────────────────────────────────
@@ -74,14 +72,11 @@ pick_machine() {
       --delimiter=$'\t' \
       --with-nth=1 \
       --preview='
-        name=$(printf "%s" "{}" | cut -f1)
-        mac=$(printf "%s" "{}" | cut -f2)
-        ip=$(printf "%s" "{}" | cut -f3)
-        printf "\033[36mHost:\033[0m  %s\n" "$name"
-        printf "\033[36mIP:\033[0m    %s\n" "$ip"
-        printf "\033[36mMAC:\033[0m   %s\n\n" "$mac"
+        printf "\033[36mHost:\033[0m  %s\n" {1}
+        printf "\033[36mIP:\033[0m    %s\n" {3}
+        printf "\033[36mMAC:\033[0m   %s\n\n" {2}
         printf "\033[33mChecking connectivity...\033[0m\n\n"
-        ping -c 1 -t 1 "$ip" 2>&1 | tail -5
+        ping -c 1 -t 1 {3} 2>&1 | tail -5
       ' \
       --preview-window=right:50% | cut -f1) || true
     printf '%s' "$chosen"
