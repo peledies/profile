@@ -96,3 +96,16 @@ pick_machine() {
     done
   fi
 }
+
+# ── main ─────────────────────────────────────────────────
+command -v python3 &>/dev/null || die "python3 is required but not found"
+[[ ${#MACHINES[@]} -eq 0 ]] && die "No machines defined. Edit the MACHINES array in this script."
+
+selected=$(pick_machine)
+[[ -z "$selected" ]] && exit 0
+
+read -r mac ip <<< "${MACHINES[$selected]}"
+
+info "Sending WOL packet to ${cyan}${selected}${default} (MAC: ${mac}, IP: ${ip})"
+send_wol "$mac"
+info "${green}Magic packet sent!${default} ${selected} should wake up shortly."
