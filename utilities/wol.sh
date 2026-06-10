@@ -58,3 +58,39 @@ with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as s:
     s.sendto(pkt, ('255.255.255.255', 9))
 PYEOF
 }
+
+# ── fzf picker ───────────────────────────────────────────
+pick_machine() {
+  local items=""
+  for name in $(printf '%s\n' "${!MACHINES[@]}" | sort); do
+    read -r mac ip <<< "${MACHINES[$name]}"
+    items+="$name\t$mac\t$ip\n"
+  done
+
+  if command -v fzf &>/dev/null; then
+    printf '%b' "$items" | fzf \
+      --prompt="Wake machine: " \
+      --delimiter=$'\t' \
+      --with-nth=1 \
+      --preview='
+        name=$(printf "%s" "{}" | cut -f1)
+        mac=$(printf "%s" "{}" | cut -f2)
+        ip=$(printf "%s" "{}" | cut -f3)
+        printf "\033[36mHost:\033[0m  %s\n" "$name"
+        printf "\033[36mIP:\033[0m    %s\n" "$ip"
+        printf "\033[36mMAC:\033[0m   %s\n\n" "$mac"
+        printf "\033[33mChecking connectivity...\033[0m\n\n"
+        ping -c 1 -t 1 "$ip" 2>&1 | tail -5
+      ' \
+      --preview-window=right:50% | cut -f1
+  else
+    local names=()
+    while IFS= read -r name; do
+      names+=("$name")
+    done < <(printf '%s\n' "${!MACHINES[@]}" | sort)
+    PS3="Select machine: "
+    select name in "${names[@]}"; do
+      [[ -n "$name" ]] && { printf '%s' "$name"; break; }
+    done
+  fi
+}
