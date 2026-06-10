@@ -42,3 +42,20 @@ USAGE
 }
 
 [[ "${1:-}" == "-h" ]] && { usage; exit 0; }
+
+# ── send WOL packet ──────────────────────────────────────
+send_wol() {
+  local mac="$1"
+  python3 - "$mac" << 'PYEOF'
+import sys, socket
+mac = sys.argv[1].replace(':', '').replace('-', '')
+if len(mac) != 12:
+    print(f"Invalid MAC: {sys.argv[1]}", file=sys.stderr)
+    sys.exit(1)
+pkt = bytes.fromhex('ff' * 6 + mac * 16)
+s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+s.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
+s.sendto(pkt, ('255.255.255.255', 9))
+s.close()
+PYEOF
+}
