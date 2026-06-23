@@ -92,6 +92,29 @@ pick_machine() {
   fi
 }
 
+# ── caffeinate via SSH ───────────────────────────────────
+caffeinate_ssh() {
+  local ip="$1"
+  local user="$2"
+  local attempts=10
+  local delay=3
+
+  info "Waiting for SSH on ${cyan}${user}@${ip}${default}..."
+  for ((i = 1; i <= attempts; i++)); do
+    if ssh -o ConnectTimeout=5 \
+           -o BatchMode=yes \
+           -o StrictHostKeyChecking=accept-new \
+           "${user}@${ip}" "caffeinate -u -t 1" 2>/dev/null; then
+      info "${green}Caffeinate sent via SSH.${default}"
+      return 0
+    fi
+    sleep "$delay"
+  done
+
+  echo "${red}Warning:${default} Could not reach ${ip} via SSH after ${attempts} attempts." >&2
+  return 1
+}
+
 # ── main ─────────────────────────────────────────────────
 command -v python3 &>/dev/null || die "python3 is required but not found"
 [[ ${#MACHINES[@]} -eq 0 ]] && die "No machines defined. Edit the MACHINES array in this script."
@@ -101,6 +124,11 @@ selected=$(pick_machine)
 
 read -r mac ip <<< "${MACHINES[$selected]}"
 
+read -r -p "SSH user [${USER}]: " ssh_user
+ssh_user="${ssh_user:-$USER}"
+
 info "Sending WOL packet to ${cyan}${selected}${default} (MAC: ${mac}, IP: ${ip})"
 send_wol "$mac"
-info "${green}Magic packet sent!${default} ${selected} should wake up shortly."
+info "${green}Magic packet sent!${default} Waiting for ${selected} to wake..."
+
+caffeinate_ssh "$ip" "$ssh_user" || true
