@@ -52,3 +52,6 @@ export XDG_DATA_HOME=$HOME/.config
 
 # FZF Git completions
 source ~/profile/fzf-completions/git.sh
+
+# Disable mouse support in Claude Code
+export CLAUDE_CODE_DISABLE_MOUSE=1
