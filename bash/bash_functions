@@ -479,11 +479,6 @@ function ssh-sync(){
   done
 }
 
-unset -f wake
-function wake(){
-  ssh $1 'caffeinate -u -t 1'
-}
-
 unset -f bd
 function bd(){
   if [ -z "$1" ];then
