@@ -1,0 +1,45 @@
+{
+    "pi_project": {
+        "version": "1.0",
+        "description": "Settings for the Pi coding agent environment.",
+        "auto_discover": true,
+        "preferences": {
+            "default_shell": "/bin/bash",
+            "max_retries": 3,
+            "timeout_seconds": 60
+        },
+        "tools": {
+            "file_system_explorer": {
+                "enabled": true,
+                "max_depth": 5
+            },
+            "read_tool_enabled": true,
+            "bash_tool_enabled": true,
+            "write_and_edit_tool_enabled": true,
+            "bash_tool": {
+                "enabled": true,
+                "max_execution_time": 30
+            },
+            "web_fetcher": {
+                "enabled": true,
+                "max_concurrent_requests": 5
+            },
+            "data_query_tool": {
+                "enabled": true,
+                "max_query_size": 1000
+            },
+            "linter": {
+                "enabled": true,
+                "rules": {
+                    "max_line_length": 80,
+                    "no_trailing_whitespace": true
+                }
+            }
+        }
+    },
+    "environment": {
+        "debug_logging": false,
+        "log_level": "info",
+        "custom_variables": {}
+    }
+}

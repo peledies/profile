@@ -18,6 +18,7 @@ PATH="$HOME/.volta/bin/":$PATH # volta global installs
 PATH=$PATH:"$HOME/.rd/bin/" # Rancher Desktop binaries
 PATH="$HOME/.local/bin:$PATH" # Local user binaries (claude)
 PATH=$HOME/profile/bin:$PATH
+PATH="$HOME/.volta/tools/image/node/22.22.3/bin:$PATH"
 
 export PATH=$PATH
 
@@ -55,3 +56,8 @@ source ~/profile/fzf-completions/git.sh
 
 # Disable mouse support in Claude Code
 export CLAUDE_CODE_DISABLE_MOUSE=1
+
+# Ollama
+# Ensure Ollama handles the model entirely inside the M5 GPU cache rather than spilling over to system RAM:
+export OLLAMA_NUM_PARALLEL=1
+export OLLAMA_CONTEXT_LENGTH=32768

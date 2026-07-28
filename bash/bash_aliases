@@ -84,3 +84,4 @@ alias kunseal="$HOME/profile/utilities/kunseal.sh"
 #     -v ~/.kube:/root/.kube -v ~/.helm:/root/.helm -v ~/.config/helm:/root/.config/helm \
 #     -v ~/.cache/helm:/root/.cache/helm \
 #     alpine/helm'
+alias olg="ollama launch claude --model gemma4:e4b"
