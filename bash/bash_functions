@@ -533,11 +533,17 @@ function k8s_node_down(){
   case "$action" in
     shutdown)
       echo "${cyan}Shutting down ${host} via SSH...${default}"
-      ssh "${USER}@${host}" "sudo shutdown -h now"
+      if ! ssh -t "${USER}@${host}" "sudo shutdown -h now"; then
+        echo "${red}SSH shutdown command failed. Node is drained; machine may still be running.${default}" >&2
+        return 1
+      fi
       ;;
     suspend)
       echo "${cyan}Suspending ${host} via SSH...${default}"
-      ssh "${USER}@${host}" "sudo systemctl suspend"
+      if ! ssh -t "${USER}@${host}" "sudo systemctl suspend"; then
+        echo "${red}SSH suspend command failed. Node is drained; machine may still be running.${default}" >&2
+        return 1
+      fi
       ;;
     *)
       echo "${red}Unrecognized option '${action}'. Node is drained but machine left running.${default}" >&2
