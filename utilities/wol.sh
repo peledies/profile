@@ -17,6 +17,7 @@ info() { echo "${cyan}▸${default}  $*"; }
 # Format: ["friendly-name"]="MAC IP"
 declare -A MACHINES=(
   ["Mac Mini M4"]="1c:f6:4c:3d:5d:8e 192.168.1.11"
+  ["megadoughnuts"]="08:bf:b8:6d:48:2a 192.168.1.41"
 )
 
 # ── usage ────────────────────────────────────────────────
