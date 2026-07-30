@@ -68,6 +68,7 @@ PACKAGES=(
     volta
     watch
     yq
+    vangie/formula/you-should-use
 )
 
 for p in ${PACKAGES[@]}; do

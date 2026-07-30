@@ -506,8 +506,8 @@ function basicauth(){
 }
 export -f basicauth
 
-unset -f k8s_node_down
-function k8s_node_down(){
+unset -f mega-down
+function mega-down(){
   local ctx="Trowbridge-k0s1"
   local node="megadoughnuts"
   local host="megadoughnuts.local"
@@ -551,12 +551,14 @@ function k8s_node_down(){
       ;;
   esac
 }
-export -f k8s_node_down
+export -f mega-down
 
-unset -f k8s_node_up
-function k8s_node_up(){
+unset -f mega-up
+function mega-up(){
   local ctx="Trowbridge-k0s1"
   local node="megadoughnuts"
+
+  wol
 
   echo "${cyan}Waiting for ${node} to report Ready (context: ${ctx})...${default}"
   if ! kubectl --context "$ctx" wait --for=condition=Ready "node/${node}" --timeout=60s; then
@@ -572,7 +574,7 @@ function k8s_node_up(){
 
   echo "${green}${node} is back in rotation.${default}"
 }
-export -f k8s_node_up
+export -f mega-up
 
 function fzg(){
   grep -rl "$1" . | sort -r | fzf --preview "grep -n --context --color=always '$1' {}"

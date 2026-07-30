@@ -28,6 +28,7 @@ alias gpl="git pull"
 alias gci="git commit"
 alias ga="git add"
 alias gcam="git commit -am"
+alias gmm="echo 'Fetching...'; git fetch; echo 'Merging origin/main'; git merge origin/main"
 alias gitclean="git fetch -p && git branch -vv | awk '/: gone]/{print \$1}' | xargs git branch -d"
 
 #### Docker Aliases #####

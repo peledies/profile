@@ -2,3 +2,4 @@
 .DS_Store
 venv
 merderberk*
+**/.claude/settings.local.json

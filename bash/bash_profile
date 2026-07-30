@@ -18,6 +18,7 @@ PATH="$HOME/.volta/bin/":$PATH # volta global installs
 PATH=$PATH:"$HOME/.rd/bin/" # Rancher Desktop binaries
 PATH="$HOME/.local/bin:$PATH" # Local user binaries (claude)
 PATH=$HOME/profile/bin:$PATH
+PATH="/Users/deac/.volta/tools/image/node/22.21.1/bin:$PATH"
 
 export PATH=$PATH
 
@@ -54,4 +55,4 @@ export XDG_DATA_HOME=$HOME/.config
 source ~/profile/fzf-completions/git.sh
 
 # Disable mouse support in Claude Code
-export CLAUDE_CODE_DISABLE_MOUSE=1
+export CLAUDE_CODE_DISABLE_MOUSE=0
