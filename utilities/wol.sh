@@ -14,10 +14,13 @@ info() { echo "${cyan}▸${default}  $*"; }
 
 # ── machine list ─────────────────────────────────────────
 # Edit this list to add your machines.
-# Format: ["friendly-name"]="MAC IP"
+# Format: ["friendly-name"]="MAC IP CAFFEINATE"
+# CAFFEINATE: true to send `caffeinate -u -t 1` after wake (macOS targets
+# that auto-sleep); false to just confirm SSH is reachable (e.g. Linux
+# servers, where caffeinate doesn't exist and isn't needed).
 declare -A MACHINES=(
-  ["Mac Mini M4"]="1c:f6:4c:3d:5d:8e 192.168.1.11"
-  ["megadoughnuts"]="08:bf:b8:6d:48:2a 192.168.1.41"
+  ["Mac Mini M4"]="1c:f6:4c:3d:5d:8e 192.168.1.11 true"
+  ["megadoughnuts"]="08:bf:b8:6d:48:2a 192.168.1.41 false"
 )
 
 # ── usage ────────────────────────────────────────────────
@@ -33,7 +36,7 @@ ${green}Usage:${default} $(basename "$0") [-h]
 ${green}Machines:${default}
 $(
   while IFS= read -r name; do
-    read -r mac ip <<< "${MACHINES[$name]}"
+    read -r mac ip caffeinate <<< "${MACHINES[$name]}"
     printf "  %-20s  %-19s  %s\n" "$name" "$mac" "$ip"
   done < <(printf '%s\n' "${!MACHINES[@]}" | sort)
 )
@@ -62,7 +65,7 @@ PYEOF
 pick_machine() {
   local items=""
   while IFS= read -r name; do
-    read -r mac ip <<< "${MACHINES[$name]}"
+    read -r mac ip caffeinate <<< "${MACHINES[$name]}"
     items+="$name\t$mac\t$ip\n"
   done < <(printf '%s\n' "${!MACHINES[@]}" | sort)
 
@@ -93,11 +96,12 @@ pick_machine() {
   fi
 }
 
-# ── caffeinate via SSH ───────────────────────────────────
-caffeinate_ssh() {
+# ── wait for wake, optionally caffeinate ─────────────────
+wait_for_wake() {
   local ip="$1"
   local user="$2"
-  local attempts=10
+  local caffeinate="$3"
+  local attempts=40
   local delay=3
 
   info "Waiting for SSH on ${cyan}${user}@${ip}${default}..."
@@ -105,8 +109,16 @@ caffeinate_ssh() {
     if ssh -o ConnectTimeout=5 \
            -o BatchMode=yes \
            -o StrictHostKeyChecking=accept-new \
-           "${user}@${ip}" "caffeinate -u -t 1" 2>/dev/null; then
-      info "${green}Caffeinate sent via SSH.${default}"
+           "${user}@${ip}" "true" 2>/dev/null; then
+      info "${green}SSH is up.${default}"
+      if [[ "$caffeinate" == "true" ]]; then
+        if ssh -o ConnectTimeout=5 -o BatchMode=yes \
+               "${user}@${ip}" "caffeinate -u -t 1" 2>/dev/null; then
+          info "${green}Caffeinate sent via SSH.${default}"
+        else
+          echo "${red}Warning:${default} SSH is up but caffeinate command failed." >&2
+        fi
+      fi
       return 0
     fi
     sleep "$delay"
@@ -123,7 +135,7 @@ command -v python3 &>/dev/null || die "python3 is required but not found"
 selected=$(pick_machine)
 [[ -z "$selected" ]] && exit 0
 
-read -r mac ip <<< "${MACHINES[$selected]}"
+read -r mac ip caffeinate <<< "${MACHINES[$selected]}"
 
 read -r -p "SSH user [${USER}]: " ssh_user
 ssh_user="${ssh_user:-$USER}"
@@ -132,4 +144,4 @@ info "Sending WOL packet to ${cyan}${selected}${default} (MAC: ${mac}, IP: ${ip}
 send_wol "$mac"
 info "${green}Magic packet sent!${default} Waiting for ${selected} to wake..."
 
-caffeinate_ssh "$ip" "$ssh_user" || true
+wait_for_wake "$ip" "$ssh_user" "$caffeinate" || true
