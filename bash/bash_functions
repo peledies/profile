@@ -506,6 +506,47 @@ function basicauth(){
 }
 export -f basicauth
 
+unset -f k8s_node_down
+function k8s_node_down(){
+  local ctx="Trowbridge-k0s1"
+  local node="megadoughnuts"
+  local host="megadoughnuts.local"
+
+  echo "${cyan}Cordoning ${node} (context: ${ctx})...${default}"
+  if ! kubectl --context "$ctx" cordon "$node"; then
+    echo "${red}Cordon failed, aborting.${default}" >&2
+    return 1
+  fi
+
+  echo "${cyan}Draining ${node}...${default}"
+  if ! kubectl --context "$ctx" drain "$node" \
+      --ignore-daemonsets --delete-emptydir-data --force; then
+    echo "${red}Drain failed, aborting. Node remains cordoned.${default}" >&2
+    return 1
+  fi
+
+  echo "${green}Drain complete.${default}"
+
+  local action=""
+  read -r -p "${cyan}Shutdown or suspend? [shutdown/suspend]: ${default}" action </dev/tty
+
+  case "$action" in
+    shutdown)
+      echo "${cyan}Shutting down ${host} via SSH...${default}"
+      ssh "${USER}@${host}" "sudo shutdown -h now"
+      ;;
+    suspend)
+      echo "${cyan}Suspending ${host} via SSH...${default}"
+      ssh "${USER}@${host}" "sudo systemctl suspend"
+      ;;
+    *)
+      echo "${red}Unrecognized option '${action}'. Node is drained but machine left running.${default}" >&2
+      return 1
+      ;;
+  esac
+}
+export -f k8s_node_down
+
 function fzg(){
   grep -rl "$1" . | sort -r | fzf --preview "grep -n --context --color=always '$1' {}"
 }
