@@ -547,6 +547,27 @@ function k8s_node_down(){
 }
 export -f k8s_node_down
 
+unset -f k8s_node_up
+function k8s_node_up(){
+  local ctx="Trowbridge-k0s1"
+  local node="megadoughnuts"
+
+  echo "${cyan}Waiting for ${node} to report Ready (context: ${ctx})...${default}"
+  if ! kubectl --context "$ctx" wait --for=condition=Ready "node/${node}" --timeout=60s; then
+    echo "${red}${node} did not report Ready within timeout. Not uncordoning.${default}" >&2
+    return 1
+  fi
+
+  echo "${cyan}Uncordoning ${node}...${default}"
+  if ! kubectl --context "$ctx" uncordon "$node"; then
+    echo "${red}Uncordon failed.${default}" >&2
+    return 1
+  fi
+
+  echo "${green}${node} is back in rotation.${default}"
+}
+export -f k8s_node_up
+
 function fzg(){
   grep -rl "$1" . | sort -r | fzf --preview "grep -n --context --color=always '$1' {}"
 }
