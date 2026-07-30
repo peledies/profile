@@ -492,6 +492,20 @@ function bd(){
   fi
 }
 
+unset -f basicauth
+function basicauth(){
+  read -p "${cyan}Username: ${gold}" username </dev/tty
+  read -s -p "${cyan}Password: ${gold}" password </dev/tty
+  echo "${default}"
+
+  encoded=$(printf '%s:%s' "$username" "$password" | base64)
+
+  echo "${cyan}Basic Auth header (copied to clipboard):${default}"
+  echo "Authorization: Basic $encoded" | tee >(pbcopy)
+  echo ""
+}
+export -f basicauth
+
 function fzg(){
   grep -rl "$1" . | sort -r | fzf --preview "grep -n --context --color=always '$1' {}"
 }
