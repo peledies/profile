@@ -611,6 +611,41 @@ fgb() {
   fi
 }
 
+mega-models() {
+  local url="${OLLAMA_BASE_URL:-http://ollama-api.local.io}"
+  local response
+  response=$(curl -s "$url/api/tags")
+
+  if ! echo "$response" | jq -e . >/dev/null 2>&1; then
+    echo "Error: Invalid JSON response from Ollama"
+    return 1
+  fi
+
+  # Print header
+  printf "%-20s %-8s %-10s %-8s %-10s %s\n" "MODEL" "SIZE" "FAMILY" "PARAMS" "QUANT" "CAPABILITIES"
+  printf "%s\n" "------------------------------------------------------------------------------------------------------------"
+
+  echo "$response" | jq -r '
+    .models[] |
+    [
+      .name,
+      (if .size then
+        (.size | tonumber) / (1024 * 1024 * 1024) |
+        if . < 1 then (. * 1024 | round | tostring + " MB")
+        else (. | round | tostring + " GB")
+        end
+      else "N/A" end),
+      (.details.family // "unknown"),
+      (.details.parameter_size // "N/A"),
+      (.details.quantization_level // "N/A"),
+      (if .capabilities then (.capabilities | join(", ")) else "N/A" end)
+    ] |
+    @tsv
+  ' | while IFS=$'\t' read -r name size family params quant caps; do
+    printf "%-20s %-8s %-10s %-8s %-10s %s\n" "$name" "$size" "$family" "$params" "$quant" "$caps"
+  done
+}
+
 # Fuzzy Git diff
 fgd() {
   local files
