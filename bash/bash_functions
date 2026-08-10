@@ -667,3 +667,63 @@ fgd() {
     --preview 'git diff --color=always -- {} ; git diff --color=always --cached -- {} | bat --color=always --style=plain' \
     --multi
 }
+
+# Fuzzy content search (recursive grep via ripgrep)
+# Usage: fgr <search string> [rg options, e.g. --max-depth 2]
+fgr() {
+  local query="" ignore_globs=() only_globs=() rg_extra=()
+  local usage="Usage: fgr [-i <pattern>]... [-o <ext>]... <search string> [rg options...]
+
+Fuzzy content search (ripgrep + fzf), opens the match in \$EDITOR.
+
+Options:
+  -i <pattern>   Exclude paths matching pattern, e.g. -i node_modules (repeatable)
+  -o <ext>       Only search files with this extension, e.g. -o md (repeatable, OR'd)
+  -h, --help     Show this help
+
+Examples:
+  fgr TODO
+  fgr -i node_modules -i dist TODO
+  fgr -o md -o yaml TODO"
+
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+      -h|--help)
+        echo "$usage"
+        return 0
+        ;;
+      -i)
+        [[ -z "$2" ]] && { echo "fgr: -i requires a pattern"; return 1; }
+        ignore_globs+=(--glob "!$2")
+        shift 2
+        ;;
+      -o)
+        [[ -z "$2" ]] && { echo "fgr: -o requires an extension"; return 1; }
+        only_globs+=(--glob "*.${2#.}")
+        shift 2
+        ;;
+      *)
+        if [[ -z "$query" ]]; then query="$1"; else rg_extra+=("$1"); fi
+        shift
+        ;;
+    esac
+  done
+  [[ -z "$query" ]] && { echo "$usage"; return 1; }
+
+  local selection file line
+  selection=$(rg --line-number --no-heading --color=always --hidden --glob '!.git' "${ignore_globs[@]}" "${only_globs[@]}" "${rg_extra[@]}" "$query" | fzf \
+    --ansi \
+    --delimiter : \
+    --height 80% \
+    --layout reverse \
+    --border \
+    --header "Fuzzy Grep | ENTER: open in \$EDITOR" \
+    --preview 'bat --color=always --highlight-line {2} {1}' \
+    --preview-window '+{2}-/2')
+
+  [[ -z "$selection" ]] && return
+
+  file=$(cut -d: -f1 <<< "$selection")
+  line=$(cut -d: -f2 <<< "$selection")
+  "${EDITOR:-vim}" "+$line" "$file"
+}
