@@ -727,3 +727,13 @@ Examples:
   line=$(cut -d: -f2 <<< "$selection")
   "${EDITOR:-vim}" "+$line" "$file"
 }
+
+unset -f pi-down
+function pi-down(){
+  kubectl get pods -n pihole --no-headers | grep "pihole" | while read -r line; do
+    pod=$(echo "$line" | awk '{print $1}')
+    if [ -z "$pod" ]; then continue; fi
+    echo "${cyan}Disabling Pi-hole for 1 minute on pod: ${red}$pod${default}"
+    kubectl exec "$pod" -n pihole -- pihole disable 1m
+  done
+}
