@@ -45,7 +45,6 @@ PACKAGES=(
     ack
     bash
     bat
-    copilot-cli
     ctop
     diff-so-fancy
     fzf
@@ -64,6 +63,7 @@ PACKAGES=(
     terminal-notifier
     terraform
     tldr
+    tmux
     tree
     volta
     watch

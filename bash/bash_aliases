@@ -80,6 +80,16 @@ alias dsp="~/profile/utilities/display.sh"
 alias helcat="cat -pp -l yaml"
 alias kunseal="$HOME/profile/utilities/kunseal.sh"
 
+#### Kubectl Aliases ####
+alias k="kubectl"
+alias kg="kubectl get"
+alias kd="kubectl describe"
+alias kubectl="kubecolor"
+
+#### tmux Aliases ####
+alias tmux="tmux set -g mouse on; tmux"
+
+
 
 # alias helm='docker run -ti --rm -v $(pwd):/apps -w /apps \
 #     -v ~/.kube:/root/.kube -v ~/.helm:/root/.helm -v ~/.config/helm:/root/.config/helm \
